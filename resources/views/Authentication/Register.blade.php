@@ -1,7 +1,7 @@
 @extends('Layouts.Authentication')
 
 @push('title')
-    <title>Registration</title>
+    <title>Register</title>
 @endpush
 
 @push('css')
@@ -14,7 +14,7 @@
 			<p class="title">BatStateU: Health Portal</p>
         	<div class="separator"></div>
         	<p class="welcome-message">To register an account, enter your credentials below.</p>
-        	<form class="login-form" method="POST" action="">
+        	<form class="login-form" method="POST" action="{{ route('Register') }}">
         
                 @csrf
                 <div class="form-control">
@@ -38,10 +38,10 @@
                             </div>
                             
                             <div class="col-lg-4 ps-1" style="width: 30%;">
-                                <a id="btn_otp" class="btn btn-secondary">
-                                    <i class="lbl_loading fa-solid fa-spinner d-none" style="font-size: 14px;"></i>
-                                    <span id="btn_otp_lbl">Send</span>
-                                </a>
+                                <button id="btn_otp" class="btn btn-secondary" type="button">
+                                    <div class="spinner-border spinner-border-sm text-light d-none" role="status" id="lbl_loading_otp"></div>
+                                    <span class="text-light" id="lbl_otp">Get OTP</span>
+                                </button>
                             </div>
                         </div>
                     </div>       
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="form-control">
-                    <input class="form-control border" type="password" placeholder="Confirm New Password" id="cpass" name="cpass" value="{{ old('cpass') }}">   
+                    <input class="form-control border" type="password" placeholder="Retype Password" id="pass1" name="cpass" value="{{ old('cpass') }}">   
                     <span class="showpassword fa-regular fa-eye-slash"></span>     
                 </div>
                 
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="form-control d-flex text-center">
-                    <button class="submit btn btn-secondary" style="float: right;">Register</button>
+                    <button class="submit btn btn-secondary" type="submit" style="float: right;">Register</button>
                 </div>
                     
             </form>
@@ -119,7 +119,6 @@
 @push('script')
 <script>
         $(document).ready(function(){
-            
 
             $('#classification').change(function(e){
                 e.preventDefault();
@@ -132,6 +131,46 @@
                     $('#position_error').addClass('d-none');
                 }
             });
+
+            $('#btn_otp').click(function(e){
+                e.preventDefault();
+
+                let email = $('#email').val();
+                $('.error-message').html('');
+                $('#lbl_loading_otp').removeClass('d-none');
+                $('#lbl_otp').addClass('d-none');
+                $(this).prop('disabled', true);
+                
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('SendOTP') }}",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "email": email,
+                        "msg_type": "register",
+                        "_token": "{{csrf_token()}}",
+                    }),
+                    success: function(response){
+                        response = JSON.parse(response);
+                        console.log(response);
+                        $('#lbl_loading_otp').addClass('d-none');
+                        $('#lbl_otp').removeClass('d-none');
+                        $('#btn_otp').prop('disabled', false);
+                        if(response.status == 400){
+                            $.each(response.errors, function(key, err_values){
+                                $('#'+key+'_error').html(err_values);
+                            });
+                        }
+                        else{
+                            swal(response.title, response.message, response.icon);
+                        }
+                    },
+                    error: function(response){
+                        console.log(response);
+                    }
+                });
+            });
+
         });
     </script>
 @endpush

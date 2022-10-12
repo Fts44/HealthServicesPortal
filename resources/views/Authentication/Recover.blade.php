@@ -1,7 +1,7 @@
 @extends('Layouts.Authentication')
 
 @push('title')
-    <title>Login</title>
+    <title>Recover</title>
 @endpush
 
 @push('css')
@@ -16,7 +16,7 @@
         	<div class="separator"></div>
         	<p class="welcome-message">To recover an account, enter your credentials below.</p>
 
-        	<form class="login-form mt-2" method="POST" action="">
+        	<form class="login-form mt-2" method="POST" action="{{ route('Recover') }}">
                 @csrf
 
                 <div class="form-control">
@@ -37,10 +37,10 @@
                                 </div>
                                 
                                 <div class="col-lg-4 ps-1" style="width: 30%;">
-                                    <a id="btn_otp" class="btn btn-secondary">
+                                    <button id="btn_otp" class="btn btn-secondary" type="button">
                                         <div class="spinner-border spinner-border-sm text-light d-none" role="status" id="lbl_loading_otp"></div>
                                         <span class="text-light" id="lbl_otp">Get OTP</span>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>       
@@ -57,23 +57,23 @@
                     <input class="form-control border" type="password" placeholder="Password" name="pass" id="pass" value="{{ old('pass') }}">
                     <span class="showpassword fa-regular fa-eye-slash"></span>      
                 </div>
-                <div class="text-danger px-3" style="max-width: 450px;">
+                <div class="error-message text-danger px-3" style="max-width: 450px;">
                     @error('pass')
                         {{ $message }}
                     @enderror
                 </div>
 
                 <div class="form-control">
-                    <input class="form-control border" type="password" placeholder="Password" name="cpass" id="pass1" value="{{ old('cpass') }}">
+                    <input class="form-control border" type="password" placeholder="Retype Password" name="cpass" id="pass1" value="{{ old('cpass') }}">
                     <span class="showpassword fa-regular fa-eye-slash"></span>      
                 </div>
-                <span class="text-danger px-3">
+                <span class="error-message text-danger px-3">
                     @error('cpass')
                         {{ $message }}
                     @enderror
                 </span>
                 
-                <button id="btnProceed" class="submit btn btn-secondary my-4">Change Password</button>
+                <button id="btnProceed" class="submit btn btn-secondary my-4" type="submit">Recover</button>
             </form>
 
             <p>Already have an account?  Login <a href="{{ route('LoginIndex') }}">here</a> <p>
@@ -82,5 +82,46 @@
 @endsection
 
 @push('script')
+    <script>
+        $(document).ready(function(){
+            $('#btn_otp').click(function(e){
+                e.preventDefault();
 
+                let email = $('#email').val();
+                $('.error-message').html('');
+                $('#lbl_loading_otp').removeClass('d-none');
+                $('#lbl_otp').addClass('d-none');
+                $(this).prop('disabled', true);
+                
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('SendOTP') }}",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "email": email,
+                        "msg_type": "recover",
+                        "_token": "{{csrf_token()}}",
+                    }),
+                    success: function(response){
+                        response = JSON.parse(response);
+                        console.log(response);
+                        $('#lbl_loading_otp').addClass('d-none');
+                        $('#lbl_otp').removeClass('d-none');
+                        $('#btn_otp').prop('disabled', false);
+                        if(response.status == 400){
+                            $.each(response.errors, function(key, err_values){
+                                $('#'+key+'_error').html(err_values);
+                            });
+                        }
+                        else{
+                            swal(response.title, response.message, response.icon);
+                        }
+                    },
+                    error: function(response){
+                        console.log(response);
+                    }
+                });
+            });
+        }); 
+    </script>
 @endpush

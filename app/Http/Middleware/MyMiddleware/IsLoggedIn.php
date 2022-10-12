@@ -17,10 +17,8 @@ class IsLoggedIn
     public function handle(Request $request, Closure $next)
     {
         if(session()->has('user_id') && session()->has('user_type')){
-            
+            return redirect(route('NoAccess'));
         }
-        else{
-            return $next($request);
-        }
+        return $next($request);
     }
 }

@@ -15,14 +15,14 @@
         	<div class="separator"></div>
         	<p class="welcome-message">To login an account, enter your credentials below.</p>
 
-        	<form class="login-form mt-2" method="POST" action="" id="login_form">
+        	<form class="login-form mt-2" method="POST" action="{{ route('Login') }}" id="login_form">
                 @csrf
-
+                {{ session('user_type') }}
                 <div class="form-control">
-                    <input class="form-control border" type="text" placeholder="Email" name="email" id="email" value="{{ old('userid') }}">
+                    <input class="form-control border" type="text" placeholder="Email or SR-Code" name="userid" id="userid" value="{{ old('userid') }}">
                 </div>
-                <div class="error-message text-danger px-3" id="email_error" style="font-size: 14px;">
-                    @error('email')
+                <div class="error-message text-danger px-3" id="userid_error" style="font-size: 14px;">
+                    @error('userid')
                         {{ $message }}
                     @enderror
                 </div>
@@ -59,6 +59,59 @@
 @push('script')
     <script src="{{ asset('js/recaptcha.js') }}"></script>
     <!-- google recaptcha -->
+
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+    <script>
+        $(document).ready(function(){
+
+            $('#login_form').submit(function(e){
+                e.preventDefault();
+                $('.error-message').html('');
+                $('#lbl_loading_proceed').removeClass('d-none');
+                $('#lbl_proceed').addClass('d-none');
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('Login') }}",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "userid": $('#userid').val(),
+                        "pass": $('#pass').val(),
+                        "_token": "{{csrf_token()}}",
+                    }),
+                    success: function(response){
+                        $('.error-message').html('');
+                        response = JSON.parse(response);
+                        console.log(response);
+                        $('#lbl_loading_proceed').addClass('d-none');
+                        $('#lbl_proceed').removeClass('d-none'); 
+
+                        if(response.status == 400){
+                            $.each(response.errors, function(key, err_values){
+                                $('#'+key+'_error').html(err_values);
+                            });
+                            // show alert message
+
+                            const modal_body = document.createElement('div');
+                            modal_body.innerHTML = response.response['message'];
+                            modal_body.setAttribute('class', 'swal-body');
+
+                            swal({
+                                title: response.response['title'],
+                                content: modal_body, 
+                                icon: response.response['icon']
+                            });
+                        }
+                        else{
+                            window.location.href = response.redirect_to;
+                        }
+                    },
+                    error: function(response){
+                        console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

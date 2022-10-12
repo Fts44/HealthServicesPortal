@@ -160,6 +160,7 @@ button.submit {
     background-color: #5a5c69;
     cursor: pointer;
     transition: opacity 0.4s;
+    min-width: 150px;
 }
 
 button.submit:hover {

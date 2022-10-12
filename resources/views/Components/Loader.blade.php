@@ -1,4 +1,3 @@
- 
     <style>
         .loader-bg{
             position:fixed;
