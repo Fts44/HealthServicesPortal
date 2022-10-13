@@ -1,3 +1,4 @@
+@if(Session::get('CurrentRoute') != url()->current() && $errors->isEmpty()) 
     <style>
         .loader-bg{
             position:fixed;
@@ -39,3 +40,8 @@
             $('.loader-bg').fadeToggle();
         }, 1500);
     </script>
+@endif
+
+@php
+    Session::put('CurrentRoute', url()->current());
+@endphp

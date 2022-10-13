@@ -30,7 +30,7 @@
 
 </head>
 <body>
-    @if(Session::get('CurrentRoute') != url()->current()) 
+    @if(Session::get('CurrentRoute')!=url()->current()) 
         @include('Components.Loader')
     @endif
 

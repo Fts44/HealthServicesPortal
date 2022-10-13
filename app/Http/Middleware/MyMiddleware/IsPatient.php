@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Session;
 
-class IsLoggedIn
+class IsPatient
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class IsLoggedIn
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::has('UserID') && Session::has('UserType') && Session::has('UserPassword')){
+        if(Session::get('UserType') != 'patient'){
             return redirect(route(Session::get('UserType')));
         }
         return $next($request);

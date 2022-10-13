@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\MailerController;
+use Session;
 
 class OTPController extends Controller
 {
@@ -14,9 +15,9 @@ class OTPController extends Controller
 
     public function generate_new_otp($email){
         $otp = rand(1000,9999);
-        session(['otp' => $otp]);
-        session(['email' => $email]);
-        session(['expiredAt' =>  time()+60*5]);
+        session(['OTP' => $otp]);
+        session(['Email' => $email]);
+        session(['ExpiredAt' =>  time()+60*5]);
 
         return $otp;
     }
@@ -110,9 +111,9 @@ class OTPController extends Controller
     }
 
     public function verify_otp(Request $request){
-        $otp = session('otp');
-        $email = session('email');
-        $expiredAt = session('expiredAt');
+        $otp = session('OTP');
+        $email = session('Email');
+        $expiredAt = session('ExpiredAt');
 
         if($otp == $request->otp && $email == $request->email && ($expiredAt >= time())){
             return true;

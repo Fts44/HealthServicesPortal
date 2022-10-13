@@ -44,14 +44,18 @@ class LoginController extends Controller
             
             if($user){
                 if(Hash::check($request->pass, $user->password)){
-                    $request->session()->put('user_id', $user->acc_id);
-                    $request->session()->put('user_type', $user->position);
+                    Session(['UserID' => $user->acc_id]);
+                    Session(['UserType' => $user->position]);
+                    Session(['UserPassword' => $user->password]);
+                    Session(['UserFirstname' => $user->firstname]);
+                    Session(['UserLastname' => $user->lastname]);
+                    Session(['LastActivityTime' => time()+60*5]);
 
                     $response = [
                         'status' => 200,
                     ];
 
-                    $response['redirect_to'] = route('NoAccess');
+                    $response['redirect_to'] = route(Session::get('UserType'));
                 }
                 else{
                     $response = [
