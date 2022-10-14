@@ -41,12 +41,12 @@
                 	<a class="forgotPassword" href="{{ route('RecoverIndex') }}">Forgot Password</a>
                 </div>
 
-                <!-- <div class="form-control reCaptcha">
+                <div class="form-control reCaptcha">
                     <div id="g-recaptcha" class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="recaptchaExpired" data-sitekey="6LcasJsgAAAAADf5Toas_DlBccLh5wyGIzmDmjQi"></div>
-                </div> -->
+                </div>
                 
-                <button id="btn_proceed" class="submit btn btn-secondary my-4">
-                <div class="spinner-border spinner-border-sm text-light d-none" role="status" id="lbl_loading_proceed"></div>
+                <button id="btn_proceed" class="submit btn btn-secondary my-4" disabled>
+                    <div class="spinner-border spinner-border-sm text-light d-none" role="status" id="lbl_loading_proceed"></div>
                     <span id="lbl_proceed">Login</span>   
                 </button>
             </form>
@@ -90,17 +90,6 @@
                         if(response.status == 400){
                             $.each(response.errors, function(key, err_values){
                                 $('#'+key+'_error').html(err_values);
-                            });
-                            // show alert message
-
-                            const modal_body = document.createElement('div');
-                            modal_body.innerHTML = response.response['message'];
-                            modal_body.setAttribute('class', 'swal-body');
-
-                            swal({
-                                title: response.response['title'],
-                                content: modal_body, 
-                                icon: response.response['icon']
                             });
                         }
                         else{

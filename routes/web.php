@@ -53,12 +53,12 @@ Route::get('/noaccess', function(){
 // ================= End Populate Select =====================
 
 // ================= Start Patient =============================
-    use App\Http\Controllers\Patient\Profile\PersonalInformationController as PatientProfilePersonalInformationController;
+    use App\Http\Controllers\Patient\Profile\PersonalDetailsController as PatientProfilePersonalDetails;
 
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'IsPatient', 'Inactivity']],function(){
 
-        Route::prefix('personalinformation')->group(function(){
-            Route::get('/', [PatientProfilePersonalInformationController::class, 'index'])->name('patient');
+        Route::prefix('personaldetails')->group(function(){
+            Route::get('/', [PatientProfilePersonalDetails::class, 'index'])->name('patient');
         });
 
     });
