@@ -17,7 +17,7 @@ class Inactivity
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::get('LastActivityTime') < time()){
+        if(Session::get('last_activity_time') < time()){
             Session::flush();
             $response = [
                 'title' => "Please login again.",
@@ -29,7 +29,7 @@ class Inactivity
             return redirect(route('LoginIndex'))
                 ->with('status',$response);
         }
-        Session(['LastActivityTime' => time()+60*5]);
+        Session(['last_activity_time' => time()+60*5]);
         return $next($request);
     }
 }

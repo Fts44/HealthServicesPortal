@@ -17,8 +17,8 @@ class IsLoggedIn
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::has('UserID') && Session::has('UserType') && Session::has('UserPassword')){
-            return redirect(route(Session::get('UserType')));
+        if(Session::has('user_id') && Session::has('user_type') && Session::has('user_password')){
+            return redirect(route(Session::get('user_type')));
         }
         return $next($request);
     }

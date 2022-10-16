@@ -73,4 +73,11 @@ class PopulateSelectController extends Controller
         }
         return $programs;
     }
+
+    public function religion(){
+        $grade_levels = DB::table('religion')
+        ->get();
+
+        return $grade_levels;
+    }
 }

@@ -1,3 +1,10 @@
+<!-- 
+    Final Version of patient personal details
+
+    Date: October 16, 2022
+    Created by: Joseph E. Calma
+ -->
+
 @extends('Layouts.PatientMain')
 
 @push('title')
@@ -12,12 +19,14 @@
         <div class="card">
 
             <div class="card-body pt-3">
-                <form action="" method="POST">
+                <form action="{{ route('PatientPersonalDetailsUpdate') }}" method="POST">
                     @csrf
-                    <div class="row mb-3">
+                    @method('PUT')
+
+                    <!-- profile picture -->
+                    <div class="row mb-4">
                         <label class="col-lg-12 text-center">
                             Profile Picture
-                            <span class="fr">*</span>
                         </label>
                         <div class="col-lg-12 mt-1 d-flex justify-content-center">
                             <img id="profile_pic_preview" class="form-control p-1" src="{{ ($user_details->profile_pic) ? asset('storage/profile_picture/'.$user_details->profile_pic) : asset('storage/SystemFiles/profile.png') }}" alt="Upload image" style="height: 200px; width: 200px;">
@@ -27,10 +36,9 @@
                         </div>
                     </div>
 
-                    <!-- sr-code, personal email, gsuite, otp -->
+                    <!-- srcode, personal email, gsuite email, otp -->
                     <div class="row mb-3">
-
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             SR-Code
                             <input class="form-control" type="text" name="sr_code" value="{{ old('sr_code', $user_details->sr_code) }}">
                             <span class="text-danger">
@@ -38,9 +46,9 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
 
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             Personal Email
                             <input class="form-control" type="text" name="email" value="{{ old('email', $user_details->email) }}">
                             <span class="text-danger">
@@ -48,9 +56,9 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
 
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             Gsuite Email
                             <input class="form-control" type="text" name="gsuite_email" id="gsuite_email" value="{{ old('gsuite_email', $user_details->gsuite_email) }}" {{ ($user_details->gsuite_email) ? 'disabled' : '' }}>
                             <span class="text-danger error-message" id="gsuite_email_error">
@@ -58,9 +66,9 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
 
-                        <label class="col-lg-3 mt-1 {{ ($user_details->gsuite_email) ? 'd-none' : '' }}">
+                        <div class="col-lg-3 mt-1 {{ ($user_details->gsuite_email) ? 'd-none' : '' }}">
                             One Time Pin
                             <div class="row">
                                 <div class="col-lg-7">
@@ -78,13 +86,12 @@
                                     {{ $message }}
                                 @enderror
                             </span>      
-                        </label>
-                        
+                        </div>
                     </div>
-                    <!-- Name -->
-                    <div class="row mb-3">
-                        
-                        <label class="col-lg-3 mt-1">
+
+                    <!-- first, middle, last, suffix -->
+                    <div class="row mb-3">   
+                        <div class="col-lg-3 mt-1">
                             First Name
                             <input class="form-control" type="text" name="first_name" value="{{ old('first_name', $user_details->firstname) }}">
                             <span class="text-danger">
@@ -92,8 +99,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Middle Name
                             <input class="form-control" type="text" name="middle_name" value="{{ old('middle_name', $user_details->middlename) }}">
                             <span class="text-danger">
@@ -101,8 +108,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Last Name
                             <input class="form-control" type="text" name="last_name" value="{{ old('last_name', $user_details->lastname) }}">
                             <span class="text-danger">
@@ -110,8 +117,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Suffix Name (Sr,Jr,I,II,...)
                             <input class="form-control" type="text" name="suffix_name" value="{{ old('suffix_name', $user_details->suffixname) }}">
                             <span class="text-danger">
@@ -119,11 +126,12 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
                     </div>
+
                     <!-- Gender, Civil Status, Contact -->
                     <div class="row mb-3">
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             Sex
                             <select class="form-select" name="gender" value="">
                                 <option value="">--- choose ---</option>
@@ -135,8 +143,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Civil Status
                             <select class="form-select" name="civil status">
                                 <option value="">--- choose ---</option>
@@ -151,8 +159,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Contact Number
                             <input class="form-control" type="number" name="contact" value="{{ old('contact',$user_details->contact) }}">
                             <span class="text-danger">
@@ -160,11 +168,12 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
                     </div>
+
                     <!-- Home address -->
                     <div class="row mb-3">
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             Home Province
                             <select name="home_province" id="home_province" class="form-select">
                                 <option value="">--- choose ---</option>
@@ -177,8 +186,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Home Municipality
                             <select name="home_municipality" id="home_municipality" class="form-select">
                                 <option value="">--- choose ---</option>
@@ -198,8 +207,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Home Barangay
                             <select name="home_barangay" id="home_barangay" class="form-select" value="{{ old('home_barangay') }}">
                                 <option value="">--- choose ---</option>
@@ -218,20 +227,27 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
                     </div>
+
                     <!-- Religion, Birthdate, Classification -->
                     <div class="row mb-3">
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             Religion
-                            <input type="text" class="form-control" name="religion" value="{{ old('religion', $user_details->religion) }}">
+                            
+                            <select name="religion" class="form-select">
+                                <option value="" {{ (old('religion', $user_details->religion)=="") ? 'selected' : '' }}>--- choose ---</option>
+                                @foreach($religions as $religion)
+                                    <option value="{{ $religion->religion_id }}" {{ (old('religion', $user_details->religion)==$religion->religion_id) ? 'selected' : '' }}>{{ $religion->religion_name }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger">
                                 @error('religion')
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Birthdate
                             <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate', $user_details->birthdate) }}">
                             <span class="text-danger">
@@ -239,8 +255,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Classification
                             <select name="classification" class="form-select">
                                 <option value="">--- choose ---</option>
@@ -253,12 +269,12 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
                     </div>
                     
                     <!-- Birthplace -->
                     <div class="row mb-3">
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             Birthplace (Province)
                             <select name="birthplace_province" id="birthplace_province" class="form-select">
                                 <option value="">--- choose ---</option>
@@ -271,8 +287,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Birthplace (Municipality)
                             <select name="birthplace_municipality" id="birthplace_municipality" class="form-select" value="{{ old('birthplace_municipality') }}">
                                 <option value="">--- choose ---</option>
@@ -291,8 +307,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Birthplace (Barangay)
                             <select name="birthplace_barangay" id="birthplace_barangay" class="form-select" value="{{ old('birthplace_barangay') }}">
                                 <option value="">--- choose ---</option>
@@ -311,8 +327,9 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
                     </div>
+
                     <!-- Grade, Department, Program -->
                     <div class="row mb-3">
                         <label class="col-lg-3 mt-1">
@@ -370,18 +387,19 @@
                             </span>
                         </label>
                     </div>
-                    <!-- Grade, Department, Program -->
+
+                    <!-- height, weight, blood type -->
                     <div class="row mb-3">
-                        <label class="col-lg-3 mt-1">
-                            Height in meter
+                        <div class="col-lg-3 mt-1">
+                            Height in meter 
                             <input type="number" step=".01" class="form-control" name="height" value="{{ old('height', $user_details->height) }}">
                             <span class="text-danger">
                                 @error('height')
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Weight in kg
                             <input type="number" step=".01" class="form-control" name="weight" value="{{ old('weight', $user_details->weight) }}">
                             <span class="text-danger">
@@ -389,8 +407,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Blood Type
                             <select name="blood_type" id="blood_type" class="form-select">
                                 <option value="">--- choose ---</option>
@@ -408,11 +426,12 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
                     </div>
+
                     <!-- Dormitory address -->
                     <div class="row mb-3">
-                        <label class="col-lg-3 mt-1">
+                        <div class="col-lg-3 mt-1">
                             Dormitory (Province):
                             <select name="dormitory_province" id="dormitory_province" class="form-select">
                                 <option value="">--- choose ---</option>
@@ -425,8 +444,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Dormitory (Municipality):
                             <select name="dormitory_municipality" id="dormitory_municipality" class="form-select" value="{{ old('dormitory_municipality') }}">
                                 <option value="">--- choose ---</option>
@@ -445,8 +464,8 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
-                        <label class="col-lg-3 mt-1">
+                        </div>
+                        <div class="col-lg-3 mt-1">
                             Dormitory (Barangay):
                             <select name="dormitory_barangay" id="dormitory_barangay" class="form-select" value="{{ old('dormitory_barangay') }}">
                                 <option value="">--- choose ---</option>
@@ -465,18 +484,20 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label>
+                        </div>
                     </div>
+
                     <div class="row mb-3">
-                        <label class="col-lg-3">
+                        <div class="col-lg-3">
                             <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </label>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </section>
 </main>
+
 <!-- main -->
 <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_title" aria-hidden="true">
         <div class="modal-dialog">
@@ -485,8 +506,10 @@
                     <h5 class="modal-title" id="modal_title">Upload New Profile Picture</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="" method="POST" id="form" enctype="multipart/form-data">
+                <form action="{{ route('PatientPersonalPicUpdate') }}" method="POST" id="form" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+
                     <div class="modal-body mb-4">
                         <div class="row">
                             <div class=" d-flex justify-content-center">
@@ -494,8 +517,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div>
-                                <label class="col-form-label col-lg-12 mt-4">Picture:<span class="fr">*</span></label>
+                            <div class="mt-3">
                                 <input class="form-control" type="file" name="profile_picture" id="profile_pic" accept=".jpg,.png">
                                 <span class="text-danger">
                                     @error('profile_picture')

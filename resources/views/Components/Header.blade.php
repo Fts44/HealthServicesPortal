@@ -16,12 +16,12 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <!-- <i class="bi bi-person-circle" style="font-size: 18px;"></i> -->
-                    <img src="{{ asset('storage/SystemFiles/profile.png') }}" alt="Profile" class="rounded-circle">
+                    <img src="{{ ($user_details->profile_pic) ? asset('storage/profile_picture/'.$user_details->profile_pic) : asset('storage/SystemFiles/profile.png') }}" alt="Profile" class="rounded-circle border">
                     <span class="d-none d-md-block dropdown-toggle ps-2"> 
-                        @if(Session::get('UserFirstname')=='')
+                        @if(Session::get('user_firstname')=='')
                             {{ 'Account' }}
                         @else
-                            {{ ucwords(Session::get('UserFirstname'))[0].'. '.ucwords(Session::get('UserLastname')) }}
+                            {{ ucwords(Session::get('user_firstname'))[0].'. '.ucwords(Session::get('user_lastname')) }}
                         @endif
                     </span>
                 </a>
@@ -29,13 +29,13 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
                         <h6>
-                            @if(Session::get('UserFirstname')=='')
+                            @if(Session::get('user_firstname')=='')
                                 {{ 'Name not set' }}
                             @else
-                                {{ ucwords(Session::get('UserFirstname')).' '.ucwords(Session::get('UserLastname')) }}
+                                {{ ucwords(Session::get('user_firstname')).' '.ucwords(Session::get('user_lastname')) }}
                             @endif
                         </h6>
-                        <span>{{ ucwords(Session::get('UserType')) }}</span>
+                        <span>{{ ucwords(Session::get('user_type')) }}</span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">

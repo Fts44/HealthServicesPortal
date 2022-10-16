@@ -25,7 +25,7 @@ class NotGsuiteRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
+        return (str_contains($value, '@g.batstate-u.edu.ph')) ? false : true;
     }
 
     /**
@@ -35,6 +35,6 @@ class NotGsuiteRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'The email must not be your gsuite.';
     }
 }

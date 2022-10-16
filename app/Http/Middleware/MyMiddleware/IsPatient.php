@@ -17,8 +17,8 @@ class IsPatient
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::get('UserType') != 'patient'){
-            return redirect(route(Session::get('UserType')));
+        if(Session::get('user_type') != 'patient'){
+            return redirect(route(Session::get('user_type')));
         }
         return $next($request);
     }

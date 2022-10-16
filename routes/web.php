@@ -48,7 +48,8 @@ Route::get('/noaccess', function(){
         Route::get('gradelevel', [PopulateSelect::class, 'grade_level'])->name('GetGradeLevel');
         Route::get('department/{gl_id}',[PopulateSelect::class, 'department'])->name('GetDepartment');
         Route::get('program/{dept_id}',[PopulateSelect::class, 'program'])->name('GetProgram');
-
+        
+        Route::get('religion', [PopulateSelect::class, 'religion'])->name('GetReligion');
     });
 // ================= End Populate Select =====================
 
@@ -59,6 +60,9 @@ Route::get('/noaccess', function(){
 
         Route::prefix('personaldetails')->group(function(){
             Route::get('/', [PatientProfilePersonalDetails::class, 'index'])->name('patient');
+            Route::get('/index', [PatientProfilePersonalDetails::class, 'index'])->name('PatientPersonalDetails');
+            Route::put('/update', [PatientProfilePersonalDetails::class, 'update_information'])->name('PatientPersonalDetailsUpdate');
+            Route::put('/update/profilepic', [PatientProfilePersonalDetails::class, 'update_pic'])->name('PatientPersonalPicUpdate');
         });
 
     });
