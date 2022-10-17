@@ -13,6 +13,9 @@
 
 @section('content')
 <main id="main" class="main">
+    <div class="pagetitle mb-3">
+        <h1>Personal Details</h1>
+    </div>
 
     <section class="section profile">
 

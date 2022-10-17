@@ -55,15 +55,32 @@ Route::get('/noaccess', function(){
 
 // ================= Start Patient =============================
     use App\Http\Controllers\Patient\Profile\PersonalDetailsController as PatientProfilePersonalDetails;
+    use App\Http\Controllers\Patient\Profile\EmergencyContactController as PatientEmergencyContact;
+    use App\Http\Controllers\Patient\Profile\MedicalHistoryController as PatientMedicalHistory;
+    use App\Http\Controllers\Patient\Profile\FamilyDetailsController as PatientFamilyDetails;
 
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'IsPatient', 'Inactivity']],function(){
 
         Route::prefix('personaldetails')->group(function(){
             Route::get('/', [PatientProfilePersonalDetails::class, 'index'])->name('patient');
-            Route::get('/index', [PatientProfilePersonalDetails::class, 'index'])->name('PatientPersonalDetails');
             Route::put('/update', [PatientProfilePersonalDetails::class, 'update_information'])->name('PatientPersonalDetailsUpdate');
             Route::put('/update/profilepic', [PatientProfilePersonalDetails::class, 'update_pic'])->name('PatientPersonalPicUpdate');
         });
 
+        Route::prefix('emergencycontact')->group(function(){
+            Route::get('/', [PatientEmergencyContact::class, 'index'])->name('PatientEmergencyContact');        
+            Route::put('/update', [PatientEmergencyContact::class, 'update_emergency_contact'])->name('PatientEmergencyContactUpdate');
+        });
+
+        Route::prefix('medicalhistory')->group(function(){
+            Route::get('/', [PatientMedicalHistory::class, 'index'])->name('PatientMedicalHistory');
+            Route::put('/update', [PatientMedicalHistory::class, 'update_medical_history'])->name('PatientMedicalHistoryUpdate');
+        });
+        
+        Route::prefix('familydetails')->group(function(){
+            Route::get('/', [PatientFamilyDetails::class, 'index'])->name('PatientFamilyDetails');
+            Route::put('/update', [PatientFamilyDetails::class, 'update_family_details'])->name('PatientFamilyDetailsUpdate');
+            
+        });
     });
 // ================= End Patient =============================
