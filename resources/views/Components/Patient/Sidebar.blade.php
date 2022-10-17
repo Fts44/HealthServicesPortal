@@ -81,7 +81,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="pe-0 nav-link collapsed" href="" id="sidebar_vaccination_and_insurance">
+            <a class="pe-0 nav-link collapsed" href="{{ route('PatientVaccinationInsurance') }}" id="sidebar_vaccination_and_insurance">
                 <i class="bi bi-clipboard-check"></i>
                 <span >Covid Vax. and Ins.</span>
             </a>

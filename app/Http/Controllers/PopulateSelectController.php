@@ -80,4 +80,11 @@ class PopulateSelectController extends Controller
 
         return $grade_levels;
     }
+
+    public function covid_vaccination_brand(){
+        $covid_vaccination_brands = DB::table('covid_vaccination_brand')
+            ->get();
+        
+        return $covid_vaccination_brands;
+    }
 }

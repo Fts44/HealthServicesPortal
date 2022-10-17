@@ -16,7 +16,7 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <!-- <i class="bi bi-person-circle" style="font-size: 18px;"></i> -->
-                    <img src="{{ (Session::get('user_profilepic')) ? asset('storage/profile_picture/'.Session::get('user_profilepic')) : asset('storage/SystemFiles/profile.png') }}" alt="Profile" class="rounded-circle border">
+                    <img src="{{ (Session::get('user_profilepic')) ? asset('storage/profile_picture/'.Session::get('user_profilepic')) : asset('storage/SystemFiles/profile.png') }}" alt="Profile">
                     <span class="d-none d-md-block dropdown-toggle ps-2"> 
                         @if(Session::get('user_firstname')=='')
                             {{ 'Account' }}

@@ -2,7 +2,7 @@
     <style>
         .loader-bg{
             position:fixed;
-            z-index:999999;
+            z-index:999;
             background:#fff;
             width:100%;
             height:100%;

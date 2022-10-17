@@ -43,7 +43,8 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     width: auto;
   }
-  #datatable td {
+
+  table th, table td {
     white-space:nowrap;
   }
 
@@ -476,7 +477,9 @@ input[type=number]::-webkit-outer-spin-button {
     color: #012970;
   }
   .header-nav .nav-profile img {
-    max-height: 30px;
+    max-height: 40px;
+    border: #444444 1px solid;
+    border-radius: 50%;
   }
   .header-nav .nav-profile span {
     font-size: 14px;
