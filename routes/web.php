@@ -50,6 +50,7 @@ Route::get('/noaccess', function(){
         Route::get('program/{dept_id}',[PopulateSelect::class, 'program'])->name('GetProgram');
         
         Route::get('religion', [PopulateSelect::class, 'religion'])->name('GetReligion');
+        Route::get('covidvaccinationbrand', [PopulateSelect::class, 'covid_vaccination_brand'])->name('GetCovidVaccinationBrand');
     });
 // ================= End Populate Select =====================
 
@@ -59,7 +60,8 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Patient\Profile\MedicalHistoryController as PatientMedicalHistory;
     use App\Http\Controllers\Patient\Profile\FamilyDetailsController as PatientFamilyDetails;
     use App\Http\Controllers\Patient\Profile\AssessmentDiagnosisController as PatientAssessmentDiagnosis;
-    
+    use App\Http\Controllers\Patient\VaccinationInsuranceController as PatientVaccinationInsurance;
+
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'IsPatient', 'Inactivity']],function(){
 
         Route::prefix('personaldetails')->group(function(){
@@ -87,5 +89,14 @@ Route::get('/noaccess', function(){
             Route::get('/', [PatientAssessmentDiagnosis::class, 'index'])->name('PatientAssessmentDiagnosis');
             Route::put('/update', [PatientAssessmentDiagnosis::class, 'update_assessment_diagnosis'])->name('PatientAssessmentDiagnosisUpdate');
         });
+
+        Route::prefix('covidvaccinationinsurance')->group(function(){
+            Route::get('/', [PatientVaccinationInsurance::class, 'index'])->name('PatientVaccinationInsurance');
+            Route::put('/insurance/update', [PatientVaccinationInsurance::class, 'update_vaxstatus_insurance'])->name('PatientInsuranceUpdate');
+            
+            Route::put('/dosage/insert', [PatientVaccinationInsurance::class, 'insert_vax_dose'])->name('PatientDosageInsert');
+            Route::get('/dosage/delete/{id}', [PatientVaccinationInsurance::class, 'delete_vax_dose'])->name('PatientDosageDelete');
+            
+        }); 
     });
 // ================= End Patient =============================
