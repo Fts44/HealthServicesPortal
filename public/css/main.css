@@ -1097,10 +1097,11 @@ input[type=number]::-webkit-outer-spin-button {
   }
 
   .tooltip-inner {
-    background-color: gray !important;
-    color: #fff ;
+    background-color: #000000 !important;
+    color: #fff;
+    opacity: 1;
   }
 
   .tooltip.bs-tooltip-top .tooltip-arrow::before {
-    border-top-color: gray;
+    border-top-color: #000000;
   }

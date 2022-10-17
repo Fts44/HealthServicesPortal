@@ -17,19 +17,19 @@ class Inactivity
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::get('last_activity_time') < time()){
-            Session::flush();
-            $response = [
-                'title' => "Please login again.",
-                'message' => "You have been logged out due to inactivity!.",
-                'icon' => 'warning',
-                'status' => 400
-            ];
-            $response = json_encode($response, true);
-            return redirect(route('LoginIndex'))
-                ->with('status',$response);
-        }
-        Session(['last_activity_time' => time()+60*5]);
+        // if(Session::get('last_activity_time') < time()){
+        //     Session::flush();
+        //     $response = [
+        //         'title' => "Please login again.",
+        //         'message' => "You have been logged out due to inactivity!.",
+        //         'icon' => 'warning',
+        //         'status' => 400
+        //     ];
+        //     $response = json_encode($response, true);
+        //     return redirect(route('LoginIndex'))
+        //         ->with('status',$response);
+        // }
+        // Session(['last_activity_time' => time()+60*5]);
         return $next($request);
     }
 }

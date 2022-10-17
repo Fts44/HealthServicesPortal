@@ -53,22 +53,22 @@
             </a>
             <ul id="profile-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="">
+                    <a href="{{ route('patient') }}">
                         <i class="bi bi-circle"></i><span>Personal Details</span>
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('PatientEmergencyContact') }}">
                         <i class="bi bi-circle"></i><span>Emergency Contact</span>
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('PatientMedicalHistory') }}">
                         <i class="bi bi-circle"></i><span>Medical History</span>
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('PatientFamilyDetails') }}">
                         <i class="bi bi-circle"></i><span>Family Details</span>
                     </a>
                 </li>

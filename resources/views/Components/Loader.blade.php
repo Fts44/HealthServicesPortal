@@ -1,4 +1,4 @@
-@if(Session::get('CurrentRoute') != url()->current() && $errors->isEmpty()) 
+@if(Session::get('CurrentRoute') != url()->current() || ($errors->isEmpty() && Session::missing('status') )) 
     <style>
         .loader-bg{
             position:fixed;
