@@ -49,6 +49,7 @@ class LoginController extends Controller
                     Session(['user_password' => $user->password]);
                     Session(['user_firstname' => $user->firstname]);
                     Session(['user_lastname' => $user->lastname]);
+                    Session(['user_profilepic' => $user->profile_pic]);
                     Session(['last_activity_time' => time()+60*5]);
 
                     $response = [
