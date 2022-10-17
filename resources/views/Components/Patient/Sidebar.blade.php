@@ -73,7 +73,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('PatientAssessmentDiagnosis') }}">
                         <i class="bi bi-circle"></i><span>Assessment Diagnosis</span>
                     </a>
                 </li>

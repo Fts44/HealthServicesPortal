@@ -58,7 +58,8 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Patient\Profile\EmergencyContactController as PatientEmergencyContact;
     use App\Http\Controllers\Patient\Profile\MedicalHistoryController as PatientMedicalHistory;
     use App\Http\Controllers\Patient\Profile\FamilyDetailsController as PatientFamilyDetails;
-
+    use App\Http\Controllers\Patient\Profile\AssessmentDiagnosisController as PatientAssessmentDiagnosis;
+    
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'IsPatient', 'Inactivity']],function(){
 
         Route::prefix('personaldetails')->group(function(){
@@ -80,7 +81,11 @@ Route::get('/noaccess', function(){
         Route::prefix('familydetails')->group(function(){
             Route::get('/', [PatientFamilyDetails::class, 'index'])->name('PatientFamilyDetails');
             Route::put('/update', [PatientFamilyDetails::class, 'update_family_details'])->name('PatientFamilyDetailsUpdate');
-            
+        });
+
+        Route::prefix('assessmentdiagnosis')->group(function(){
+            Route::get('/', [PatientAssessmentDiagnosis::class, 'index'])->name('PatientAssessmentDiagnosis');
+            Route::put('/update', [PatientAssessmentDiagnosis::class, 'update_assessment_diagnosis'])->name('PatientAssessmentDiagnosisUpdate');
         });
     });
 // ================= End Patient =============================
