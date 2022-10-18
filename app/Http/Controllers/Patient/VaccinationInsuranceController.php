@@ -167,6 +167,7 @@ class VaccinationInsuranceController extends Controller
         ];
 
         $messages = [
+            'vdd_dose_number.required' => 'The dose number field is required.',
             'vdd_dose_number.unique' => 'The dose number has already been taken.'
         ];
         $validator = validator::make($request->all(), $rules, $messages);
@@ -242,9 +243,9 @@ class VaccinationInsuranceController extends Controller
             'vdd_dose_number' => ['required',
                 Rule::unique('vaccination_dose_details')->where(function ($query) use($request, $id) {
                     return $query->where('acc_id', Session::get('user_id'))
-                    ->where('vdd_dose_number', $request->vdd_dose_number)
-                    ->where('vdd_id', '!=', $id);
-                })
+                        ->where('vdd_dose_number', $request->vdd_dose_number)
+                        ->where('vdd_id', '!=', $id);
+                }),
             ],
             'date' => ['required'],
             'brand' => ['required'],
@@ -254,6 +255,7 @@ class VaccinationInsuranceController extends Controller
         ];
 
         $messages = [
+            'vdd_dose_number.required' => 'The dose number field is required.',
             'vdd_dose_number.unique' => 'The dose number has already been taken.'
         ];
         $validator = validator::make($request->all(), $rules, $messages);
@@ -369,7 +371,7 @@ class VaccinationInsuranceController extends Controller
                 'message' => 'File not inserted.',
                 'icon' => 'error',
                 'status' => 400,
-                'form' => 'file'
+                'form' => 'uploads'
             ];
 
             return redirect()->back()

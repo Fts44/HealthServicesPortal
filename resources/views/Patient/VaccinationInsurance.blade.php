@@ -86,7 +86,7 @@
                     <div class="card-body">    
                         <h5 class="pt-4 pb-2" style="font-weight: 600; font-size: 15px;">Dosage Details:</h5>
                         
-                        <a href="#" class="btn btn-secondary btn-sm" style="float: right; margin-top: -2.5rem;" data-bs-toggle="modal" data-bs-target="#dosage">
+                        <a href="#" class="btn btn-secondary btn-sm" style="float: right; margin-top: -2.5rem;" onclick="clear_dosage()"  data-bs-toggle="modal" data-bs-target="#dosage">
                             <i class="bi bi-plus-lg"></i>          
                         </a>
                         
@@ -109,7 +109,10 @@
                                         <td>{{ $dose->vdd_lot_number }}</td>
                                         <td>{{ $dose->mun_name.", ".$dose->prov_name }}</td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary" onclick="update_dosage({{ json_encode($dose) }})"><i class="bi bi-pencil"></i></a>
+                                            <a class="btn btn-sm btn-primary" onclick="update_dosage({{ json_encode($dose) }})">
+                                                <i class="bi bi-pencil" id="{{ $dose->vdd_id.'_pencil_icon' }}"></i>
+                                                <i class="spinner-border spinner-border-sm text-light d-none" id="{{ $dose->vdd_id.'_spinner_icon' }}"></i>
+                                            </a>
                                             <a class="btn btn-sm btn-danger" onclick="delete_dosage('{{ $dose->vdd_dose_number }}', '{{ route('PatientDosageDelete', ['id' => $dose->vdd_id]) }}')" data-method="delete"><i class="bi bi-eraser"></i></a>
                                         </td>
                                     </tr>
@@ -122,6 +125,11 @@
                 </div>
             </div>
         </div>
+        
+        <form id="delete_form" action="" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
 
         <!-- file table -->
         <div class="row">
@@ -130,7 +138,7 @@
                     <div class="card-body">    
                         <h5 class="pt-4 pb-2" style="font-weight: 600; font-size: 15px;">File Uploads:</h5>
                         
-                        <a href="#" class="btn btn-secondary btn-sm" style="float: right; margin-top: -2.5rem;" data-bs-toggle="modal" data-bs-target="#uploads">
+                        <a href="#" class="btn btn-secondary btn-sm" style="float: right; margin-top: -2.5rem;" onclick="clear_uploads()" data-bs-toggle="modal" data-bs-target="#uploads">
                             <i class="bi bi-plus-lg"></i>          
                         </a>
                         
@@ -138,9 +146,9 @@
                             <table id="table_uploads" class="table table-bordered" style="width: 100%;">
                                 <thead class="table-light">
                                     <th scope="col">#</th>
-                                    <th scope="col">DocType</th>
+                                    <th scope="col">Document Type</th>
                                     <th scope="col">Filename</th>
-                                    <th scope="col">DateUpload</th>
+                                    <th scope="col">Date Upload</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </thead>
@@ -156,8 +164,10 @@
                                             <span class="badge {{ ($doc->pd_verified_status) ? 'bg-success' : 'bg-secondary' }}">{{ ($doc->pd_verified_status) ? 'Verified' : 'Not Verified' }}</span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary" href="{{ route('ViewDocument', ['pd_id' => $doc->pd_id ]) }}" target="_blank"><i class="bi bi-eye"></i></a>
-                                            <a class="btn btn-sm btn-danger" onclick="delete_uploads('{{ $doc->pd_filename }}', '{{ route('DeletePatientInsuranceDetails', ['id' => $doc->pd_id]) }}')"><i class="bi bi-eraser"></i></a>
+                                            <a class="btn btn-sm btn-primary" href=" route('ViewDocument', ['pd_id' => $doc->pd_id ]) }}" target="_blank">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a class="btn btn-sm btn-danger" onclick="delete_uploads('{{ $doc->pd_filename }}', '{{ route('PatientFileDelete', ['id' => $doc->pd_id]) }}')"><i class="bi bi-eraser"></i></a>
                                         </td>
                                     </tr>
 
@@ -187,7 +197,7 @@
                         <label for="dose_number" class="form-control border-0 p-0 mb-2">
                             Dose Number:
                             <input class="form-control" type="number" name="vdd_dose_number" id="dose_number" value="{{ old('vdd_dose_number') }}">
-                            <span class="text-danger mt-1">
+                            <span class="text-danger mt-1 dosage-error">
                                 @error('vdd_dose_number')
                                     {{ $message }}
                                 @enderror
@@ -197,7 +207,7 @@
                         <label for="date" class="form-control border-0 p-0 mb-2">
                             Date:
                             <input class="form-control" type="date" name="date" id="date" value="{{ old('date') }}">
-                            <span class="text-danger mt-1">
+                            <span class="text-danger mt-1 dosage-error">
                                 @error('date')
                                     {{ $message }}
                                 @enderror
@@ -209,10 +219,10 @@
                             <select class="form-select" name="brand" id="brand">
                                 <option value="">--- choose ---</option>
                                 @foreach($covid_vaccination_brands as $brand)
-                                    <option value="{{ $brand->cvb_id }}">{{ $brand->cvb_brand }}</option>
+                                    <option value="{{ $brand->cvb_id }}" {{ (old('brand')==$brand->cvb_id) ? 'selected' : '' }}>{{ $brand->cvb_brand }}</option>
                                 @endforeach
                             </select>
-                            <span class="text-danger mt-1">
+                            <span class="text-danger mt-1 dosage-error">
                                 @error('brand')
                                     {{ $message }}
                                 @enderror
@@ -222,7 +232,7 @@
                         <label for="lot_number" class="form-control border-0 p-0 mb-2">
                             Lot Number:
                             <input class="form-control" type="text" name="lot_number" id="lot_number" oninput="this.value = this.value.toUpperCase()" value="{{ old('lot_number') }}">
-                            <span class="text-danger mt-1">
+                            <span class="text-danger mt-1 dosage-error">
                                 @error('lot_number')
                                     {{ $message }}
                                 @enderror
@@ -240,7 +250,7 @@
                                             <option value="{{ $province->prov_code }}" {{ (old('province')==$province->prov_code) ? 'selected' : '' }}>{{ $province->prov_name }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="text-danger mt-1">
+                                    <span class="text-danger mt-1 dosage-error">
                                         @error('province')
                                             {{ $message }}
                                         @enderror
@@ -256,7 +266,7 @@
                                             @endforeach
                                         @endif 
                                     </select>
-                                    <span class="text-danger mt-1">
+                                    <span class="text-danger mt-1 dosage-error">
                                         @error('municipality')
                                             {{ $message }}
                                         @enderror
@@ -281,8 +291,10 @@
                     <h5 class="modal-title" id="modal_title">Dosage Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action=" route('InsertPatientInsuranceDetails') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('PatientFileInsert') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+
                     <div class="modal-body mb-3">
                         <label class="form-control border-0 p-0">
                             Document Type:
@@ -292,7 +304,7 @@
                                     <option value="{{ $type->dt_id }}">{{ $type->dt_name }}</option>
                                 @endforeach 
                             </select>
-                            <span class="text-danger mt-1">
+                            <span class="text-danger mt-1 uploads-error">
                                 @error('document_type')
                                     {{ $message }}
                                 @enderror
@@ -302,7 +314,7 @@
                         <label class="form-control border-0 p-0 mt-2">
                             File:
                             <input type="file" name="file" id="file" class="form-control">
-                            <span class="text-danger mt-1" id="file_error">
+                            <span class="text-danger mt-1 uploads-error" id="file_error">
                                 @error('file')
                                     {{ $message }}
                                 @enderror
@@ -323,24 +335,54 @@
     <script src="{{ asset('js/datatable.js') }}"></script>
     <script src="{{ asset('js/populate.js') }}"></script>
     <script>
-        function clear(){
+        // dosage clear
+        function clear_dosage(){
+            $('.dosage-error').html('');
+            $('#dose_number').val('');
             $("#date").val('');
             $('#brand').val('');
             $('#lot_number').val('');
             $('#province').val('');
+            $('#municipality').val('');
             $('#sumbit_button_dosage').html('Add');
-            $('#dosage_form').attr('action', " route('InsertPatientVaccinationDoseDetails') }}")
+            $('#dosage_form').attr('action', "{{ route('PatientDosageInsert') }}")
             $('.text-danger').html('');
         }
-        //asnych ajax getting municipalities
-        function set_mun(select_mun, mun_code, prov_code){
+
+        function clear_uploads(){
+            $('.uploads-error').html('');
+            $('#document_type').val('');
+        }
+
+        function update_dosage(details){ 
+            //define variables
+            var url = "{{ route('PatientDosageUpdate', ['id' => 'DossageId']) }}";
+            var select_mun = '#municipality';
+            var mun_code = details.vdd_mun_code;
+            var prov_code = details.vdd_prov_code;
+
+            // show loader spinners
+            $('#'+details.vdd_id+"_spinner_icon").removeClass('d-none');
+            $('#'+details.vdd_id+"_pencil_icon").addClass('d-none');
+
+            clear_dosage();
+            // set form data
+            $('#dosage_form').attr('action',  url.replace('DossageId', details.vdd_id));
+            $('#dose_number').val(details.vdd_dose_number);
+            $('#date').val(details.vdd_date);
+            $('#brand').val(details.cvb_id);
+            $('#lot_number').val(details.vdd_lot_number);
+            $('#province').val(details.prov_code);
+            $('#sumbit_button_dosage').html('Update');
+            
+            // set municipality
+            // set_mun('#municipality', details.vdd_mun_code, details.vdd_prov_code)
             $(select_mun).empty();
             clear_select(select_mun,'--- choose ---');
             $.ajax({
                 url: window.location.origin+"/populate/municipality/"+prov_code,
-                async: false,
                 type: "GET",
-                success: function (response) {      
+                success: function (response) {
                     $.each( response, function( key, item ) {
                         $(select_mun).append($('<option>', { 
                             value: item.mun_code,
@@ -352,20 +394,11 @@
                 error: function(response) {
                     console.log(response);
                 }
+            }).done(function(){
+                $('#'+details.vdd_id+"_spinner_icon").addClass('d-none');
+                $('#'+details.vdd_id+"_pencil_icon").removeClass('d-none');
+                $('#dosage').modal('show');
             });
-        };
-        function update_dosage(details){
-            clear();
-            set_mun('#municipality', details.vdd_mun_code, details.vdd_prov_code);
-            var url = " route('UpdatePatientVaccinationDoseDetails', ['id' => 'id']) }}";
-            $('#dosage_form').attr('action',  url.replace('id', details.vdd_id));
-            $('#dose_number').val(details.vdd_dose_number);
-            $('#date').val(details.vdd_date);
-            $('#brand').val(details.vdd_brand);
-            $('#lot_number').val(details.vdd_lot_number);
-            $('#province').val(details.prov_code);
-            $('#sumbit_button_dosage').html('Update');
-            $('#dosage').modal('show');
         }
         
         function delete_dosage(dose, href){
@@ -378,7 +411,11 @@
                 dangerMode: true,
             }).then(function(value){
                 if(value){
-                    window.location.href = href;
+                    $('#delete_form').attr('action', href);
+                    $('#delete_form').submit();
+                }
+                else{
+
                 }
             });   
         }
@@ -393,31 +430,14 @@
                 dangerMode: true,
             }).then(function(value){
                 if(value){
-                    window.location.href = href;
+                    $('#delete_form').attr('action', href);
+                    $('#delete_form').submit();
                 }
             });   
         }
+
         $(document).ready(function(){
-            @if(session('status'))  
-                @php 
-                    $status = (object)session('status');     
-                @endphp
-                
-                @if($status->status==400)
-                    @if($status->form=='dosage')
-                        @if($status->action=='update')
-                            $('#dosage_form').attr('action', "{{ route('UpdatePatientVaccinationDoseDetails', ['id'=>$status->vdd_id]) }}")
-                            $('#sumbit_button_dosage').html('Update');
-                        @endif
-                        $('#dosage').modal('show');
-                    @elseif($status->form=='uploads')
-                        $('#uploads').modal('show');
-                    @endif
-                @else
-                    swal('{{$status->title}}','{{$status->message}}','{{$status->icon}}');
-                @endif
-            @endif
-            
+               
             $('#file').change(function(){
                 let MAX_FILE_SIZE = 5 * 1024 * 1024;
                 let fileSize = this.files[0].size;
@@ -428,17 +448,40 @@
                     $('#file_error').html("");
                 }
             });
+            
             $('#province').change(function(){
                 set_municipality('#municipality', '', $(this).val(), '');
             });
+
             datatable_no_btn_class('#table_vaccination');
             datatable_no_btn_class('#table_uploads');
+
             $('#hamburgerMenu').click(function(){
                 setTimeout(function() { 
                     redraw_datatable_class('#table_vaccination');
                     redraw_datatable_class('#table_insurance');
                 }, 300);
             });
+
+            @if(session('status'))  
+                @php 
+                    $status = (object)session('status');     
+                @endphp
+                
+                @if($status->status==400)
+                    @if($status->form=='dosage')
+                        @if($status->action=='update')
+                            $('#dosage_form').attr('action', "{{ route('PatientDosageUpdate', ['id'=>$status->vdd_id]) }}")
+                            $('#sumbit_button_dosage').html('Update');
+                        @endif
+                        $('#dosage').modal('show');
+                    @elseif($status->form=='uploads')
+                        $('#uploads').modal('show');
+                    @endif
+                @else
+                    swal('{{$status->title}}','{{$status->message}}','{{$status->icon}}');    
+                @endif
+            @endif
         });
     </script>
 @endpush
