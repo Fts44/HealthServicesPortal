@@ -6,6 +6,9 @@
 
 @section('content')
 <main id="main" class="main">
+    <div class="pagetitle my-3">
+        <h1>Medical History</h1>
+    </div>
 
     <section class="section profile">
 
