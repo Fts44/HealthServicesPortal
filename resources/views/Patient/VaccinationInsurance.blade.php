@@ -7,7 +7,7 @@
 @section('content')
 <main id="main" class="main">
 
-    <div class="pagetitle mb-3">
+    <div class="pagetitle my-3">
         <h1>Covid Vaccination and Insurance</h1>
         <nav>
             <ol class="breadcrumb" style="--bs-breadcrumb-divider: '|';">
@@ -28,17 +28,18 @@
                             
                             <div class="row pt-4">
                                 <label class="col-lg-12" style="font-weight: 600;">Vaccination Status:</label>
-                                <div class="col-lg-12 mt-3">
-                                    <div class="d-flex flex-wrap gap-4">
-                                        <label for="not">
+                                <div class="col-lg-12">
+                                    <div class="row mb-2">
+                                        <label for="not" class="col-lg-2 mt-3">
                                             <input type="radio" name="vaccination_status" id="not" value="unvaccinated" {{ ($user_details->vs_status=='unvaccinated') ? 'checked' : '' }}> Unvaccinated
                                         </label>
-                                        <label for="partially">
+                                        <label for="partially" class="col-lg-2 mt-3">
                                             <input type="radio" name="vaccination_status" id="partially" value="partially vaccinated" {{ ($user_details->vs_status=='partially vaccinated') ? 'checked' : '' }}> Partially Vaccinated
                                         </label>
-                                        <label for="fully">
-                                            <input type="radio" name="vaccination_status" id="fully" value="fully vaccinated" {{ ($user_details->vs_status=='fully vaccinated') ? 'checked' : '' }}> Fully Vaccinated</label>
-                                        <label for="boosted">
+                                        <label for="fully" class="col-lg-2 mt-3">
+                                            <input type="radio" name="vaccination_status" id="fully" value="fully vaccinated" {{ ($user_details->vs_status=='fully vaccinated') ? 'checked' : '' }}> Fully Vaccinated
+                                        </label>
+                                        <label for="boosted" class="col-lg-2 mt-3">
                                             <input type="radio" name="vaccination_status" id="boosted" value="boosted" {{ ($user_details->vs_status=='boosted') ? 'checked' : '' }}> Boosted
                                         </label>
                                     </div>
@@ -68,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row pb-2">
+                            <div class="row pb-2 mt-2">
                                 <label class="col-lg-3">
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </label>
