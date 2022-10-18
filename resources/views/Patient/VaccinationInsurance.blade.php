@@ -6,8 +6,7 @@
 
 @section('content')
 <main id="main" class="main">
-
-    <div class="pagetitle my-3">
+    <div class="pagetitle mb-3">
         <h1>Covid Vaccination and Insurance</h1>
         <nav>
             <ol class="breadcrumb" style="--bs-breadcrumb-divider: '|';">

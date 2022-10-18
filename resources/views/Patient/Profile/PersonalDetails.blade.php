@@ -13,7 +13,7 @@
 
 @section('content')
 <main id="main" class="main">
-    <div class="pagetitle my-3">
+    <div class="pagetitle mb-3">
         <h1>Personal Details</h1>
     </div>
 
