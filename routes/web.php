@@ -95,8 +95,11 @@ Route::get('/noaccess', function(){
             Route::put('/insurance/update', [PatientVaccinationInsurance::class, 'update_vaxstatus_insurance'])->name('PatientInsuranceUpdate');
             
             Route::put('/dosage/insert', [PatientVaccinationInsurance::class, 'insert_vax_dose'])->name('PatientDosageInsert');
-            Route::get('/dosage/delete/{id}', [PatientVaccinationInsurance::class, 'delete_vax_dose'])->name('PatientDosageDelete');
+            Route::put('/dosage/update/{id}', [PatientVaccinationInsurance::class, 'update_vax_dose'])->name('PatientDosageUpdate');
+            Route::delete('/dosage/delete/{id}', [PatientVaccinationInsurance::class, 'delete_vax_dose'])->name('PatientDosageDelete');
             
+            Route::put('/file/insert', [PatientVaccinationInsurance::class, 'insert_insurance'])->name('PatientFileInsert');
+            Route::delete('/file/delete/{id}', [PatientVaccinationInsurance::class, 'delete_insurance'])->name('PatientFileDelete');
         }); 
     });
 // ================= End Patient =============================
