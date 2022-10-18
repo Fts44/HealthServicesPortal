@@ -93,11 +93,11 @@
                         <div class="col-lg-12">
                             <table id="table_vaccination" class="table table-bordered" style="width: 100%;">
                                 <thead class="table-light">
-                                    <th scope="col">Dose</th>
-                                    <th scope="col">VaxDate</th>
+                                    <th scope="col">Dosage No.</th>
+                                    <th scope="col">Vaccination Date</th>
                                     <th scope="col">Brand</th>
-                                    <th scope="col">LotNo.</th>
-                                    <th scope="col">Loc</th>
+                                    <th scope="col">Lot No.</th>
+                                    <th scope="col">Location</th>
                                     <th scope="col">Action</th>
                                 </thead>
                                 <tbody>
@@ -126,11 +126,6 @@
             </div>
         </div>
         
-        <form id="delete_form" action="" method="POST" style="display: none;">
-            @csrf
-            @method('DELETE')
-        </form>
-
         <!-- file table -->
         <div class="row">
             <div class="col-lg-12">
@@ -180,6 +175,11 @@
                 </div>
             </div>  
         </div>
+
+        <form id="delete_form" action="" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
     </section>
 
     <div class="modal fade" id="dosage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_title" aria-hidden="true">
