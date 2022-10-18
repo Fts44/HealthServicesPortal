@@ -6,7 +6,7 @@
 
 @section('content')
 <main id="main" class="main">
-    <div class="pagetitle my-3">
+    <div class="pagetitle mb-3">
         <h1>Emergency Contact</h1>
     </div>
 
