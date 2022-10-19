@@ -61,6 +61,7 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Patient\Profile\FamilyDetailsController as PatientFamilyDetails;
     use App\Http\Controllers\Patient\Profile\AssessmentDiagnosisController as PatientAssessmentDiagnosis;
     use App\Http\Controllers\Patient\VaccinationInsuranceController as PatientVaccinationInsurance;
+    use App\Http\Controllers\Patient\PasswordController as PatientPassword; 
 
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'IsPatient', 'Inactivity']],function(){
 
@@ -101,5 +102,10 @@ Route::get('/noaccess', function(){
             Route::put('/file/insert', [PatientVaccinationInsurance::class, 'insert_insurance'])->name('PatientFileInsert');
             Route::delete('/file/delete/{id}', [PatientVaccinationInsurance::class, 'delete_insurance'])->name('PatientFileDelete');
         }); 
+
+        Route::prefix('password')->group(function(){
+            Route::get('/', [PatientPassword::class, 'index'])->name('PatientPassword');
+            Route::put('/', [PatientPassword::class, 'update_password'])->name('PatientPasswordUpdate');
+        });
     });
 // ================= End Patient =============================
