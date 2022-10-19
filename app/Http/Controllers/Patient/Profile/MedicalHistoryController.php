@@ -27,7 +27,7 @@ class MedicalHistoryController extends Controller
       
         // echo json_encode($this->get_user_details);
 
-        return view('patient.profile.medicalhistory')->with([
+        return view('Patient.Profile.MedicalHistory')->with([
             'user_details' => $user_details
         ]);
     }

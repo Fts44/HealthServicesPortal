@@ -24,7 +24,7 @@ class FamilyDetailsController extends Controller
         $user_details = $this->get_user_details();
         
         // echo json_encode($user_details);
-        return view('patient.profile.familydetails')->with([
+        return view('Patient.Profile.FamilyDetails')->with([
             'user_details' => $user_details
         ]);
     }

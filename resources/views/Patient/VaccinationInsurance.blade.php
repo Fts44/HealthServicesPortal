@@ -159,7 +159,7 @@
                                             <span class="badge {{ ($doc->pd_verified_status) ? 'bg-success' : 'bg-secondary' }}">{{ ($doc->pd_verified_status) ? 'Verified' : 'Not Verified' }}</span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary" href=" route('ViewDocument', ['pd_id' => $doc->pd_id ]) }}" target="_blank">
+                                            <a class="btn btn-sm btn-primary" href="www.google.com" target="_blank">
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             <a class="btn btn-sm btn-danger" onclick="delete_uploads('{{ $doc->pd_filename }}', '{{ route('PatientFileDelete', ['id' => $doc->pd_id]) }}')"><i class="bi bi-eraser"></i></a>

@@ -25,7 +25,7 @@ class AssessmentDiagnosisController extends Controller
 
     public function index(){
         $user_details = $this->get_user_details();
-        return view('patient.profile.assessmentdiagnosis')
+        return view('Patient.Profile.AssessmentDiagnosis')
             ->with([
                 'user_details' => $user_details
             ]);
