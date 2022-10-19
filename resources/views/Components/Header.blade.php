@@ -21,7 +21,8 @@
                         @if(Session::get('user_firstname')=='')
                             {{ 'Account' }}
                         @else
-                            {{ ucwords(Session::get('user_firstname'))[0].'. '.ucwords(Session::get('user_lastname')) }}
+                            {{ 'Hi, '.ucwords(Session::get('user_firstname')).'!' }}
+                            <!-- {{ ucwords(Session::get('user_firstname'))[0].'. '.ucwords(Session::get('user_lastname')) }} -->
                         @endif
                     </span>
                 </a>
