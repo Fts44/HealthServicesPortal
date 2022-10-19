@@ -33,7 +33,7 @@
             </a>
             <ul id="document-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="">
+                    <a href="{{ route('PatientDocumnetsUploads') }}">
                         <i class="bi bi-circle"></i><span>Uploads</span>
                     </a>
                 </li>
@@ -45,6 +45,7 @@
             </ul>
         </li>
 
+        <!-- Profile -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" id="sidebar_user_information"  data-bs-target="#profile-nav" data-bs-toggle="collapse" >
                 <i class="bi bi-person"></i>
@@ -80,6 +81,7 @@
             </ul>
         </li>
 
+        <!-- Covid Vaccination and Insurance -->
         <li class="nav-item">
             <a class="pe-0 nav-link collapsed" href="{{ route('PatientVaccinationInsurance') }}" id="sidebar_vaccination_and_insurance">
                 <i class="bi bi-clipboard-check"></i>
