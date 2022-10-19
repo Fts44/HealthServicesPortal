@@ -6,7 +6,6 @@
 
 @section('content')
 <main id="main" class="main">
-
     <div class="pagetitle mb-3">
         <h1>Change Password</h1>
         <nav>
@@ -14,6 +13,7 @@
             </ol>
         </nav>
     </div>
+
     <section class="section profile">
 
         <div class="card">
