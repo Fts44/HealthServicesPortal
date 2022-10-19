@@ -102,8 +102,8 @@ class PersonalDetailsController extends Controller
             'birthplace_municipality' => ['required'],
             'birthplace_barangay' => ['required'],
             'grade_level' => ['nullable','required_unless:classification,school personnel'],
-            'department' => ['nullable','required_unless:grade_level,1,2'],
-            'program' => ['nullable','required_unless:grade_level,1,2,3'],
+            'department' => ['nullable','required_unless:grade_level,null,1,2'],
+            'program' => ['nullable','required_if:grade_level,4'],
             'weight' => ['nullable', 'numeric'],
             'height' => ['nullable', 'numeric'],
             'blood_type' => ['nullable'],
@@ -115,7 +115,7 @@ class PersonalDetailsController extends Controller
         $messages = [
             'grade_level.required_unless' => 'The grade level field is required for teacher and student.',
             'department.required_unless' => 'The department field is required for teacher and student (senior high and college).',
-            'program.required_unless' => 'The program field is required for college student.',
+            'program.required_if' => 'The program field is required for college student.',
         ];
 
         $validator = validator::make($request->all(), $rules, $messages);
