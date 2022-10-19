@@ -30,6 +30,7 @@
                         <th scope="col">Document Type</th>
                         <th scope="col">Filename</th>
                         <th scope="col">Date Upload</th>
+                        <th scope="col">Verified Status</th>
                         <th scope="col">Action</th>
                     </thead>
                     <tbody>
@@ -40,12 +41,19 @@
                                 <td>{{ $doc->pd_filename }}</td>
                                 <td>{{ date_format(date_create($doc->pd_date),'F d, y g:h a') }}</td>
                                 <td>
-                                    <a href="{{ route('ViewDocument', ['pd_id' => $doc->pd_id ]) }}" target="_blank" class="btn btn-primary btn-sm">
+                                    @if(!$doc->pd_verified_status)
+                                        <span class="badge bg-secondary">Not Verified</span>
+                                    @else
+                                        <span class="badge bg-success">Verified</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="" target="_blank" class="btn btn-primary btn-sm">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="" class="btn btn-danger btn-sm">
+                                    <button href="" class="btn btn-danger btn-sm" {{ ($doc->pd_verified_status) ? 'disabled' : '' }}>
                                         <i class="bi bi-eraser"></i>
-                                    </a>
+                                    </button>
                                 </td>
 
                             </tr>
@@ -119,6 +127,7 @@
         @endif
         
         $(document).ready(function(){
+
             datatable_no_btn_class('#table_uploads');
             $('#file').change(function(){
                 let MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -133,7 +142,7 @@
             @if($errors->any())
                 $('#modal').modal('show');
             @endif
-            
+        
         });
     </script>
 @endpush
