@@ -76,8 +76,9 @@ Route::get('/noaccess', function(){
 
         Route::prefix('documents')->group(function(){
             Route::prefix('uploads')->group(function(){
-                Route::get('/', [PatientDocumnetsUploads::class, 'index'])->name('PatientDocumnetsUploads');
+                Route::get('/', [PatientDocumnetsUploads::class, 'index'])->name('PatientDocumentsUploads');
                 Route::put('/', [PatientDocumnetsUploads::class, 'upload'])->name('PatientDocumnetsUploadsInsert');
+                Route::delete('/delete/{id}', [PatientDocumnetsUploads::class, 'delete_upload'])->name('PatientDocumnetsUploadsDelete');
             });
         });
 
@@ -124,3 +125,7 @@ Route::get('/noaccess', function(){
         }); 
     });
 // ================= End Patient =============================
+
+// ================= Start Admin =============================
+
+// ================= End Admin ===============================

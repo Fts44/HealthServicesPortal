@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class UploadsController extends Controller
 {
@@ -78,5 +79,40 @@ class UploadsController extends Controller
                 return redirect()->back()->with('status',$response);
             }
         }    
+    }
+
+    public function delete_upload(Request $request, $id){
+        $doc_details = DB::table('patient_document')->where('pd_id', $id)->first();
+        // echo json_encode($doc_details);
+        $path = '/public/documents/'.$doc_details->dt_id.'/';
+        try{
+            DB::table('patient_document')->where('pd_id', $id)->delete();
+
+            if($doc_details->pd_sys_filename){
+                Storage::delete($path.$doc_details->pd_sys_filename); 
+            }
+
+            $response = [
+                'title' => 'Success!',
+                'message' => 'Document deleted.',
+                'icon' => 'success',
+                'status' => 200
+            ];
+            $response = json_encode($response);
+            return redirect(route('PatientDocumentsUploads'))->with('status', $response);
+        }
+        catch(Exception $e){
+            $response = [
+                'title' => 'Failed!',
+                'message' => 'Document not deleted.'.$e,
+                'icon' => 'error',
+                'status' => 400
+            ];
+            $response = json_encode($response);
+            return redirect()->back()
+                ->with([
+                    'status' => $response
+                ]);
+        }
     }
 }

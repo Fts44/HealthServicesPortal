@@ -39,7 +39,7 @@
                                 <td>{{ $doc->pd_id }}</td>
                                 <td>{{ $doc->dt_name }}</td>
                                 <td>{{ $doc->pd_filename }}</td>
-                                <td>{{ date_format(date_create($doc->pd_date),'F d, y g:h a') }}</td>
+                                <td>{{ date_format(date_create($doc->pd_date),'F d, Y h:i a') }}</td>
                                 <td>
                                     @if(!$doc->pd_verified_status)
                                         <span class="badge bg-secondary">Not Verified</span>
@@ -51,7 +51,7 @@
                                     <a href="" target="_blank" class="btn btn-primary btn-sm">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <button href="" class="btn btn-danger btn-sm" {{ ($doc->pd_verified_status) ? 'disabled' : '' }}>
+                                    <button href="" class="btn btn-danger btn-sm"  onclick="delete_uploads('{{ $doc->pd_filename }}', '{{ route('PatientDocumnetsUploadsDelete', ['id' => $doc->pd_id]) }}')" {{ ($doc->pd_verified_status) ? 'disabled' : '' }}>
                                         <i class="bi bi-eraser"></i>
                                     </button>
                                 </td>
@@ -112,6 +112,11 @@
             </div>    
         </div>
     </div>
+
+    <form id="delete_form" action="" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
 @endsection
 
 @push('script')
@@ -126,6 +131,22 @@
             swal('{{$status->title}}','{{$status->message}}','{{$status->icon}}');
         @endif
         
+        function delete_uploads(doc, href){
+            event.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "Your about to delete "+doc+"!",
+                icon: "warning",
+                buttons: ["Cancel", "Yes"],
+                dangerMode: true,
+            }).then(function(value){
+                if(value){
+                    $('#delete_form').attr('action', href);
+                    $('#delete_form').submit();
+                }
+            });   
+        }
+
         $(document).ready(function(){
 
             datatable_no_btn_class('#table_uploads');
