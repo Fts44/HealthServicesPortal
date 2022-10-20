@@ -88,7 +88,7 @@
                                     <option value="{{ $type->dt_id }}" {{ ($type->dt_id==old('document_type')) ? 'selected' : '' }}>{{ $type->dt_name }}</option>
                                 @endforeach
                             </select>
-                            <span class="text-danger" id="file_error">
+                            <span class="text-danger">
                                 @error('document_type')
                                     {{ $message }}
                                 @enderror

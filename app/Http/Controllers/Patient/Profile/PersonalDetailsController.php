@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 use App\Rules\GsuiteRule;
 use App\Rules\PasswordRule;
@@ -103,7 +104,11 @@ class PersonalDetailsController extends Controller
             'birthplace_barangay' => ['required'],
             'grade_level' => ['nullable','required_unless:classification,school personnel'],
             'department' => ['nullable','required_unless:grade_level,null,1,2'],
-            'program' => ['nullable','required_if:grade_level,4'],
+            'program' => ['nullable', 
+                Rule::requiredIf( function () use ($request){
+                    return $request->input('classification') == 'student' && $request->input('grade_level') == '4';
+                })
+            ],
             'weight' => ['nullable', 'numeric'],
             'height' => ['nullable', 'numeric'],
             'blood_type' => ['nullable'],

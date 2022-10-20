@@ -82,5 +82,4 @@ class RequestsController extends Controller
                 ->with('status', $response);
         }
     }
-    
 }

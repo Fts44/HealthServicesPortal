@@ -24,12 +24,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('AdminAccountsPatients') }}">
                         <i class="bi bi-circle"></i><span>Patients</span>
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('admin') }}">
                         <i class="bi bi-circle"></i><span>Requests</span>
                     </a>
                 </li>

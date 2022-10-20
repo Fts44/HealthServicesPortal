@@ -127,15 +127,20 @@ Route::get('/noaccess', function(){
 // ================= End Patient =============================
 
 // ================= Start Admin =============================
-    use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequest;
+    use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
+    use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
 
     Route::group(['prefix' => 'admin', 'middleware' =>[ 'IsAdmin', 'Inactivity']], function(){
         Route::prefix('/accounts')->group(function(){
            
             Route::prefix('requests')->group(function(){
-                Route::get('/', [AdminAccountsRequest::class, 'index'])->name('admin');
-                Route::put('/verify/{id}', [AdminAccountsRequest::class, 'verify_acc'])->name('AdminAccountsRequestsVerify');
-                Route::delete('/delete/{id}', [AdminAccountsRequest::class, 'delete_acc'])->name('AdminAccountsRequestsDelete');
+                Route::get('/', [AdminAccountsRequests::class, 'index'])->name('admin');
+                Route::put('/verify/{id}', [AdminAccountsRequests::class, 'verify_acc'])->name('AdminAccountsRequestsVerify');
+                Route::delete('/delete/{id}', [AdminAccountsRequests::class, 'delete_acc'])->name('AdminAccountsRequestsDelete');
+            });
+
+            Route::prefix('patients')->group(function(){
+                Route::get('/', [AdminAccountsPatients::class, 'index'])->name('AdminAccountsPatients');
             });
         });
 

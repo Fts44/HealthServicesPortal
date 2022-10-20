@@ -57,9 +57,9 @@
                         </td>
                         <td>
                             @if($acc->classification=='infirmary personnel')
-                                {{ $acc->position }}
+                                {{ ucwords($acc->position) }}
                             @else
-                                {{ $acc->classification }}
+                                {{ ucwords($acc->classification) }}
                             @endif
                         </td>
                         <td>{{ date_format(date_create($acc->created_at),'F d, Y h:i a') }}</td>
