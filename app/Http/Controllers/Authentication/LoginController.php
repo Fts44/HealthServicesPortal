@@ -44,19 +44,28 @@ class LoginController extends Controller
             
             if($user){
                 if(Hash::check($request->pass, $user->password)){
-                    Session(['user_id' => $user->acc_id]);
-                    Session(['user_type' => $user->position]);
-                    Session(['user_password' => $user->password]);
-                    Session(['user_firstname' => $user->firstname]);
-                    Session(['user_lastname' => $user->lastname]);
-                    Session(['user_profilepic' => $user->profile_pic]);
-                    Session(['last_activity_time' => time()+60*5]);
-
-                    $response = [
-                        'status' => 200,
-                    ];
-
-                    $response['redirect_to'] = route(Session::get('user_type'));
+                
+                    if($user->is_verified){
+                        Session(['user_id' => $user->acc_id]);
+                        Session(['user_type' => $user->position]);
+                        Session(['user_password' => $user->password]);
+                        Session(['user_firstname' => $user->firstname]);
+                        Session(['user_lastname' => $user->lastname]);
+                        Session(['user_profilepic' => $user->profile_pic]);
+                        Session(['last_activity_time' => time()+60*5]);
+    
+                        $response = [
+                            'status' => 200,
+                        ];
+    
+                        $response['redirect_to'] = route(Session::get('user_type'));
+                    }
+                    else{
+                        $response = [
+                            'status' => 400,
+                            'errors' => ['userid' => 'Account is not verified!']
+                        ];
+                    }
                 }
                 else{
                     $response = [
