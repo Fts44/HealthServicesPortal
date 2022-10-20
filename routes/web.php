@@ -127,5 +127,17 @@ Route::get('/noaccess', function(){
 // ================= End Patient =============================
 
 // ================= Start Admin =============================
+    use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequest;
 
+    Route::group(['prefix' => 'admin', 'middleware' =>[ 'IsAdmin', 'Inactivity']], function(){
+        Route::prefix('/accounts')->group(function(){
+           
+            Route::prefix('requests')->group(function(){
+                Route::get('/', [AdminAccountsRequest::class, 'index'])->name('admin');
+                Route::put('/verify/{id}', [AdminAccountsRequest::class, 'verify_acc'])->name('AdminAccountsRequestsVerify');
+                Route::delete('/delete/{id}', [AdminAccountsRequest::class, 'delete_acc'])->name('AdminAccountsRequestsDelete');
+            });
+        });
+
+    });
 // ================= End Admin ===============================
