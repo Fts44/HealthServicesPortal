@@ -154,7 +154,7 @@
                                         <td>{{ $num++ }}</td>
                                         <td>{{ $doc->dt_name }}</td>
                                         <td>{{ $doc->pd_filename }}</td>
-                                        <td>{{ date_format(date_create($doc->pd_date),'F d, Y') }}</td>
+                                        <td>{{ date_format(date_create($doc->pd_date),'F d, Y h:i a') }}</td>
                                         <td>
                                             <span class="badge {{ ($doc->pd_verified_status) ? 'bg-success' : 'bg-secondary' }}">{{ ($doc->pd_verified_status) ? 'Verified' : 'Not Verified' }}</span>
                                         </td>
