@@ -6,17 +6,7 @@
 
 @section('content')
 <main id="main" class="main">
-    <div class="pagetitle mb-2">
-        <h1 class="mb-1">Configuration Inventory Equipment</h1>
-        <div class="page-nav">
-            <nav class="btn-group">   
-                <a class="btn btn-sm btn-outline-primary">Name</a>
-                <a class="btn btn-sm btn-outline-primary">Brand</a>
-                <a href="{{ route('AdminConfigurationInventoryEquipmentType') }}" class="btn btn-sm btn-outline-primary">Type</a>           
-                <a class="btn btn-sm btn-outline-primary active">Place</a>
-            </nav>
-        </div>
-    </div>
+    @include('Components.Admin.Configuration.Inventory.Equipment.PageTitle')
 
     @if(session()->has('status'))
         @php $status = (object)session('status') @endphp

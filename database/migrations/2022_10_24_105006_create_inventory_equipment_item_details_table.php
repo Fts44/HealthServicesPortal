@@ -14,8 +14,13 @@ class CreateInventoryEquipmentItemDetailsTable extends Migration
     public function up()
     {
         Schema::create('inventory_equipment_item_details', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('ieid_id');
+            $table->string('ieid_unit');
+            $table->string('ieid_category');
+            $table->boolean('ieid_status');
+            $table->integer('ien_id');
+            $table->integer('ieb_id');
+            $table->integer('iet_id');
         });
     }
 
