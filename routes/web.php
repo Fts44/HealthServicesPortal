@@ -130,9 +130,10 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
     use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
 
-    use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\Place as AdminConfigurationInventoryEquipmentPlace;
+    use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\PlaceController as AdminConfigurationInventoryEquipmentPlace;
 
     Route::group(['prefix' => 'admin', 'middleware' =>[ 'Inactivity', 'IsAdmin']], function(){
+       
         Route::prefix('/accounts')->group(function(){
            
             Route::prefix('requests')->group(function(){
@@ -152,6 +153,10 @@ Route::get('/noaccess', function(){
 
             Route::prefix('equipments')->group(function(){
                 
+                Route::prefix('type')->group(function(){
+                    Route::get('/', []);
+                });
+
                 Route::prefix('place')->group(function(){
                     Route::get('/', [AdminConfigurationInventoryEquipmentPlace::class, 'index'])->name('AdminConfigurationInventoryEquipmentPlace');
                     Route::put('/insert', [AdminConfigurationInventoryEquipmentPlace::class, 'insert'])->name('AdminConfigurationInventoryEquipmentPlaceInsert');
