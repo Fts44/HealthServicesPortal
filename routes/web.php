@@ -67,7 +67,7 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Patient\VaccinationInsuranceController as PatientVaccinationInsurance;
     
 
-    Route::group(['prefix' => 'patient', 'middleware' =>[ 'IsPatient', 'Inactivity']],function(){
+    Route::group(['prefix' => 'patient', 'middleware' =>[ 'Inactivity', 'IsPatient']],function(){
 
         Route::prefix('password')->group(function(){
             Route::get('/', [PatientPassword::class, 'index'])->name('PatientPassword');
@@ -130,7 +130,9 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
     use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
 
-    Route::group(['prefix' => 'admin', 'middleware' =>[ 'IsAdmin', 'Inactivity']], function(){
+    use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\Place as AdminConfigurationInventoryEquipmentPlace;
+
+    Route::group(['prefix' => 'admin', 'middleware' =>[ 'Inactivity', 'IsAdmin']], function(){
         Route::prefix('/accounts')->group(function(){
            
             Route::prefix('requests')->group(function(){
@@ -142,7 +144,25 @@ Route::get('/noaccess', function(){
             Route::prefix('patients')->group(function(){
                 Route::get('/', [AdminAccountsPatients::class, 'index'])->name('AdminAccountsPatients');
             });
+
         });
 
+      
+        Route::prefix('/configuration')->group(function(){
+
+            Route::prefix('equipments')->group(function(){
+                
+                Route::prefix('place')->group(function(){
+                    Route::get('/', [AdminConfigurationInventoryEquipmentPlace::class, 'index'])->name('AdminConfigurationInventoryEquipmentPlace');
+                    Route::put('/insert', [AdminConfigurationInventoryEquipmentPlace::class, 'insert'])->name('AdminConfigurationInventoryEquipmentPlaceInsert');
+                    Route::put('/update/{id}', [AdminConfigurationInventoryEquipmentPlace::class, 'update'])->name('AdminConfigurationInventoryEquipmentPlaceUpdate');
+                    Route::delete('/delete/{id}', [AdminConfigurationInventoryEquipmentPlace::class, 'delete'])->name('AdminConfigurationInventoryEquipmentPlaceDelete');
+                });
+
+            });
+        });
     });
 // ================= End Admin ===============================
+
+use App\Http\Controllers\TestPDF;
+Route::get('TestPDF', [TestPDF::class, 'index']);
