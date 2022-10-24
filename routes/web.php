@@ -130,6 +130,7 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
     use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
 
+    use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\ItemController as AdminConfigurationInventoryEquipmentItem;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\NameController as AdminConfigurationInventoryEquipmentName;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\BrandController as AdminConfigurationInventoryEquipmentBrand;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\TypeController as AdminConfigurationInventoryEquipmentType;
@@ -157,6 +158,13 @@ Route::get('/noaccess', function(){
 
             Route::prefix('equipments')->group(function(){
                 
+                Route::prefix('item')->group(function(){
+                    Route::get('/', [AdminConfigurationInventoryEquipmentItem::class, 'index'])->name('AdminConfigurationInventoryEquipmentItem');
+                    Route::put('/insert', [AdminConfigurationInventoryEquipmentItem::class, 'insert'])->name('AdminConfigurationInventoryEquipmentItemInsert');
+                    Route::put('/update/{id}', [AdminConfigurationInventoryEquipmentItem::class, 'update'])->name('AdminConfigurationInventoryEquipmentItemUpdate');
+                    Route::delete('/delete/{id}', [AdminConfigurationInventoryEquipmentItem::class, 'delete'])->name('AdminConfigurationInventoryEquipmentItemDelete');
+                });
+
                 Route::prefix('name')->group(function(){
                     Route::get('/', [AdminConfigurationInventoryEquipmentName::class, 'index'])->name('AdminConfigurationInventoryEquipmentName');
                     Route::put('/insert', [AdminConfigurationInventoryEquipmentName::class, 'insert'])->name('AdminConfigurationInventoryEquipmentNameInsert');
