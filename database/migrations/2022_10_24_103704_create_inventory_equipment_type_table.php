@@ -20,9 +20,36 @@ class CreateInventoryEquipmentTypeTable extends Migration
         });
 
         DB::table('inventory_equipment_type')->insert([
-            'iet_id' => '1',
-            'iet_type' => 'none',
-            'iet_status' => '1'
+            [
+                'iet_id' => '1',
+                'iet_type' => 'none',
+                'iet_status' => '1'
+            ],
+            [
+                'iet_id' => '2',
+                'iet_type' => 'window type',
+                'iet_status' => '1'
+            ],
+            [
+                'iet_id' => '3',
+                'iet_type' => 'for adult',
+                'iet_status' => '1'
+            ],
+            [
+                'iet_id' => '4',
+                'iet_type' => 'for pedia',
+                'iet_status' => '1'
+            ],
+            [
+                'iet_id' => '5',
+                'iet_type' => 'with stand',
+                'iet_status' => '1'
+            ],
+            [
+                'iet_id' => '6',
+                'iet_type' => 'with handpiece (high and low)',
+                'iet_status' => '1'
+            ]
         ]);
     }
 

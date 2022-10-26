@@ -8,17 +8,6 @@
 <main id="main" class="main">
     <div class="pagetitle mb-2">
         <h1 class="mb-1">Accounts Patients</h1>
-        <div class="page-nav" style="overflow-x: scroll;">
-            <nav class="btn-group">   
-                <button type="button" class="btn btn-sm btn-primary active">Left</button>
-                <button type="button" class="btn btn-sm btn-outline-primary">Middle</button>
-                <button type="button" class="btn btn-sm btn-outline-primary">Middle</button>
-                <button type="button" class="btn btn-sm btn-outline-primary">Middle</button>
-                <button type="button" class="btn btn-sm btn-outline-primary">Middle</button>
-                <button type="button" class="btn btn-sm btn-outline-primary">Middle</button>
-                <button type="button" class="btn btn-sm btn-outline-primary">Middle</button>           
-            </nav>
-        </div>
     </div>
 
     <section class="section">

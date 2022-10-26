@@ -127,9 +127,16 @@ Route::get('/noaccess', function(){
 // ================= End Patient =============================
 
 // ================= Start Admin =============================
+    // accounts
     use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
     use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
 
+    // inventory
+    use App\Http\Controllers\Admin\Inventory\Equipment\ItemController as AdminInventoryEquipmentItem;
+    use App\Http\Controllers\Admin\Inventory\Equipment\AllController as AdminInventoryEquipmentAll;
+    use App\Http\Controllers\Admin\Inventory\Equipment\ReportController as AdminInventoryEquipmentReport;
+    
+    // configuration
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\ItemController as AdminConfigurationInventoryEquipmentItem;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\NameController as AdminConfigurationInventoryEquipmentName;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\BrandController as AdminConfigurationInventoryEquipmentBrand;
@@ -153,6 +160,19 @@ Route::get('/noaccess', function(){
 
         });
 
+        Route::prefix('/inventory')->group(function(){
+            
+            Route::prefix('equipment')->group(function(){
+                Route::get('/', [AdminInventoryEquipmentItem::class, 'index'])->name('AdminInventoryEquipmentItem');
+                Route::put('/insert', [AdminInventoryEquipmentItem::class, 'insert'])->name('AdminInventoryEquipmentItemInsert');
+                Route::put('/update/{id}', [AdminInventoryEquipmentItem::class, 'update'])->name('AdminInventoryEquipmentItemUpdate');
+                Route::delete('/delete/{id}', [AdminInventoryEquipmentItem::class, 'delete'])->name('AdminInventoryEquipmentItemDelete');
+                Route::get('/all', [AdminInventoryEquipmentAll::class, 'index'])->name('AdminInventoryEquipmentAll');
+                
+                Route::get('/report/{year}', [AdminInventoryEquipmentReport::class, 'index'])->name('AdminInventoryEquipmentReport');
+                Route::get('/report/print/{year}', [AdminInventoryEquipmentReport::class, 'print'])->name('AdminInventoryEquipmentReportPrint');
+            });
+        });
       
         Route::prefix('/configuration')->group(function(){
 

@@ -18,6 +18,34 @@ class CreateInventoryEquipmentNameTable extends Migration
             $table->string('ien_name');
             $table->boolean('ien_status');
         });
+
+        DB::table('inventory_equipment_name')->insert([
+            [
+                'ien_id' => '1',
+                'ien_name' => 'Airconditioner',
+                'ien_status' => '1',
+            ],
+            [
+                'ien_id' => '2',
+                'ien_name' => 'Autoclave',
+                'ien_status' => '1',
+            ],
+            [
+                'ien_id' => '3',
+                'ien_name' => 'Aluminum Crutch',
+                'ien_status' => '1',
+            ],
+            [
+                'ien_id' => '4',
+                'ien_name' => 'Ambo bag',
+                'ien_status' => '1',
+            ],
+            [
+                'ien_id' => '5',
+                'ien_name' => 'Aneroid Sphygmomanometer',
+                'ien_status' => '1',
+            ]
+        ]);
     }
 
     /**

@@ -148,43 +148,71 @@ class ItemController extends Controller
                 ->withInput($request->all());
         }
         else{
-            try{
-                DB::table('inventory_equipment_item_details')->where('ieid_id', $id)->update([
-                    'ieid_unit' => $request->unit,
-                    'ieid_category' => $request->category,
-                    'ieid_status' => $request->status,
-                    'ien_id' => $request->name,
-                    'ieb_id' => $request->brand,
-                    'iet_id' => $request->type
-                ]);
 
-                $response = [
-                    'title' => 'Success!',
-                    'message' => 'Equipment item details updated.',
-                    'icon' => 'success',
-                    'status' => 200,
-                    'action' => 'Update'
-                ];    
-                return redirect(route('AdminConfigurationInventoryEquipmentItem'))->with('status', $response);
-            }
-            catch(Exception $e){
+            $is_duplicate = DB::table('inventory_equipment_item_details')
+                ->where('ieid_unit', $request->unit)
+                ->where('ieid_category', $request->category)
+                ->where('ieid_status', $request->status)
+                ->where('ien_id', $request->name)
+                ->where('ieb_id', $request->brand)
+                ->where('iet_id', $request->type)
+                ->first();
+
+            if($is_duplicate){
                 $response = [
                     'title' => 'Error!',
-                    'message' => 'Equipment item details not updated.'.$e,
+                    'message' => 'Equipment item not added.',
                     'icon' => 'error',
                     'status' => 400,
-                    'action' => 'update',
-                    'ieid_id' => $id
+                    'action' => 'Add'
                 ];    
                 return redirect()->back()
                     ->with('status', $response)
-                    ->withErrors($validator)
+                    ->withErrors([
+                        'name' => 'Duplicate record found!'
+                    ])
                     ->withInput($request->all());
+            }
+            else{   
+                try{
+                    DB::table('inventory_equipment_item_details')->where('ieid_id', $id)->update([
+                        'ieid_unit' => $request->unit,
+                        'ieid_category' => $request->category,
+                        'ieid_status' => $request->status,
+                        'ien_id' => $request->name,
+                        'ieb_id' => $request->brand,
+                        'iet_id' => $request->type
+                    ]);
+
+                    $response = [
+                        'title' => 'Success!',
+                        'message' => 'Equipment item details updated.',
+                        'icon' => 'success',
+                        'status' => 200,
+                        'action' => 'Update'
+                    ];    
+                    return redirect(route('AdminConfigurationInventoryEquipmentItem'))->with('status', $response);
+                }
+                catch(Exception $e){
+                    $response = [
+                        'title' => 'Error!',
+                        'message' => 'Equipment item details not updated.'.$e,
+                        'icon' => 'error',
+                        'status' => 400,
+                        'action' => 'update',
+                        'ieid_id' => $id
+                    ];    
+                    return redirect()->back()
+                        ->with('status', $response)
+                        ->withErrors($validator)
+                        ->withInput($request->all());
+                }
             }
         }
     }
 
     public function delete($id){
+
         try{
             DB::table('inventory_equipment_item_details')->where('ieid_id', $id)->delete();
 

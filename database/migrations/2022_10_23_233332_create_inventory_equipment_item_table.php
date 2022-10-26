@@ -20,6 +20,7 @@ class CreateInventoryEquipmentItemTable extends Migration
             $table->date('iei_date_added');
             $table->integer('ieid_id');
             $table->integer('iep_id');
+            $table->boolean('is_deleted')->default(0);
         });
     }
 

@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('AdminInventoryEquipmentItem') }}">
                         <i class="bi bi-circle"></i><span>Equipments</span>
                     </a>
                 </li>
@@ -59,25 +59,25 @@
     </li>
 
     <li class="nav-item">
-            <a class="nav-link collapsed" href="#" id="sidebar_configuration"  data-bs-target="#configuration-nav" data-bs-toggle="collapse" >
-                <i class="bi bi-gear"></i>
-                <span>Configuration</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="configuration-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="">
-                        <i class="bi bi-circle"></i>
-                        <span>Medicines</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <i class="bi bi-circle"></i><span>Equipments</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        <a class="nav-link collapsed" href="#" id="sidebar_configuration"  data-bs-target="#configuration-nav" data-bs-toggle="collapse" >
+            <i class="bi bi-gear"></i>
+            <span>Configuration</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="configuration-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="">
+                    <i class="bi bi-circle"></i>
+                    <span>Medicines</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('AdminConfigurationInventoryEquipmentItem') }}">
+                    <i class="bi bi-circle"></i><span>Equipments</span>
+                </a>
+            </li>
+        </ul>
+    </li>
 
 </ul>
 

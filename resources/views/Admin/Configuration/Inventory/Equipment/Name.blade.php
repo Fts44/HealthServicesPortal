@@ -6,7 +6,7 @@
 
 @section('content')
 <main id="main" class="main">
-    @include('Components.Admin.Configuration.Inventory.Equipment.PageTitle')
+    @include('Components.Admin.Configuration.Inventory.EquipmentPageTitle')
   
     @if(session()->has('status'))
         @php $status = (object)session('status') @endphp

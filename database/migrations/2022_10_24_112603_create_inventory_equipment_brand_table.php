@@ -20,9 +20,26 @@ class CreateInventoryEquipmentBrandTable extends Migration
         });
 
         DB::table('inventory_equipment_brand')->insert([
-            'ieb_id' => '1',
-            'ieb_brand' => 'none',
-            'ieb_status' => '1'
+            [
+                'ieb_id' => '1',
+                'ieb_brand' => 'none',
+                'ieb_status' => '1'
+            ],
+            [
+                'ieb_id' => '2',
+                'ieb_brand' => 'baxtel',
+                'ieb_status' => '1'
+            ],
+            [
+                'ieb_id' => '3',
+                'ieb_brand' => 'avent',
+                'ieb_status' => '1'
+            ],
+            [
+                'ieb_id' => '4',
+                'ieb_brand' => 'samsung',
+                'ieb_status' => '1'
+            ],
         ]);
     }
 
