@@ -271,7 +271,7 @@
 
                 <div class="row">
                     <label class="colg-lg-4">
-                        <a class="btn btn-sm btn-primary" href="{{ route('AdminInventoryEquipmentReportPrint', ['year'=>$year]) }}"><i class="bi bi-printer"></i> Print</a>
+                        <a class="btn btn-sm btn-primary" target="_blank" href="{{ route('AdminInventoryEquipmentReportPrint', ['year'=>$year]) }}"><i class="bi bi-printer"></i> Print</a>
                     </label>
                 </div>
             </div>
