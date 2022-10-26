@@ -49,7 +49,7 @@ function datatable_class(table_id){
         order: [],
         processing: true,
         dom: 'lfrtipB',
-        "lengthMenu": [10, 25, 50, 100],
+        "lengthMenu": [10 ,20, 50, 100],
         buttons: [
             'csv', 'excel',
             {

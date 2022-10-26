@@ -91,13 +91,26 @@ input[type=number]::-webkit-outer-spin-button {
   }
 
   .pagetitle .page-nav nav a {
-    width: 80px;
+    min-width: 80px;
   }
 
   .pagetitle .page-nav nav a.active, 
   .pagetitle .page-nav nav a:hover{
     background-color: #4154f1;
     color: #fff;
+  }
+
+  .pagetitle .page-nav nav a:focus{
+    box-shadow: none;
+  }
+
+  .no-sort::after { 
+    display: none!important; 
+  }
+
+  .no-sort { 
+    pointer-events: none!important; 
+    cursor: default!important; 
   }
   /*--------------------------------------------------------------
   # Back to top button
