@@ -164,7 +164,8 @@ class ItemController extends Controller
                     'message' => 'Equipment item not added.',
                     'icon' => 'error',
                     'status' => 400,
-                    'action' => 'Add'
+                    'ieid_id' => $id,
+                    'action' => 'Update'
                 ];    
                 return redirect()->back()
                     ->with('status', $response)

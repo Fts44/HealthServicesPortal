@@ -50,6 +50,9 @@
                     </thead>
                     <tbody>
                     @foreach($items as $item)
+                    @if($item->jan_1>0 || $item->jan_0>0 || $item->feb_1>0 || $item->feb_0>0 || $item->mar_1>0 || $item->mar_0>0 || $item->apr_1>0 || $item->apr_0>0 || 
+                    $item->may_1>0 || $item->may_0>0 || $item->jun_1>0 || $item->jun_0>0 || $item->jul_1>0 || $item->jul_0>0 || $item->aug_1>0 || $item->aug_0>0 || 
+                    $item->sep_1>0 || $item->sep_0>0 || $item->oct_1>0 || $item->oct_0>0 || $item->nov_1>0 || $item->nov_0>0 || $item->dec_1>0 || $item->dec_0>0 )
                     <tr>
                         <td>{{ $item->ieid_category }}</td>
                         <td>{{ $item->qty }}</td>
@@ -265,6 +268,7 @@
                             @endif
                         </td>
                     </tr>
+                    @endif
                     @endforeach
                     </tbody>
                 </table>

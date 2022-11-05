@@ -16,6 +16,10 @@
     box-shadow: 0 0 1px rgba(255, 255, 255, .5);
   }
 
+  #data-table-basic_wrapper .dataTable, #data-table-basic_wrapper .dataTables_scrollHeadInner {
+    width: 100% !important;
+}
+
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;

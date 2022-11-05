@@ -24,11 +24,13 @@ class MedicalHistoryController extends Controller
             ->leftjoin('medical_history_medical_immunization as mhmi', 'acc.mhmi_id', 'mhmi.mhmi_id')
             ->leftjoin('medical_history_pubertal as mhp', 'acc.mhp_id', 'mhp.mhp_id')
             ->first();
-      
-        // echo json_encode($this->get_user_details);
+       
+        $disability = DB::table('disability')->get();
+        // echo json_encode( $disability);
 
         return view('Patient.Profile.MedicalHistory')->with([
-            'user_details' => $user_details
+            'user_details' => $user_details,
+            'disability' => $disability
         ]);
     }
 

@@ -12,6 +12,13 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('AdminAnnouncement') }}" id="sidebar_announcement">
+                <i class="bi bi-megaphone"></i>
+                <span>Announcement</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#" id="sidebar_inventory"  data-bs-target="#inventory-nav" data-bs-toggle="collapse" >
                 <i class="bi bi-box-seam"></i>
                 <span>Inventory</span>

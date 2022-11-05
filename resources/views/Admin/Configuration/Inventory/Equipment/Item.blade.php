@@ -52,7 +52,7 @@
                             </td>
                             <td>
                                 <a class="btn btn-primary btn-sm" onclick="update('{{ $item->ieid_id }}','{{ $item->ien_id }}','{{ $item->ieid_unit }}','{{ $item->iet_id }}','{{ $item->ieb_id }}', '{{ $item->ieid_category }}', '{{ $item->ieid_status }}')"><i class="bi bi-pencil"></i></a>
-                                <button class="btn btn-danger btn-sm" {{ ($item->iei_id!=null) ? 'disabled' : '' }} onclick="return delete_confirmation('{{ $item->ien_name }}','{{ route('AdminConfigurationInventoryEquipmentItemDelete', ['id' => ($item->iei_id!=null) ? 'id' : $item->ieid_id]) }}');"><i class="bi bi-eraser"></i></button>
+                                <button class="btn btn-danger btn-sm" {{ ($item->iei_id!=null) ? 'disabled' : '' }} onclick="return delete_confirmation('{{ $item->ien_name }}','{{ route('AdminConfigurationInventoryEquipmentItemDelete', ['id' => ($item->iei_id!=null) ? 'id' : $item->ieid_id]) }}')"><i class="bi bi-eraser"></i></button>
                             </td>
                         </tr>
                     @endforeach

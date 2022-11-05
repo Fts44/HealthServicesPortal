@@ -127,6 +127,7 @@ Route::get('/noaccess', function(){
 // ================= End Patient =============================
 
 // ================= Start Admin =============================
+    use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
     // accounts
     use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
     use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
@@ -143,9 +144,14 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\TypeController as AdminConfigurationInventoryEquipmentType;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\PlaceController as AdminConfigurationInventoryEquipmentPlace;
     
+    use App\Http\Controllers\Forms\StudentHealthRecordController as AdminSHRC;
 
     Route::group(['prefix' => 'admin', 'middleware' =>[ 'Inactivity', 'IsAdmin']], function(){
        
+        Route::prefix('/announcement')->group(function(){
+            Route::get('/', [AdminAnnouncementController::class, 'index'])->name('AdminAnnouncement');
+        });
+
         Route::prefix('/accounts')->group(function(){
            
             Route::prefix('requests')->group(function(){
@@ -156,6 +162,7 @@ Route::get('/noaccess', function(){
 
             Route::prefix('patients')->group(function(){
                 Route::get('/', [AdminAccountsPatients::class, 'index'])->name('AdminAccountsPatients');
+                Route::get('/view/{id}', [AdminAccountsPatients::class, 'view_patient_details'])->name('AdminAccountsPatientsView');
             });
 
         });
@@ -215,8 +222,16 @@ Route::get('/noaccess', function(){
 
             });
         });
+
+        Route::prefix('/forms')->group(function(){
+            Route::prefix('studenthealthrecord')->group(function(){
+                Route::post('insert/{id}', [AdminSHRC::class, 'insert'])->name('AdminSHRInsert');
+                Route::get('print/SHR/{id}', [AdminSHRC::class, 'print'])->name('AdminSHRPrint');
+            });
+        });
     });
 // ================= End Admin ===============================
 
 use App\Http\Controllers\TestPDF;
 Route::get('TestPDF', [TestPDF::class, 'index']);
+Route::post('TestPDF', [TestPDF::class, 'testing'])->name('test');

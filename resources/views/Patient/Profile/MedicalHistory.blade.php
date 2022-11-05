@@ -129,10 +129,12 @@
                             <div class="col-lg-12 form-control border-0 pt-0">
                                 <i class="bi bi-question-circle text-muted"  data-bs-toggle="tooltip" data-bs-placement="top" title="Some description here"></i>
                                 Disability (Specify)
-                                <input type="text" name="disability_specify" id="disability_specify" class="form-control" 
-                                    {{ (old('disability',$user_details->mhpi_disability_specify)) ? '' : 'disabled' }}   
-                                    value="{{ (old('disability',$user_details->mhpi_disability_specify)) ? old('disability_specify',$user_details->mhpi_disability_specify) : '' }}"
-                                >
+                                <select class="form-select" name="disability_specify" id="disability_specify" {{ (old('disability',$user_details->mhpi_disability_specify)) ? '' : 'disabled' }}>
+                                    <option value="">--- choose ---</option>
+                                    @foreach($disability as $dis)
+                                    <option value="{{ $dis->dis_id }}" {{ (old('disability_specify',$user_details->mhpi_disability_specify)==$dis->dis_id) ? 'selected' : '' }}>{{ $dis->disability }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger">
                                     @error('disability_specify')
                                         {{ $message }}

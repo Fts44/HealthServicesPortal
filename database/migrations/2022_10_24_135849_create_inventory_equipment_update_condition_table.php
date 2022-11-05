@@ -14,7 +14,7 @@ class CreateInventoryEquipmentUpdateConditionTable extends Migration
     public function up()
     {
         Schema::create('inventory_equipment_update_condition', function (Blueprint $table) {
-            $table->string('ieuc_id')->primary();
+            $table->id('ieuc_id');
             $table->date('ieuc_date');
             $table->string('ieuc_to_condition');
             $table->string('ieuc_from_condition')->nullable();

@@ -80,6 +80,7 @@
     </section>
 
 </main>
+
     <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_title" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -91,7 +92,7 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="modal-body mb-4">
+                    <div class="modal-body">
                         <label class="form-control border-0 p-0">
                             Item:
                             <select name="item" id="item" class="form-select">
@@ -128,7 +129,7 @@
                         </label>
 
                         <label class="form-control border-0 p-0 mt-2" id="date_condition">
-                            Date Condition Update:
+                            Date of Update:
                             <input type="date" name="date_condition_update" id="date_condition_update" class="form-control" value="{{ old('date_condition_update',date('Y-m-d')) }}">
                             <span class="text-danger error">
                                 @error('date_condition_update')
@@ -167,6 +168,7 @@
                             </span>
                         </label>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" id="submit_button">Add</button>

@@ -45,7 +45,7 @@
                     <div id="g-recaptcha" class="g-recaptcha" data-callback="recaptchaCallback" data-expired-callback="recaptchaExpired" data-sitekey="6LcasJsgAAAAADf5Toas_DlBccLh5wyGIzmDmjQi"></div>
                 </div>
                 
-                <button id="btn_proceed" class="submit btn btn-secondary my-4" disabled>
+                <button id="btn_proceed" class="submit btn btn-secondary my-4"  >
                     <div class="spinner-border spinner-border-sm text-light d-none" role="status" id="lbl_loading_proceed"></div>
                     <span id="lbl_proceed">Login</span>   
                 </button>
@@ -97,7 +97,10 @@
                         }
                     },
                     error: function(response){
-                        console.log(response);
+                        response = JSON.parse(response);
+                        swal(response.title, reponse.body, reponse.icon);
+                        $('#lbl_loading_proceed').addClass('d-none');
+                        $('#lbl_proceed').removeClass('d-none');
                     }
                 });
             });

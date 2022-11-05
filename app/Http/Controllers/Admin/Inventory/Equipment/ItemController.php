@@ -88,7 +88,6 @@ class ItemController extends Controller
                     $newId = DB::table('inventory_equipment_item')->insertGetId($item[$key]);
 
                     DB::table('inventory_equipment_update_condition')->insert([
-                        'ieuc_id' => (date_format(new DateTime($request->date_added),'Y-m'))."-".$newId."-".$request->place,
                         'ieuc_date' => date_format(new DateTime($request->date_added),'Y-m-d'),
                         'ieuc_to_condition' => $request->condition,
                         'ieuc_from_condition' => $request->condition,
@@ -128,7 +127,7 @@ class ItemController extends Controller
             'item' => ['required'],
             'quantity' => ['required', 'numeric'], 
             'date_added' => ['required', 'date'],
-            'date_condition_update' => ['required', 'date','after:date_added'],
+            'date_condition_update' => ['required', 'date','after_or_equal:date_added'],
             'condition' => ['required'],
             'place' => ['required'],
         ];
@@ -152,7 +151,10 @@ class ItemController extends Controller
         else{
             try{
                 $item = DB::table('inventory_equipment_item')->where('iei_id', $id)->first();
-                $condition = DB::table('inventory_equipment_update_condition')->where('ieuc_id', (date_format(new DateTime($request->date_condition_update),'Y-m'))."-".$id."-".$request->place)->first();
+                $condition = DB::table('inventory_equipment_update_condition')
+                    ->whereRaw("iei_id = '".$id."'")
+                    ->whereRaw("DATE_FORMAT(ieuc_date, '%Y-%m') = '".date_format(new DateTime($request->date_condition_update),'Y-m')."'")
+                    ->first();
                 
                 DB::table('inventory_equipment_item')->where('iei_id', $id)->update([
                     'iei_qty' => $request->quantity,
@@ -162,8 +164,9 @@ class ItemController extends Controller
                     'iep_id' => $request->place
                 ]);
 
+                echo json_encode($condition);
                 if($condition){
-                    DB::table('inventory_equipment_update_condition')->where('ieuc_id', (date_format(new DateTime($request->date_condition_update),'Y-m'))."-".$id."-".$request->place)->update([
+                    DB::table('inventory_equipment_update_condition')->where('ieuc_id',$condition->ieuc_id)->update([
                         'ieuc_date' => date_format(new DateTime($request->date_condition_update),'Y-m-d'),
                         'ieuc_to_condition' => $request->condition,
                         'ieuc_from_condition' => $item->iei_condition,
@@ -173,7 +176,6 @@ class ItemController extends Controller
                 }
                 else{
                     DB::table('inventory_equipment_update_condition')->insert([
-                        'ieuc_id' => (date_format(new DateTime($request->date_condition_update),'Y-m'))."-".$id."-".$request->place, 
                         'ieuc_date' => date_format(new DateTime($request->date_condition_update),'Y-m-d'),
                         'ieuc_to_condition' => $request->condition,
                         'ieuc_from_condition' => $item->iei_condition,
@@ -190,12 +192,6 @@ class ItemController extends Controller
                     'status' => 200
                 ];   
                 
-                $response = [
-                    'title' => 'Success!',
-                    'message' => 'Equipment item updated.',
-                    'icon' => 'success',
-                    'status' => 200
-                ];    
                 return redirect(route('AdminInventoryEquipmentItem'))->with('status', $response);
             }
             catch(Exception $e){
@@ -215,35 +211,33 @@ class ItemController extends Controller
     }
 
     public function delete($id){
-        $item_details = DB::table('inventory_equipment_item')
-            ->where('iei_id', $id)
-            ->first();
-
-        $is_exist_on_logs = DB::select("SELECT * FROM `inventory_equipment_update_condition`
-            WHERE `iei_id` = '".$id."' AND MONTH(`ieuc_date`) != MONTH('".$item_details->iei_date_added."')");
-
-        echo json_encode($is_exist_on_logs);
+        // $item_details = DB::table('inventory_equipment_item')
+        //     ->where('iei_id', $id)
+        //     ->first();
         
-        try{
-            if($is_exist_on_logs){
-                DB::table('inventory_equipment_item')->where('iei_id', $id)->update([
-                    'is_deleted' => '1'
-                ]);
+        // $item_ieuc = DB::table('inventory_equipment_update_condition')
+        //     ->where('iei_id',$id)
+        //     ->first();
 
-                DB::table('inventory_equipment_update_condition')->insert([
-                    'ieuc_id' => ((string)date('Y-m'))."-".$id."-".$item_details->iep_id,
-                    'ieuc_date' => date('Y-m-d'),
-                    'ieuc_to_condition' => $item_details->iei_condition,
-                    'ieuc_from_condition' => $item_details->iei_condition,
-                    'iep_id' => $item_details->iep_id,
-                    'iei_id' => $id,
-                    'is_deleted' => '1'
-                ]);
-            }
-            else{
+        try{
+            // if(!$item_ieuc){
                 DB::table('inventory_equipment_item')->where('iei_id', $id)->delete();
                 DB::table('inventory_equipment_update_condition')->where('iei_id', $id)->delete();
-            }
+            // }
+            // else{
+            //     DB::table('inventory_equipment_item')->where('iei_id', $id)->update([
+            //         'is_deleted' => '1'
+            //     ]);
+
+            //     DB::table('inventory_equipment_update_condition')->where('ieuc_id',$item_ieuc->ieuc_id)->update([
+            //         'ieuc_date' => date('Y-m-d'),
+            //         'ieuc_to_condition' => $item_details->iei_condition,
+            //         'ieuc_from_condition' => $item_details->iei_condition,
+            //         'iep_id' => $item_details->iep_id,
+            //         'iei_id' => $id,
+            //         'is_deleted' => '1'
+            //     ]);
+            // }
             
             $response = [
                 'title' => 'Success!',
