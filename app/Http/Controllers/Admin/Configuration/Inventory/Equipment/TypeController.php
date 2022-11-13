@@ -36,7 +36,7 @@ class TypeController extends Controller
         
         if($validator->fails()){
             $response = [
-                'title' => 'Success!',
+                'title' => 'Error!',
                 'message' => 'Equipment type not added.',
                 'icon' => 'error',
                 'status' => 400,

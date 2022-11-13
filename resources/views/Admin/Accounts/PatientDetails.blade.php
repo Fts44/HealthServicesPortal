@@ -159,7 +159,7 @@
                             <div class="tab-pane fade show active records" id="records">
 
                             <div id="card-table">
-                                    <h6 class="card-title">Patient Uploads</h6>
+                                    <h6 class="card-title">Patient Records</h6>
                                     <div class="dropdown" style="float: right; margin-top: -2.5rem;">
                                         <a href="#" class="btn btn-secondary btn-sm" role="button" id="records_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-plus-lg"></i>          
@@ -186,10 +186,12 @@
                                                 <td>{{ $f->form_type }}</td>
                                                 <td>{{ $f->creator }}</td>
                                                 <td>{{ date_format(date_create($f->form_date_created), 'F d, Y') }}</td>
-                                                <td>{{ $f->form_date_updated }}</td>
+                                                <td>{{ ($f->form_date_updated ) ? date_format(date_create($f->form_date_updated), 'F d, Y') : 'N/A' }}</td>
                                                 <td>
                                                     @if($f->form_type=='SHR')
-                                                        <a class="btn btn-sm btn-primary" href="{{ route('AdminSHRPrint', ['id'=>$f->form_id]) }}" target="_blank">View</a>
+                                                        <a class="btn btn-sm btn-secondary" href="{{ route('AdminSHRPrint', ['id'=>$f->form_id]) }}" target="_blank"><i class="bi bi-file-earmark-pdf"></i></a>
+                                                        <a class="btn btn-sm btn-primary" onclick="retrieve_shr('{{ $f->form_id }}','{{ route('AdminSHRRetrieve', ['id'=>$f->form_id]) }}')"><i class="bi bi-pencil"></i></a>
+                                                        <a class="btn btn-sm btn-danger" onclick="delete_shr('{{ $f->form_id }}', '{{ route('AdminSHRDelete', ['id'=>$f->form_id]) }}')"><i class="bi bi-eraser"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -281,6 +283,11 @@
 
 </main>
 
+<form id="delete_form" action="" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
+
 @include('Components.Public.StudentHealthRecord');
 <!-- main -->
 @endsection
@@ -304,6 +311,13 @@
             datatable_class('#table_uploads');
             datatable_class('#table_transaction');
 
+            $('#records-tab').click(function(){
+                if($(this).val()=='0'){
+                    redraw_table('#table_records');
+                    $(this).val('1');
+                }
+            });
+
             $('#transaction-tab').click(function(){
                 if($(this).val()=='0'){
                     redraw_table('#table_transaction');
@@ -320,6 +334,7 @@
 
             $('#hamburgerMenu').click(function(){
                 setTimeout(function() { 
+                    redraw_datatable_class('#table_records');
                     redraw_datatable_class('#table_uploads');
                     redraw_datatable_class('#table_transaction');
                 }, 300);

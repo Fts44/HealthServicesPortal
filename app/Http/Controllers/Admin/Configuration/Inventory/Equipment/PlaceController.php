@@ -33,7 +33,7 @@ class PlaceController extends Controller
         
         if($validator->fails()){
             $response = [
-                'title' => 'Success!',
+                'title' => 'Error!',
                 'message' => 'Equipment place not added.',
                 'icon' => 'error',
                 'status' => 400,

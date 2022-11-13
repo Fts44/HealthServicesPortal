@@ -146,7 +146,7 @@
                             <select name="marital_satus" id="marital_satus" class="form-select">
                                 <option value="">--- choose ---</option>
                                 <option value="married" {{ (old('marital_satus',$user_details->fd_marital_status)=='married') ? 'selected' : '' }}>Married</option>
-                                <option value="divorced" {{ (old('marital_satus',$user_details->fd_marital_status)=='divorced') ? 'selected' : '' }}>Divorced</option>
+                                <option value="unmarried" {{ (old('marital_satus',$user_details->fd_marital_status)=='unmarried') ? 'selected' : '' }}>Unmarried</option>
                                 <option value="separated" {{ (old('marital_satus',$user_details->fd_marital_status)=='separated') ? 'selected' : '' }}>Separated</option>
                             </select>
                             <span class="text-danger">

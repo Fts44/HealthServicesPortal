@@ -27,8 +27,8 @@
                             @endfor
                         </select>
                     </label>
-                    
                 </div>
+                
                 <table id="datatable" class="table table-bordered" style="width: 100%;">
                     <thead class="table-light">
                         <th scope="col">Category</th>

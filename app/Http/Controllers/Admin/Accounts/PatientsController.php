@@ -104,6 +104,7 @@ class PatientsController extends Controller
         $forms = DB::table('forms as f')
             ->select('f.*', 'd.position as creator')
             ->leftjoin('accounts as d', 'f.form_created_by', 'd.acc_id')
+            ->where('f.form_patient_id', $id)
             ->get();
             
         // echo json_encode($forms);

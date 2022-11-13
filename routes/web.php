@@ -66,6 +66,7 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Patient\Profile\AssessmentDiagnosisController as PatientAssessmentDiagnosis;
     use App\Http\Controllers\Patient\VaccinationInsuranceController as PatientVaccinationInsurance;
     
+    use App\Http\Controllers\Patient\AttendanceController as PatientAttendance;
 
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'Inactivity', 'IsPatient']],function(){
 
@@ -123,11 +124,23 @@ Route::get('/noaccess', function(){
             Route::put('/file/insert', [PatientVaccinationInsurance::class, 'insert_insurance'])->name('PatientFileInsert');
             Route::delete('/file/delete/{id}', [PatientVaccinationInsurance::class, 'delete_insurance'])->name('PatientFileDelete');
         }); 
+
+        Route::prefix('attendance')->group(function(){
+            Route::get('/', [PatientAttendance::class, 'index'])->name('PatientAttendance');
+            Route::post('timein', [PatientAttendance::class, 'time_in'])->name('PatientAttendanceTimeIn');
+            Route::post('timeout/{id}', [PatientAttendance::class, 'time_out'])->name('PatientAttendanceTimeOut');
+        });
     });
 // ================= End Patient =============================
 
 // ================= Start Admin =============================
-    use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+    // announcement
+    use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncement;
+    
+    // transaction
+    use App\Http\Controllers\Admin\Transaction\TransactionController as AdminTransaction;
+    use App\Http\Controllers\Admin\Transaction\AttendanceCodeController as AdminAttendanceCode;
+
     // accounts
     use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
     use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
@@ -137,6 +150,10 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Inventory\Equipment\AllController as AdminInventoryEquipmentAll;
     use App\Http\Controllers\Admin\Inventory\Equipment\ReportController as AdminInventoryEquipmentReport;
     
+    use App\Http\Controllers\Admin\Inventory\Medicine\ItemController as AdminInventoryMedicineItem;
+    use App\Http\Controllers\Admin\Inventory\Medicine\AllController as AdminInventoryMedicineAll;
+    use App\Http\Controllers\Admin\Inventory\Medicine\ReportController as AdminInventoryMedicineReport;
+
     // configuration
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\ItemController as AdminConfigurationInventoryEquipmentItem;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\NameController as AdminConfigurationInventoryEquipmentName;
@@ -144,15 +161,22 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\TypeController as AdminConfigurationInventoryEquipmentType;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\PlaceController as AdminConfigurationInventoryEquipmentPlace;
     
+    use App\Http\Controllers\Admin\Configuration\Inventory\Medicine\GenericNameController as AdminConfigurationInventoryMedicineGenericName;
+    use App\Http\Controllers\Admin\Configuration\Inventory\Medicine\BrandController as AdminConfigurationInventoryMedicineBrand;
+
+    // forms
     use App\Http\Controllers\Forms\StudentHealthRecordController as AdminSHRC;
 
     Route::group(['prefix' => 'admin', 'middleware' =>[ 'Inactivity', 'IsAdmin']], function(){
        
-        Route::prefix('/announcement')->group(function(){
-            Route::get('/', [AdminAnnouncementController::class, 'index'])->name('AdminAnnouncement');
+        Route::prefix('announcement')->group(function(){
+            Route::get('/', [AdminAnnouncement::class, 'index'])->name('AdminAnnouncement');
+            Route::post('/insert', [AdminAnnouncement::class, 'insert'])->name('AdminAnnouncementInsert');
+            Route::put('/update/{id}', [AdminAnnouncement::class, 'update'])->name('AdminAnnouncementUpdate');
+            Route::delete('/delete/{id}', [AdminAnnouncement::class, 'delete'])->name('AdminAnnouncementDelete');
         });
 
-        Route::prefix('/accounts')->group(function(){
+        Route::prefix('accounts')->group(function(){
            
             Route::prefix('requests')->group(function(){
                 Route::get('/', [AdminAccountsRequests::class, 'index'])->name('admin');
@@ -167,7 +191,7 @@ Route::get('/noaccess', function(){
 
         });
 
-        Route::prefix('/inventory')->group(function(){
+        Route::prefix('inventory')->group(function(){
             
             Route::prefix('equipment')->group(function(){
                 Route::get('/', [AdminInventoryEquipmentItem::class, 'index'])->name('AdminInventoryEquipmentItem');
@@ -179,9 +203,26 @@ Route::get('/noaccess', function(){
                 Route::get('/report/{year}', [AdminInventoryEquipmentReport::class, 'index'])->name('AdminInventoryEquipmentReport');
                 Route::get('/report/print/{year}', [AdminInventoryEquipmentReport::class, 'print'])->name('AdminInventoryEquipmentReportPrint');
             });
+
+            Route::prefix('medicine')->group(function(){
+                Route::get('/all',[AdminInventoryMedicineAll::class, 'index'])->name('AdminInventoryMedicineAll');
+                
+                Route::get('/',[AdminInventoryMedicineItem::class, 'index'])->name('AdminInventoryMedicineItem');
+                Route::put('/insert',[AdminInventoryMedicineItem::class, 'insert'])->name('AdminInventoryMedicineItemInsert');
+                Route::put('/update/{id}',[AdminInventoryMedicineItem::class, 'update'])->name('AdminInventoryMedicineItemUpdate');
+                Route::delete('/delete/{id}',[AdminInventoryMedicineItem::class, 'delete'])->name('AdminInventoryMedicineItemDelete');
+                
+                Route::put('/dispose/{id}', [AdminInventoryMedicineItem::class, 'dispose'])->name('AdminInventoryMedicineItemDisposeInsert');
+
+                Route::get('/transaction/{id}', [AdminInventoryMedicineItem::class, 'transaction_index'])->name('AdminInventoryMedicineItemTransaction');
+                Route::delete('/transaction/delete/{id}', [AdminInventoryMedicineItem::class, 'transaction_delete'])->name('AdminInventoryMedicineItemTransactionDelete');
+                
+                Route::get('/report', [AdminInventoryMedicineReport::class, 'index'])->name('AdminInventoryMedicineReport');
+                Route::get('/report/print', [AdminInventoryMedicineReport::class, 'print'])->name('AdminInventoryMedicineReportPrint');
+            });
         });
       
-        Route::prefix('/configuration')->group(function(){
+        Route::prefix('configuration')->group(function(){
 
             Route::prefix('equipments')->group(function(){
                 
@@ -221,13 +262,39 @@ Route::get('/noaccess', function(){
                 });
 
             });
+
+            Route::prefix('medicine')->group(function(){
+
+                Route::prefix('genericname')->group(function(){
+                    Route::get('/',[AdminConfigurationInventoryMedicineGenericName::class, 'index'])->name('AdminConfigurationInventoryMedicineGenericName');
+                    Route::put('/insert',[AdminConfigurationInventoryMedicineGenericName::class, 'insert'])->name('AdminConfigurationInventoryMedicineGenericNameInsert');
+                    Route::put('/update/{id}',[AdminConfigurationInventoryMedicineGenericName::class, 'update'])->name('AdminConfigurationInventoryMedicineGenericNameUpdate');
+                    Route::delete('/delete/{id}',[AdminConfigurationInventoryMedicineGenericName::class, 'delete'])->name('AdminConfigurationInventoryMedicineGenericNameDelete');
+                });
+
+                Route::prefix('brand')->group(function(){
+                    Route::get('/', [AdminConfigurationInventoryMedicineBrand::class, 'index'])->name('AdminConfigurationInventoryMedicineBrand');
+                    Route::put('/insert', [AdminConfigurationInventoryMedicineBrand::class, 'insert'])->name('AdminConfigurationInventoryMedicineBrandInsert');
+                    Route::put('/update/{id}', [AdminConfigurationInventoryMedicineBrand::class, 'update'])->name('AdminConfigurationInventoryMedicineBrandUpdate');
+                    Route::delete('/delete/{id}', [AdminConfigurationInventoryMedicineBrand::class, 'delete'])->name('AdminConfigurationInventoryMedicineBrandDelete');
+                });
+            });
         });
 
-        Route::prefix('/forms')->group(function(){
+        Route::prefix('forms')->group(function(){
             Route::prefix('studenthealthrecord')->group(function(){
                 Route::post('insert/{id}', [AdminSHRC::class, 'insert'])->name('AdminSHRInsert');
+                Route::delete('delete/{id}', [AdminSHRC::class, 'delete'])->name('AdminSHRDelete');
+                Route::post('update/{id}', [AdminSHRC::class, 'update'])->name('AdminSHRUpdate');
+                Route::get('retrieve/{id}', [AdminSHRC::class, 'retrieve'])->name('AdminSHRRetrieve');
                 Route::get('print/SHR/{id}', [AdminSHRC::class, 'print'])->name('AdminSHRPrint');
             });
+        });
+
+        Route::prefix('transaction')->group(function(){
+            Route::get('today', [AdminTransaction::class, 'index_today'])->name('AdminTransactionToday');
+
+            Route::get('newcode{date}', [AdminAttendanceCode::class, 'get_new_code'])->name('AdminGetNewAttendanceCode');
         });
     });
 // ================= End Admin ===============================

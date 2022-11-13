@@ -211,42 +211,11 @@
                         <legend  class="float-none w-auto px-1" style="font-weight: 600; font-size: 15px; margin-left: 5px;">Emergency Contact</legend>
                         
                         <div class="row px-2 pb-2">
-                            <label class="col-lg-3 mt-1">
-                                Firstname:
-                                <input type="text" name="shr_emergency_firstname" id="shr_emergency_firstname" class="form-control" value="{{ old('shr_emergency_firstname') }}" disabled>
-                                <span class="text-danger shr-error-message"
-                                id="shr_emergency_firstname_error">
-                                    @error('shr_emergency_firstname')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </label>
-                            <label class="col-lg-3 mt-1">
-                                Middlename:
-                                <input type="text" name="shr_emergency_middlename" id="shr_emergency_middlename" class="form-control" value="{{ old('shr_emergency_middlename') }}" disabled>
-                                <span class="text-danger shr-error-message"
-                                id="shr_emergency_middlename_error
-                                ">
-                                    @error('shr_emergency_middlename')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </label>
-                            <label class="col-lg-3 mt-1">
-                                lastname:
-                                <input type="text" name="shr_emergency_lastname" id="shr_emergency_lastname" class="form-control" value="{{ old('shr_emergency_lastname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_emergency_lastname_error">
-                                    @error('shr_emergency_lastname')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </label>
-                            <label class="col-lg-3 mt-1">
-                                Suffix:
-                                <input type="text" name="shr_emergency_suffixname" id="shr_emergency_suffixname" class="form-control" value="{{ old('shr_emergency_suffixname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_emergency_suffixname_error
-                                ">
-                                    @error('shr_emergency_suffixname')
+                            <label class="col-lg-6 mt-1">
+                                Name:
+                                <input type="text" name="shr_emergency_name" id="shr_emergency_name" class="form-control" value="{{ old('shr_emergency_firstname') }}" disabled>
+                                <span class="text-danger shr-error-message" id="shr_emergency_name_error">
+                                    @error('shr_emergency_name')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -600,7 +569,7 @@
                             </label>
                             <label class="col-lg-6">
                                 Specify:
-                                <input type="text" name="shr_allergy_others_specify" id="shr_allergy_others_specify" class="form-control" value="{{old('shr_allergy_others_specify')}}" disabled>
+                                <input type="text" name="shr_allergy_others_specify" id="shr_allergy_others_specify" class="form-control" disabled>
                                 <span class="text-danger shr-error-message" id="shr_allergy_others_specify_error">
                                     @error('shr_allergy_others_specify')
                                         {{ $message }}
@@ -943,39 +912,11 @@
                             </label>
                         </div>
                         <div class="row px-2 pb-2">
-                            <label class="col-lg-12 mt-1" style="font-weight: 600; font-size: 14px;">Father's Name</label>
-                            <div class="col-lg-3 mt-1">
-                                Firstname:
-                                <input type="text" name="shr_fathers_firstname" id="shr_fathers_firstname" class="form-control" value="{{ old('shr_fathers_firstname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_fathers_firstname_error">
-                                    @error('shr_fathers_firstname')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <div class="col-lg-3 mt-1">
-                                Middlename:
-                                <input type="text" name="shr_fathers_middlename" id="shr_fathers_middlename" class="form-control" value="{{ old('shr_fathers_middlename') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_fathers_middlename_error">
-                                    @error('shr_fathers_middlename')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <div class="col-lg-3 mt-1">
-                                Lastname:
-                                <input type="text" name="shr_fathers_lastname" id="shr_fathers_lastname" class="form-control" value="{{ old('shr_fathers_lastname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_fathers_lastname_error">
-                                    @error('shr_fathers_lastname')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <div class="col-lg-3 mt-1">
-                                Suffix:
-                                <input type="text" name="shr_fathers_suffixname" id="shr_fathers_suffixname" class="form-control" value="{{ old('shr_fathers_suffixname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_fathers_suffixname_error">
-                                    @error('shr_fathers_suffixname')
+                            <div class="col-lg-6 mt-1">
+                                Father's Name:
+                                <input type="text" name="shr_fathers_name" id="shr_fathers_name" class="form-control" value="{{ old('shr_fathers_firstname') }}" disabled>
+                                <span class="text-danger shr-error-message" id="shr_fathers_name_error">
+                                    @error('shr_fathers_name')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -991,39 +932,11 @@
                             </div>
                         </div>
                         <div class="row px-2 pb-2">
-                            <label class="col-lg-12 mt-1" style="font-weight: 600; font-size: 14px;">Mother's Name</label>
-                            <div class="col-lg-3 mt-1">
-                                Firstname:
-                                <input type="text" name="shr_mothers_firstname" id="shr_mothers_firstname" class="form-control" value="{{ old('shr_mothers_firstname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_mothers_firstname_error">
+                            <div class="col-lg-6 mt-1">
+                                Mother's Name:
+                                <input type="text" name="shr_mothers_name" id="shr_mothers_name" class="form-control" value="{{ old('shr_mothers_firstname') }}" disabled>
+                                <span class="text-danger shr-error-message" id="shr_mothers_name_error">
                                     @error('shr_mothers_firstname')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <div class="col-lg-3 mt-1">
-                                Middlename:
-                                <input type="text" name="shr_mothers_middlename" id="shr_mothers_middlename" class="form-control" value="{{ old('shr_mothers_middlename') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_mothers_middlename_error">
-                                    @error('shr_mothers_middlename')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <div class="col-lg-3 mt-1">
-                                Lastname:
-                                <input type="text" name="shr_mothers_lastname" id="shr_mothers_lastname" class="form-control" value="{{ old('shr_mothers_lastname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_mothers_lastname_error">
-                                    @error('shr_mothers_lastname')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <div class="col-lg-3 mt-1">
-                                Suffix:
-                                <input type="text" name="shr_mothers_suffixname" id="shr_mothers_suffixname" class="form-control" value="{{ old('shr_mothers_suffixname') }}" disabled>
-                                <span class="text-danger shr-error-message" id="shr_mothers_suffixname_error">
-                                    @error('shr_mothers_lastname')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -1044,7 +957,7 @@
                                 <select name="shr_marital_status" id="shr_marital_status" class="form-select" disabled>
                                     <option value="">--- choose ---</option>
                                     <option value="married" {{ (old('shr_marital_status')=='married') ? 'selected' : '' }}>Married</option>
-                                    <option value="divorced" {{ (old('shr_marital_status')=='divorced') ? 'selected' : '' }}>Divorced</option>
+                                    <option value="unmarried" {{ (old('shr_marital_status')=='unmarried') ? 'selected' : '' }}>Unmarried</option>
                                     <option value="separated" {{ (old('shr_marital_status')=='separated') ? 'selected' : '' }}>Separated</option>
                                 </select>
                                 <span class="text-danger shr-error-message" id="shr_marital_status_error">
@@ -1559,7 +1472,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="shr_save_btn">Save</button>
+                <button type="button" class="btn btn-primary" id="shr_save_btn">Add</button>
             </div>
             </form>
         </div>    
@@ -1601,7 +1514,7 @@
         // personal details
         enable('#shr_profile_pic, #shr_reset_profile_pic, #shr_firstname, #shr_middlename, #shr_lastname, #shr_suffixname, #shr_home_address, #shr_dorm_address, #shr_gender, #shr_civil_status, #shr_religion, #shr_contact, #shr_date_of_birth, #shr_place_of_birth');
         // emergency contact
-        enable('#shr_emergency_firstname, #shr_emergency_middlename, #shr_emergency_lastname, #shr_emergency_suffixname, #shr_emergency_business_address, #shr_emergency_relation_to_patient, #shr_emergency_landline, #shr_emergency_contact');
+        enable('#shr_emergency_name, #shr_emergency_business_address, #shr_emergency_relation_to_patient, #shr_emergency_landline, #shr_emergency_contact');
         // past illness
         enable('#shr_past_illness_asthma, #shr_past_illness_asthma_last_attack, #shr_past_illness_heart_disease, #shr_past_illness_hypertension, #shr_past_illness_epilepsy, #shr_past_illness_diabetes, #shr_past_illness_thyroid_problem, #shr_past_illness_measles, #shr_past_illness_mumps, #shr_past_illness_varicella, #shr_past_illness_hospitalization, #shr_past_illness_hospitalization_specify, #shr_past_illness_operation, #shr_past_illness_operation_specify, #shr_past_illness_accident, #shr_past_illness_accident_specify, #shr_past_illness_disability, #shr_past_illness_disability_specify');
             // dependent dropdowns
@@ -1630,7 +1543,7 @@
         $('#shr_female_dysmenorhea').removeAttr(($('#shr_gender').val()=='female') ? 'disabled' : '');
         $('#shr_female_dysmenorhea_medicine').removeAttr(($('#shr_gender').val()=='female' && $('#shr_female_dysmenorhea').val()=='1') ? 'disabled' : '' );
         // family history
-        enable('#shr_family_history_diabetes, #shr_family_history_heart_disease, #shr_family_history_mental_illness, #shr_family_history_cancer, #shr_family_history_hypertension, #shr_family_history_kidney_disease, #shr_family_history_epilepsy, #shr_family_history_others, #shr_fathers_firstname, #shr_fathers_middlename, #shr_fathers_lastname, #shr_fathers_suffixname, #shr_fathers_occupation, #shr_mothers_firstname, #shr_mothers_middlename, #shr_mothers_lastname, #shr_mothers_suffixname, #shr_mothers_occupation, #shr_marital_status');
+        enable('#shr_family_history_diabetes, #shr_family_history_heart_disease, #shr_family_history_mental_illness, #shr_family_history_cancer, #shr_family_history_hypertension, #shr_family_history_kidney_disease, #shr_family_history_epilepsy, #shr_family_history_others, #shr_fathers_name, #shr_fathers_occupation, #shr_mothers_name, #shr_mothers_occupation, #shr_marital_status');
         // assesment diagnosis
         enable('#shr_weight, #shr_height, #shr_temperature, #shr_hr, #shr_bp, #shr_vision, #shr_hearing, #shr_blood_type, #shr_chest_xray_result, #shr_chest_xray_result_date');
         // physical examination
@@ -1662,7 +1575,7 @@
         // personal details
         disable('#shr_profile_pic, #shr_reset_profile_pic, #shr_firstname, #shr_middlename, #shr_lastname, #shr_suffixname, #shr_home_address, #shr_dorm_address, #shr_gender, #shr_civil_status, #shr_religion, #shr_contact, #shr_date_of_birth, #shr_place_of_birth');
         // emergency contact
-        disable('#shr_emergency_firstname, #shr_emergency_middlename, #shr_emergency_lastname, #shr_emergency_suffixname, #shr_emergency_business_address, #shr_emergency_relation_to_patient, #shr_emergency_landline, #shr_emergency_contact');
+        disable('#shr_emergency_name, #shr_emergency_business_address, #shr_emergency_relation_to_patient, #shr_emergency_landline, #shr_emergency_contact');
         // past illness
         disable('#shr_past_illness_asthma, #shr_past_illness_asthma_last_attack, #shr_past_illness_heart_disease, #shr_past_illness_hypertension, #shr_past_illness_epilepsy, #shr_past_illness_diabetes, #shr_past_illness_thyroid_problem, #shr_past_illness_measles, #shr_past_illness_mumps, #shr_past_illness_varicella, #shr_past_illness_hospitalization, #shr_past_illness_hospitalization_specify, #shr_past_illness_operation, #shr_past_illness_operation_specify, #shr_past_illness_accident, #shr_past_illness_accident_specify, #shr_past_illness_disability, #shr_past_illness_disability_specify');
         // allergy
@@ -1672,7 +1585,7 @@
         // pubertal
         disable('#shr_male_age_of_onset, #shr_female_menarche, #shr_female_lmp, #shr_female_dysmenorhea, #shr_female_dysmenorhea_medicine');
         // family history
-        disable('#shr_family_history_diabetes, #shr_family_history_heart_disease, #shr_family_history_mental_illness, #shr_family_history_cancer, #shr_family_history_hypertension, #shr_family_history_kidney_disease, #shr_family_history_epilepsy, #shr_family_history_others, #shr_fathers_firstname, #shr_fathers_middlename, #shr_fathers_lastname, #shr_fathers_suffixname, #shr_fathers_occupation, #shr_mothers_firstname, #shr_mothers_middlename, #shr_mothers_lastname, #shr_mothers_suffixname, #shr_mothers_occupation, #shr_marital_status');
+        disable('#shr_family_history_diabetes, #shr_family_history_heart_disease, #shr_family_history_mental_illness, #shr_family_history_cancer, #shr_family_history_hypertension, #shr_family_history_kidney_disease, #shr_family_history_epilepsy, #shr_family_history_others, #shr_fathers_name, #shr_fathers_occupation, #shr_mothers_name, #shr_mothers_occupation, #shr_marital_status');
         // physical examination
         disable('#shr_weight, #shr_height, #shr_temperature, #shr_hr, #shr_bp, #shr_vision, #shr_hearing, #shr_blood_type, #shr_chest_xray_result, #shr_chest_xray_result_date');
         disable('#shr_general_survey, #shr_general_survey_findings, #shr_skin, #shr_skin_findings, #shr_eye_ears_nose, #shr_eye_ears_nose_findings, #shr_teeth_gums, #shr_teeth_gums_findings, #shr_neck, #shr_neck_findings, #shr_heart, #shr_heart_findings, #shr_chest_lungs, #shr_chest_lungs_findings, #shr_abdomen, #shr_abdomen_findings, #shr_musculoskeletal, #shr_musculoskeletal_findings');
@@ -1700,7 +1613,7 @@
             "shr_med": "{{ date('Y-m-d') }}",
             "shr_srcode": "{{ $patient_details->sr_code }}",
             "shr_program": "{{ $patient_details->prog_id }}",
-            "shr_profile_pic": "{{ ($patient_details->profile_pic) ? asset('storage/profile_picture/'.$patient_details->profile_pic) : asset('storage/default_avatar.png') }}",
+            "shr_profile_pic": "{{ $patient_details->profile_pic }}",
             "shr_firstname": "{{  $patient_details->firstname }}",
             "shr_middlename": "{{ $patient_details->middlename }}",
             "shr_lastname": "{{ $patient_details->lastname }}",
@@ -1714,10 +1627,7 @@
             "shr_contact": "{{ $patient_details->contact }}",
             "shr_date_of_birth": "{{ $patient_details->birthdate }}",
             "shr_place_of_birth": "{{ ($patient_details->birth_brgy_name.', '.$patient_details->birth_mun_name.', '.$patient_details->birth_prov_name) }}",
-            "shr_emergency_firstname": "{{ $patient_details->ec_firstname }}",
-            "shr_emergency_middlename": "{{ $patient_details->ec_middlename }}",
-            "shr_emergency_lastname": "{{ $patient_details->ec_lastname }}",
-            "shr_emergency_suffixname": "{{ $patient_details->ec_suffixname }}",
+            "shr_emergency_name": "{{ $patient_details->ec_firstname.' '.$patient_details->ec_middlename.' '.$patient_details->ec_lastname.' '.$patient_details->ec_suffixname }}",
             "shr_emergency_business_address": "{{ ($patient_details->ec_brgy_name.', '.$patient_details->ec_mun_name.', '.$patient_details->ec_prov_name) }}",
             "shr_emergency_relation_to_patient": "{{ $patient_details->ec_relationtopatient }}",
             "shr_emergency_landline": "{{ $patient_details->ec_landline }}",
@@ -1772,15 +1682,9 @@
             "shr_family_history_kidney_disease": "{{ $patient_details->fih_kidney_disease }}",
             "shr_family_history_epilepsy": "{{ $patient_details->fih_epilepsy }}",
             "shr_family_history_others": "{{ $patient_details->fih_others }}",
-            "shr_fathers_firstname": "{{ $patient_details->fd_father_firstname }}",
-            "shr_fathers_middlename": "{{ $patient_details->fd_father_middlename }}",
-            "shr_fathers_lastname": "{{  $patient_details->fd_father_lastname }}",
-            "shr_fathers_suffixname": "{{ $patient_details->fd_father_suffixname }}",
+            "shr_fathers_name": "{{ $patient_details->fd_father_firstname.' '.$patient_details->fd_father_middlename.' '.$patient_details->fd_father_lastname.' '.$patient_details->fd_father_suffixname  }}",
             "shr_fathers_occupation": "{{ $patient_details->fd_father_occupation }}",
-            "shr_mothers_firstname": "{{ $patient_details->fd_mother_firstname }}",
-            "shr_mothers_middlename": "{{ $patient_details->fd_mother_middlename }}",
-            "shr_mothers_lastname": "{{ $patient_details->fd_mother_lastname }}",
-            "shr_mothers_suffixname": "{{ $patient_details->fd_mother_suffixname }}",
+            "shr_mothers_name": "{{ $patient_details->fd_mother_firstname.' '.$patient_details->fd_mother_middlename.' '.$patient_details->fd_mother_lastname.' '.$patient_details->fd_mother_suffixname }}",
             "shr_mothers_occupation": "{{ $patient_details->fd_mother_occupation }}",
             "shr_marital_status": "{{ $patient_details->fd_marital_status }}",
             "shr_weight": "{{ ($patient_details->weight) ? $patient_details->weight : '0' }}",
@@ -1827,15 +1731,17 @@
             "shr_assessment_diagnosis_abuse": "{{ ($patient_details->ad_abuse_specify) ? '1' : '0' }}",
             "shr_assessment_diagnosis_abuse_specify": "{{ $patient_details->ad_abuse_specify }}"
         }
+        $('#shr_save_btn').html('Add');
         set_shr_data(JSON.stringify(patient_data), "{{ route('AdminSHRInsert', ['id'=>$patient_details->acc_id]) }}");
     }
 
     function set_shr_data(data, href){
         data = JSON.parse(data);
+        console.log(data);
         $('#shr_med').val(data.shr_med);
         $('#shr_srcode').val(data.shr_srcode);
         $("#shr_program").val(data.shr_program);
-        $("#shr_pic").attr("src", data.shr_profile_pic);
+        $("#shr_pic").attr("src", "{{ asset('storage/profile_picture').'/' }}"+((data.shr_profile_pic) ? data.shr_profile_pic : data.profile_pic));
         $("#shr_firstname").val(data.shr_firstname);
         $("#shr_middlename").val(data.shr_middlename);
         $("#shr_lastname").val(data.shr_lastname);
@@ -1849,15 +1755,12 @@
         $("#shr_contact").val(data.shr_contact);
         $("#shr_date_of_birth").val(data.shr_date_of_birth);
         $("#shr_place_of_birth").val(data.shr_place_of_birth);
-        $("#shr_emergency_firstname").val(data.shr_emergency_firstname);
-        $("#shr_emergency_middlename").val(data.shr_emergency_middlename);
-        $("#shr_emergency_lastname").val(data.shr_emergency_lastname);
-        $("#shr_emergency_suffixname").val(data.shr_emergency_suffixname);
+        $("#shr_emergency_name").val(data.shr_emergency_name);
         $("#shr_emergency_business_address").val(data.shr_emergency_business_address);
         $("#shr_emergency_relation_to_patient").val(data.shr_emergency_relation_to_patient);
         $("#shr_emergency_landline").val(data.shr_emergency_landline);
         $("#shr_emergency_contact").val(data.shr_emergency_contact);
-        $("#shr_past_illness_asthma").val(data.shr_past_illness_asthma);
+        $("#shr_past_illness_asthma").val((data.shr_past_illness_asthma_last_attack) ? '1' : '0');
         $("#shr_past_illness_asthma_last_attack").val(data.shr_past_illness_asthma_last_attack);
         $("#shr_past_illness_heart_disease").val(data.shr_past_illness_heart_disease);
         $("#shr_past_illness_hypertension").val(data.shr_past_illness_hypertension);
@@ -1867,32 +1770,32 @@
         $("#shr_past_illness_measles").val(data.shr_past_illness_measles);
         $("#shr_past_illness_mumps").val(data.shr_past_illness_mumps);
         $("#shr_past_illness_varicella").val(data.shr_past_illness_varicella)
-        $("#shr_past_illness_hospitalization").val(data.shr_past_illness_hospitalization);
+        $("#shr_past_illness_hospitalization").val((data.shr_past_illness_hospitalization_specify) ? '1' : '0');
         $("#shr_past_illness_hospitalization_specify").val(data.shr_past_illness_hospitalization_specify);
-        $("#shr_past_illness_operation").val(data.shr_past_illness_operation);
+        $("#shr_past_illness_operation").val((data.shr_past_illness_operation_specify) ? '1' : '0');
         $("#shr_past_illness_operation_specify").val(data.shr_past_illness_operation_specify);
-        $("#shr_past_illness_accident").val(data.shr_past_illness_accident);
+        $("#shr_past_illness_accident").val((data.shr_past_illness_accident_specify) ? '1' : '0');
         $("#shr_past_illness_accident_specify").val(data.shr_past_illness_accident_specify);
-        $("#shr_past_illness_disability").val(data.shr_past_illness_disability);
+        $("#shr_past_illness_disability").val((data.shr_past_illness_disability_specify) ? '1' : '0');
         $("#shr_past_illness_disability_specify").val(data.shr_past_illness_disability_specify);
-        $("#shr_allergy_food").val(data.shr_allergy_food);
+        $("#shr_allergy_food").val((data.shr_allergy_food_specify) ? '1' : '0');
         $("#shr_allergy_food_specify").val(data.shr_allergy_food_specify);
-        $("#shr_allergy_medicine").val(data.shr_allergy_medicine);
+        $("#shr_allergy_medicine").val((data.shr_allergy_medicine_specify) ? '1' : '0');
         $("#shr_allergy_medicine_specify").val(data.shr_allergy_medicine_specify);
-        $("#shr_allergy_others").val(data.shr_allergy_others);
+        $("#shr_allergy_others").val((data.shr_allergy_others_specify) ? '1' : '0');
         $("#shr_allergy_others_specify").val(data.shr_allergy_others_specify);
         $("#shr_immunization_bcg").val(data.shr_immunization_bcg);
         $("#shr_immunization_mmr").val(data.shr_immunization_mmr);
         $("#shr_immunization_hepa_a").val(data.shr_immunization_hepa_a);
         $("#shr_immunization_typhoid").val(data.shr_immunization_typhoid);
         $("#shr_immunization_varicella").val(data.shr_immunization_varicella);
-        $("#shr_immunization_hepa_b").val(data.shr_immunization_hepa_b);
+        $("#shr_immunization_hepa_b").val((data.shr_immunization_hepa_b_doses) ? '1' : '0');
         $("#shr_immunization_hepa_b_doses").val(data.shr_immunization_hepa_b_doses);
-        $("#shr_immunization_dpt").val(data.shr_immunization_dpt);
+        $("#shr_immunization_dpt").val((data.shr_immunization_dpt_doses) ? '1' : '0');
         $("#shr_immunization_dpt_doses").val(data.shr_immunization_dpt_doses);
-        $("#shr_immunization_opv").val(data.shr_immunization_opv);
+        $("#shr_immunization_opv").val((data.shr_immunization_opv_doses) ? '1' : '0');
         $("#shr_immunization_opv_doses").val(data.shr_immunization_opv_doses);
-        $("#shr_immunization_hib").val(data.shr_immunization_hib);
+        $("#shr_immunization_hib").val((data.shr_immunization_hib_doses) ? '1' : '0');
         $("#shr_immunization_hib_doses").val(data.shr_immunization_hib_doses);
         $("#shr_male_age_of_onset").val(data.shr_male_age_of_onset);
         $("#shr_female_menarche").val(data.shr_female_menarche);
@@ -1907,15 +1810,9 @@
         $("#shr_family_history_kidney_disease").val(data.shr_family_history_kidney_disease);
         $("#shr_family_history_epilepsy").val(data.shr_family_history_epilepsy);
         $("#shr_family_history_others").val(data.shr_family_history_others);        
-        $("#shr_fathers_firstname").val(data.shr_fathers_firstname);
-        $("#shr_fathers_middlename").val(data.shr_fathers_middlename);
-        $("#shr_fathers_lastname").val(data.shr_fathers_lastname);
-        $("#shr_fathers_suffixname").val(data.shr_fathers_suffixname);
+        $("#shr_fathers_name").val(data.shr_fathers_name);
         $("#shr_fathers_occupation").val(data.shr_fathers_occupation);
-        $("#shr_mothers_firstname").val(data.shr_mothers_firstname);
-        $("#shr_mothers_middlename").val(data.shr_mothers_middlename);
-        $("#shr_mothers_lastname").val(data.shr_mothers_lastname);
-        $("#shr_mothers_suffixname").val(data.shr_mothers_suffixname);
+        $("#shr_mothers_name").val(data.shr_mothers_name);
         $("#shr_mothers_occupation").val(data.shr_mothers_occupation);
         $("#shr_marital_status").val(data.shr_marital_status);
         $("#shr_weight").val(data.shr_weight);
@@ -1929,30 +1826,37 @@
         $("#shr_blood_type").val(data.shr_blood_type);
         $("#shr_chest_xray_result").val(data.shr_chest_xray_result);
         $("#shr_chest_xray_result_date").val(data.shr_chest_xray_result_date);
-        $("#shr_general_survey").val(data.shr_general_survey);
+        $("#shr_general_survey").val((data.shr_general_survey_findings) ? '1' : '0');
         $("#shr_general_survey_findings").val(data.shr_general_survey_findings);
-        $("#shr_skin").val(data.shr_skin);
+        $("#shr_skin").val((data.shr_skin_findings) ? '1' : '0');
         $("#shr_skin_findings").val(data.shr_skin_findings);
-        $("#shr_eye_ears_nose").val(data.shr_eye_ears_nose);
-        $("#shr_teeth_gums").val(data.shr_teeth_gums);
-        $("#shr_neck").val(data.shr_neck);
-        $("#shr_heart").val(data.shr_heart);
-        $("#shr_chest_lungs").val(data.shr_chest_lungs);
-        $("#shr_abdomen").val(data.shr_abdomen);
-        $("#shr_musculoskeletal").val(data.shr_musculoskeletal);
-        $("#shr_assessment_diagnosis_drinking").val(data.shr_assessment_diagnosis_drinking);
+        $("#shr_eye_ears_nose").val((data.shr_eye_ears_nose_findings) ? '1' : '0');
+        $("#shr_eye_ears_nose_findings").val(data.shr_eye_ears_nose_findings);
+        $("#shr_teeth_gums").val((data.shr_teeth_gums_findings) ? '1' : '0');
+        $("#shr_teeth_gums_findings").val(data.shr_teeth_gums_findings);
+        $("#shr_neck").val((data.shr_neck_findings) ? '1' : '0');
+        $("#shr_neck_findings").val(data.shr_neck_findings);
+        $("#shr_heart").val((data.shr_heart_findings) ? '1' : '0');
+        $("#shr_heart_findings").val(data.shr_heart_findings);
+        $("#shr_chest_lungs").val((data.shr_chest_lungs_findings) ? '1' : '0');
+        $("#shr_chest_lungs_findings").val(data.shr_chest_lungs_findings);
+        $("#shr_abdomen").val((data.shr_abdomen_findings) ? '1' : '0');
+        $("#shr_abdomen_findings").val(data.shr_abdomen_findings);
+        $("#shr_musculoskeletal").val((data.shr_musculoskeletal_findings) ? '1' : '0');
+        $("#shr_musculoskeletal_findings").val(data.shr_musculoskeletal_findings);
+        $("#shr_assessment_diagnosis_drinking").val((data.shr_assessment_diagnosis_drinking_how_much) ? '1' : '0');
         $("#shr_assessment_diagnosis_drinking_how_much").val(data.shr_assessment_diagnosis_drinking_how_much);
         $("#shr_assessment_diagnosis_drinking_how_often").val(data.shr_assessment_diagnosis_drinking_how_often);
-        $("#shr_assessment_diagnosis_smoking").val(data.shr_assessment_diagnosis_smoking);
-        $("#shr_assessment_diagnosis_smoking_sticks_per_day").val(data.shr_assessment_diagnosis_smoking_sticks_per_day);
+        $("#shr_assessment_diagnosis_smoking").val((data.shr_assessment_diagnosis_smoking_since_when) ? '1' : '0');
+        $("#shr_assessment_diagnosis_smoking_sticks_per_day").val(data.shr_assessment_diagnosis_smoking_since_when);
         $("#shr_assessment_diagnosis_smoking_since_when").val(data.shr_assessment_diagnosis_smoking_since_when);
-        $("#shr_assessment_diagnosis_drug_use").val(data.shr_assessment_diagnosis_drug_use);
+        $("#shr_assessment_diagnosis_drug_use").val((data.shr_assessment_diagnosis_drug_kind) ? '1' : '0');
         $("#shr_assessment_diagnosis_drug_kind").val(data.shr_assessment_diagnosis_drug_kind);
         $("#shr_assessment_diagnosis_regular_use").val(data.shr_assessment_diagnosis_regular_use);
-        $("#shr_assessment_driving").val(data.shr_assessment_driving);
+        $("#shr_assessment_driving").val((data.shr_assessment_driving_specify) ? '1' : '0');
         $("#shr_assessment_driving_specify").val(data.shr_assessment_driving_specify);
         $("#shr_assessment_driving_with_license").val(data.shr_assessment_driving_with_license);
-        $("#shr_assessment_diagnosis_abuse").val(data.shr_assessment_diagnosis_abuse);
+        $("#shr_assessment_diagnosis_abuse").val((data.shr_assessment_diagnosis_abuse_specify) ? '1' : '0');
         $("#shr_assessment_diagnosis_abuse_specify").val(data.shr_assessment_diagnosis_abuse_specify);
         $("#shr_form").attr("action", href);
         $('#modal_form_shr').modal('show');
@@ -2290,131 +2194,7 @@
         }
 
         var formData = new FormData($('#shr_form')[0]);
-        var data = {
-            "_token": "{{csrf_token()}}",
-            "shr_med": $("#shr_med").val(),
-            "shr_srcode": $("#shr_srcode").val(),
-            "shr_program": $("#shr_program").val(),
-            "shr_profile_pic": $("#shr_profile_pic").val(),
-            "shr_firstname": $("#shr_firstname").val(),
-            "shr_middlename": $("#shr_middlename").val(),
-            "shr_lastname": $("#shr_lastname").val(),
-            "shr_suffixname": $("#shr_suffixname").val(),
-            "shr_home_address": $("#shr_home_address").val(),
-            "shr_dorm_address": $("#shr_dorm_address").val(),
-            "shr_gender": $("#shr_gender").val(),
-            "shr_age": $("#shr_age").val(),
-            "shr_civil_status": $("#shr_civil_status").val(),
-            "shr_religion": $("#shr_religion").val(),
-            "shr_contact": $("#shr_contact").val(),
-            "shr_date_of_birth": $("#shr_date_of_birth").val(),
-            "shr_place_of_birth": $("#shr_place_of_birth").val(),
-            "shr_emergency_firstname": $("#shr_emergency_firstname").val(),
-            "shr_emergency_middlename": $("#shr_emergency_middlename").val(),
-            "shr_emergency_lastname": $("#shr_emergency_lastname").val(),
-            "shr_emergency_suffixname": $("#shr_emergency_suffixname").val(),
-            "shr_emergency_business_address": $("#shr_emergency_business_address").val(),
-            "shr_emergency_relation_to_patient": $("#shr_emergency_relation_to_patient").val(),
-            "shr_emergency_landline": $("#shr_emergency_landline").val(),
-            "shr_emergency_contact": $("#shr_emergency_contact").val(),
-            "shr_past_illness_asthma": $("#shr_past_illness_asthma").val(),
-            "shr_past_illness_asthma_last_attack": $("#shr_past_illness_asthma_last_attack").val(),
-            "shr_past_illness_heart_disease": $("#shr_past_illness_heart_disease").val(),
-            "shr_past_illness_hypertension": $("#shr_past_illness_hypertension").val(),
-            "shr_past_illness_epilepsy": $("#shr_past_illness_epilepsy").val(),
-            "shr_past_illness_diabetes": $("#shr_past_illness_diabetes").val(),
-            "shr_past_illness_thyroid_problem": $("#shr_past_illness_thyroid_problem").val(),
-            "shr_past_illness_measles": $("#shr_past_illness_measles").val(),
-            "shr_past_illness_mumps": $("#shr_past_illness_mumps").val(),
-            "shr_past_illness_varicella": $("#shr_past_illness_varicella").val(),
-            "shr_past_illness_hospitalization": $("#shr_past_illness_hospitalization").val(),
-            "shr_past_illness_hospitalization_specify": $("#shr_past_illness_hospitalization_specify").val(),
-            "shr_past_illness_operation": $("#shr_past_illness_operation").val(),
-            "shr_past_illness_operation_specify": $("#shr_past_illness_operation_specify").val(),
-            "shr_past_illness_accident": $("#shr_past_illness_accident").val(),
-            "shr_past_illness_accident_specify": $("#shr_past_illness_accident_specify").val(),
-            "shr_past_illness_disability": $("#shr_past_illness_disability").val(),
-            "shr_past_illness_disability_specify": $("#shr_past_illness_disability_specify").val(),
-            "shr_allergy_food": $("#shr_allergy_food").val(),
-            "shr_allergy_food_specify": $("#shr_allergy_food_specify").val(),
-            "shr_allergy_medicine": $("#shr_allergy_medicine").val(),
-            "shr_allergy_medicine_specify": $("#shr_allergy_medicine_specify").val(),
-            "shr_allergy_others": $("#shr_allergy_others").val(),
-            "shr_allergy_others_specify": $("#shr_allergy_others_specify").val(),
-            "shr_immunization_bcg": $("#shr_immunization_bcg").val(),
-            "shr_immunization_mmr": $("#shr_immunization_mmr").val(),
-            "shr_immunization_hepa_a": $("#shr_immunization_hepa_a").val(),
-            "shr_immunization_typhoid": $("#shr_immunization_typhoid").val(),
-            "shr_immunization_varicella": $("#shr_immunization_varicella").val(),
-            "shr_immunization_hepa_b": $("#shr_immunization_hepa_b").val(),
-            "shr_immunization_hepa_b_doses": $("#shr_immunization_hepa_b_doses").val(),
-            "shr_immunization_dpt": $("#shr_immunization_dpt").val(),
-            "shr_immunization_dpt_doses": $("#shr_immunization_dpt_doses").val(),
-            "shr_immunization_opv": $("#shr_immunization_opv").val(),
-            "shr_immunization_opv_doses": $("#shr_immunization_opv_doses").val(),
-            "shr_immunization_hib": $("#shr_immunization_hib").val(),
-            "shr_immunization_hib_doses": $("#shr_immunization_hib_doses").val(),
-            "shr_male_age_of_onset": $("#shr_male_age_of_onset").val(),
-            "shr_female_menarche": $("#shr_female_menarche").val(),
-            "shr_female_lmp": $("#shr_female_lmp").val(), 
-            "shr_female_dysmenorhea": $("#shr_female_dysmenorhea").val(), 
-            "shr_female_dysmenorhea_medicine": $("#shr_female_dysmenorhea_medicine").val(),
-            "shr_family_history_diabetes": $("#shr_family_history_diabetes").val(),
-            "shr_family_history_heart_disease": $("#shr_family_history_heart_disease").val(),
-            "shr_family_history_mental_illness": $("#shr_family_history_mental_illness").val(),
-            "shr_family_history_cancer": $("#shr_family_history_cancer").val(),
-            "shr_family_history_hypertension": $("#shr_family_history_hypertension").val(),
-            "shr_family_history_kidney_disease": $("#shr_family_history_kidney_disease").val(),
-            "shr_family_history_epilepsy": $("#shr_family_history_epilepsy").val(),
-            "shr_family_history_others": $("#shr_family_history_others").val(),        
-            "shr_fathers_firstname": $("#shr_fathers_firstname").val(),
-            "shr_fathers_middlename": $("#shr_fathers_middlename").val(),
-            "shr_fathers_lastname": $("#shr_fathers_lastname").val(),
-            "shr_fathers_suffixname": $("#shr_fathers_suffixname").val(),
-            "shr_fathers_occupation": $("#shr_fathers_occupation").val(),
-            "shr_mothers_firstname": $("#shr_mothers_firstname").val(),
-            "shr_mothers_middlename": $("#shr_mothers_middlename").val(),
-            "shr_mothers_lastname": $("#shr_mothers_lastname").val(),
-            "shr_mothers_suffixname": $("#shr_mothers_suffixname").val(),
-            "shr_mothers_occupation": $("#shr_mothers_occupation").val(),
-            "shr_marital_status": $("#shr_marital_status").val(),
-            "shr_weight": $("#shr_weight").val(),
-            "shr_height": $("#shr_height").val(),
-            "shr_bmi": $("#shr_bmi").val(),
-            "shr_temperature": $("#shr_temperature").val(),
-            "shr_hr": $("#shr_hr").val(),
-            "shr_bp": $("#shr_bp").val(),
-            "shr_vision": $("#shr_vision").val(),
-            "shr_hearing": $("#shr_hearing").val(),
-            "shr_blood_type": $("#shr_blood_type").val(),
-            "shr_chest_xray_result": $("#shr_chest_xray_result").val(),
-            "shr_chest_xray_result_date": $("#shr_chest_xray_result_date").val(),
-            "shr_general_survey": $("#shr_general_survey").val(),
-            "shr_general_survey_findings": $("#shr_general_survey_findings").val(),
-            "shr_skin": $("#shr_skin").val(),
-            "shr_skin_findings": $("#shr_skin_findings").val(),
-            "shr_eye_ears_nose": $("#shr_eye_ears_nose").val(),
-            "shr_teeth_gums": $("#shr_teeth_gums").val(),
-            "shr_neck": $("#shr_neck").val(),
-            "shr_heart": $("#shr_heart").val(),
-            "shr_chest_lungs": $("#shr_chest_lungs").val(),
-            "shr_abdomen": $("#shr_abdomen").val(),
-            "shr_musculoskeletal": $("#shr_musculoskeletal").val(),
-            "shr_assessment_diagnosis_drinking": $("#shr_assessment_diagnosis_drinking").val(),
-            "shr_assessment_diagnosis_drinking_how_much": $("#shr_assessment_diagnosis_drinking_how_much").val(),
-            "shr_assessment_diagnosis_drinking_how_often": $("#shr_assessment_diagnosis_drinking_how_often").val(),
-            "shr_assessment_diagnosis_smoking": $("#shr_assessment_diagnosis_smoking").val(),
-            "shr_assessment_diagnosis_smoking_sticks_per_day": $("#shr_assessment_diagnosis_smoking_sticks_per_day").val(),
-            "shr_assessment_diagnosis_smoking_since_when": $("#shr_assessment_diagnosis_smoking_since_when").val(),
-            "shr_assessment_diagnosis_drug_use": $("#shr_assessment_diagnosis_drug_use").val(),
-            "shr_assessment_diagnosis_drug_kind": $("#shr_assessment_diagnosis_drug_kind").val(),
-            "shr_assessment_diagnosis_regular_use": $("#shr_assessment_diagnosis_regular_use").val(),
-            "shr_assessment_driving": $("#shr_assessment_driving").val(),
-            "shr_assessment_driving_specify": $("#shr_assessment_driving_specify").val(),
-            "shr_assessment_driving_with_license": $("#shr_assessment_driving_with_license").val(),
-            "shr_assessment_diagnosis_abuse": $("#shr_assessment_diagnosis_abuse").val(),
-            "shr_assessment_diagnosis_abuse_specify": $("#shr_assessment_diagnosis_abuse_specify").val(),     
-        };
+
         $.ajax({
             type: "POST",
             url: $('#shr_form').attr('action'),
@@ -2433,8 +2213,10 @@
                     });
                 }
                 else{
-                    swal(response.title, response.message, response.icon);
-                    location.reload();
+                    swal(response.title, response.message, response.icon)
+                    .then(function(){
+                        location.reload();
+                    });           
                 }
             },
             error: function(response){
@@ -2450,4 +2232,39 @@
             shr_lock();
         }
     });
+
+    function delete_shr(id, href){
+        event.preventDefault();
+        swal({
+            title: "Are you sure?",
+            text: "Your about to delete SHR form #"+id+"!",
+            icon: "warning",
+            buttons: ["Cancel", "Yes"],
+            dangerMode: true,
+        }).then(function(value){
+            if(value){
+                $('#delete_form').attr('action', href);
+                $('#delete_form').submit();
+            }
+        }); 
+    }
+
+    function retrieve_shr(id, href){
+        $.ajax({
+            type: "GET",
+            url: href,
+            success: function(response){
+                response = JSON.parse(response);
+                console.log(response);
+                response = response.data;
+                response = JSON.stringify(response);
+                $('#shr_save_btn').html('Update');
+                set_shr_data(response, ("{{ route('AdminSHRUpdate', ['id'=>'id']) }}").replace('id', id));
+            },
+            error: function(response){
+                // response = JSON.parse(response);
+                console.log(response);
+            }
+        })
+    }
 </script>

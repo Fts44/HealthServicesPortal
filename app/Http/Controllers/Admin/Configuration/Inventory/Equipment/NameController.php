@@ -34,7 +34,7 @@ class NameController extends Controller
         
         if($validator->fails()){
             $response = [
-                'title' => 'Success!',
+                'title' => 'Error!',
                 'message' => 'Equipment name not added.',
                 'icon' => 'error',
                 'status' => 400,

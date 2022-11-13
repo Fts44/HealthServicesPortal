@@ -34,7 +34,7 @@ class BrandController extends Controller
         
         if($validator->fails()){
             $response = [
-                'title' => 'Success!',
+                'title' => 'Error!',
                 'message' => 'Equipment brand not added.',
                 'icon' => 'error',
                 'status' => 400,

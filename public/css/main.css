@@ -94,17 +94,19 @@ input[type=number]::-webkit-outer-spin-button {
     overflow-x: scroll;
   }
 
-  .pagetitle .page-nav nav a {
+  .pagetitle .page-nav nav a, .pagetitle .page-nav nav button {
     min-width: 80px;
   }
 
   .pagetitle .page-nav nav a.active, 
-  .pagetitle .page-nav nav a:hover{
+  .pagetitle .page-nav nav button.active,
+  .pagetitle .page-nav nav a:hover,
+  .pagetitle .page-nav nav button:hover{
     background-color: #4154f1;
     color: #fff;
   }
 
-  .pagetitle .page-nav nav a:focus{
+  .pagetitle .page-nav nav a:focus, .pagetitle .page-nav nav button:focus, .nav:focus {
     box-shadow: none;
   }
 

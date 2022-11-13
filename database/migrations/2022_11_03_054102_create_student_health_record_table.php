@@ -20,7 +20,7 @@ class CreateStudentHealthRecordTable extends Migration
             $table->string("shr_srcode");
             $table->string("shr_program");
 
-            $table->string("shr_profile_pic");
+            $table->string("shr_profile_pic")->nullable();    
             $table->string("shr_firstname");
             $table->string("shr_middlename");
             $table->string("shr_lastname");
@@ -35,10 +35,7 @@ class CreateStudentHealthRecordTable extends Migration
             $table->date("shr_date_of_birth");
             $table->string("shr_place_of_birth");
 
-            $table->string("shr_emergency_firstname");
-            $table->string("shr_emergency_middlename");
-            $table->string("shr_emergency_lastname");
-            $table->string("shr_emergency_suffixname")->nullable();    
+            $table->string("shr_emergency_name");
             $table->string("shr_emergency_business_address");
             $table->string("shr_emergency_relation_to_patient");
             $table->string("shr_emergency_landline")->nullable();    
@@ -59,7 +56,7 @@ class CreateStudentHealthRecordTable extends Migration
             $table->string("shr_past_illness_disability_specify")->nullable();    
             $table->string("shr_allergy_food_specify")->nullable();    
             $table->string("shr_allergy_medicine_specify")->nullable();    
-            $table->boolean("shr_allergy_others_specify")->nullable();    
+            $table->string("shr_allergy_others_specify")->nullable();    
             $table->boolean("shr_immunization_bcg");
             $table->boolean("shr_immunization_mmr");
             $table->boolean("shr_immunization_hepa_a");
@@ -84,15 +81,9 @@ class CreateStudentHealthRecordTable extends Migration
             $table->boolean("shr_family_history_kidney_disease");
             $table->boolean("shr_family_history_epilepsy");
             $table->boolean("shr_family_history_others");
-            $table->string("shr_fathers_firstname");
-            $table->string("shr_fathers_middlename");
-            $table->string("shr_fathers_lastname");
-            $table->string("shr_fathers_suffixname")->nullable();
+            $table->string("shr_fathers_name");
             $table->string("shr_fathers_occupation");
-            $table->string("shr_mothers_firstname");
-            $table->string("shr_mothers_middlename");
-            $table->string("shr_mothers_lastname");
-            $table->string("shr_mothers_suffixname")->nullable();
+            $table->string("shr_mothers_name");
             $table->string("shr_mothers_occupation");
             $table->string("shr_marital_status");
             $table->string("shr_weight");
@@ -113,6 +104,7 @@ class CreateStudentHealthRecordTable extends Migration
             $table->string("shr_neck_findings")->nullable();
             $table->string("shr_heart_findings")->nullable();
             $table->string("shr_chest_lungs_findings")->nullable();
+            $table->string("shr_abdomen_findings")->nullable();
             $table->string("shr_musculoskeletal_findings")->nullable();
             $table->string("shr_assessment_diagnosis_drinking_how_much")->nullable();
             $table->string("shr_assessment_diagnosis_drinking_how_often")->nullable();
