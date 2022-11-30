@@ -58,6 +58,7 @@
                         <input type="hidden" name="qq" value="{{ $qq }}">
                         <input type="hidden" name="qy" value="{{ $qy }}">
                         <input type="hidden" name="ay" value="{{ $ay }}">
+                        <input type="hidden" name="dd" value="{{ $dd }}">
 
                         <label class="colg-lg-4">
                             <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-printer"></i> Print</button>
@@ -85,11 +86,19 @@
                         <label class="form-control border-0 p-0">
                             Type:
                             <select name="type" id="type" class="form-select">
+                                <option value="daily" {{ (old('type',$type)=='daily') ? 'selected' : '' }}>Daily</option>
                                 <option value="monthly" {{ (old('type',$type)=='monthly') ? 'selected' : '' }}>Monthly</option>
                                 <option value="quarterly" {{ (old('type',$type)=='quarterly') ? 'selected' : '' }}>Quarterly</option>
                                 <option value="annual" {{ (old('type',$type)=='annual') ? 'selected' : '' }}>Annual</option>
                             </select>
                         </label>
+
+                        <div class="row d-label {{ (old('type', $type)=='daily') ? '' : 'd-none' }}">
+                            <label class="col-lg-12 mt-2">
+                                Date:
+                                <input type="date" name="dd" id="dd" value="{{ old('dd', $dd) }}" class="form-control">
+                            </label>
+                        </div>
 
                         <div class="row q-label {{ (old('type', $type)=='quarterly') ? '' : 'd-none' }}">
                             <label class="col-lg-6 mt-2">
@@ -163,18 +172,27 @@
             $('.alert').delay(5000).fadeOut('slow');
 
             $('#type').change(function(){
+                if($(this).val()=='daily'){
+                    $('.d-label').removeClass('d-none');
+                    $('.m-label').addClass('d-none');
+                    $('.q-label').addClass('d-none');
+                    $('.a-label').addClass('d-none');
+                }
                 if($(this).val()=='monthly'){
                     $('.m-label').removeClass('d-none');
+                    $('.d-label').addClass('d-none');
                     $('.q-label').addClass('d-none');
                     $('.a-label').addClass('d-none');
                 }
                 else if($(this).val()=='quarterly'){
                     $('.q-label').removeClass('d-none');
+                    $('.d-label').addClass('d-none');
                     $('.a-label').addClass('d-none');
                     $('.m-label').addClass('d-none');
                 }
                 else if($(this).val()=='annual'){
                     $('.a-label').removeClass('d-none');
+                    $('.d-label').addClass('d-none');
                     $('.m-label').addClass('d-none');
                     $('.q-label').addClass('d-none');
                 }

@@ -22,30 +22,74 @@ class ItemController extends Controller
         $day = ($request->day) ? ('="'.$request->day.'"') : 'IS NOT NULL';
         $em = ($request->em) ? ('="'.$request->em.'"') : 'IS NOT NULL';
         $ey = ($request->ey) ? ('="'.$request->ey.'"') : 'IS NOT NULL';
+        $status = ($request->status=='' && $request->status!='0') ? 1 : $request->status;
+        $qty = $request->quantity;
 
-        $items = DB::select("SELECT `imi`.*, `imgn`.`imgn_generic_name`, `imb`.`imb_brand`, 
-            SUM(CASE WHEN `imt`.`imt_type`='dispose' THEN `imt`.`imt_quantity` End) AS 'dispose',
-            SUM(CASE WHEN `imt`.`imt_type`='dispense' THEN `imt`.`imt_quantity` End) AS 'dispense'
-            FROM `inventory_medicine_item` as `imi`
-            LEFT JOIN `inventory_medicine_generic_name` as `imgn`
-            ON `imi`.`imgn_id`=`imgn`.`imgn_id`
-            LEFT JOIN `inventory_medicine_brand` as `imb` 
-            ON `imi`.`imb_id`=`imb`.`imb_id`
-            LEFT JOIN `inventory_medicine_transaction` as `imt`
-            ON `imi`.`imi_id`=`imt`.`imi_id`
-            WHERE imi.imgn_id ".$gn."
-            AND imi.imb_id ".$br."
-            AND DATE_FORMAT(imi.imi_date_added, '%m') ".$dam."
-            AND DATE_FORMAT(imi.imi_date_added, '%Y') ".$day."
-            AND DATE_FORMAT(imi.imi_expiration, '%m') ".$em."
-            AND DATE_FORMAT(imi.imi_expiration, '%Y') ".$ey."
-            GROUP BY `imi`.`imi_id`
-            ORDER BY ABS( DATEDIFF( `imi`.`imi_expiration`, NOW() ) ) 
-            ");
-    
+        if($status==1){
+            $items = DB::select("SELECT `imi`.*, `imgn`.`imgn_generic_name`, `imb`.`imb_brand`, 
+                SUM(CASE WHEN `imt`.`imt_type`='dispose' THEN `imt`.`imt_quantity` End) AS 'dispose',
+                SUM(CASE WHEN `imt`.`imt_type`='dispense' THEN `imt`.`imt_quantity` End) AS 'dispense'
+                FROM `inventory_medicine_item` as `imi`
+                LEFT JOIN `inventory_medicine_generic_name` as `imgn`
+                ON `imi`.`imgn_id`=`imgn`.`imgn_id`
+                LEFT JOIN `inventory_medicine_brand` as `imb` 
+                ON `imi`.`imb_id`=`imb`.`imb_id`
+                LEFT JOIN `inventory_medicine_transaction` as `imt`
+                ON `imi`.`imi_id`=`imt`.`imi_id`
+                WHERE imi.imgn_id ".$gn."
+                AND imi.imb_id ".$br."
+                AND DATE_FORMAT(imi.imi_date_added, '%m') ".$dam."
+                AND DATE_FORMAT(imi.imi_date_added, '%Y') ".$day."
+                AND DATE_FORMAT(imi.imi_expiration, '%m') ".$em."
+                AND DATE_FORMAT(imi.imi_expiration, '%Y') ".$ey." 
+                AND imi.imi_expiration > '".date('Y-m-d')."'
+                GROUP BY `imi`.`imi_id`
+                ORDER BY ABS( DATEDIFF( `imi`.`imi_expiration`, NOW() ) ) 
+                ");
+        }
+        else if($status==2){
+            $items = DB::select("SELECT `imi`.*, `imgn`.`imgn_generic_name`, `imb`.`imb_brand`, 
+                SUM(CASE WHEN `imt`.`imt_type`='dispose' THEN `imt`.`imt_quantity` End) AS 'dispose',
+                SUM(CASE WHEN `imt`.`imt_type`='dispense' THEN `imt`.`imt_quantity` End) AS 'dispense'
+                FROM `inventory_medicine_item` as `imi`
+                LEFT JOIN `inventory_medicine_generic_name` as `imgn`
+                ON `imi`.`imgn_id`=`imgn`.`imgn_id`
+                LEFT JOIN `inventory_medicine_brand` as `imb` 
+                ON `imi`.`imb_id`=`imb`.`imb_id`
+                LEFT JOIN `inventory_medicine_transaction` as `imt`
+                ON `imi`.`imi_id`=`imt`.`imi_id`
+                WHERE imi.imgn_id ".$gn."
+                AND imi.imb_id ".$br."
+                AND DATE_FORMAT(imi.imi_date_added, '%m') ".$dam."
+                AND DATE_FORMAT(imi.imi_date_added, '%Y') ".$day."
+                AND DATE_FORMAT(imi.imi_expiration, '%m') ".$em."
+                AND DATE_FORMAT(imi.imi_expiration, '%Y') ".$ey." 
+                AND datediff(`imi_expiration`,NOW()) BETWEEN 1 AND 14
+                GROUP BY `imi`.`imi_id`
+                ORDER BY ABS( DATEDIFF( `imi`.`imi_expiration`, NOW() ) ) 
+                ");
+        }
+        else{
+            $items = DB::select("SELECT `imi`.*, COUNT(imt.imt_id) AS imt, `imgn`.`imgn_generic_name`, `imb`.`imb_brand`, 
+                SUM(CASE WHEN `imt`.`imt_type`='dispose' THEN `imt`.`imt_quantity` End) AS 'dispose',
+                SUM(CASE WHEN `imt`.`imt_type`='dispense' THEN `imt`.`imt_quantity` End) AS 'dispense'
+                FROM `inventory_medicine_item` as `imi`
+                LEFT JOIN `inventory_medicine_generic_name` as `imgn`
+                ON `imi`.`imgn_id`=`imgn`.`imgn_id`
+                LEFT JOIN `inventory_medicine_brand` as `imb` 
+                ON `imi`.`imb_id`=`imb`.`imb_id`
+                LEFT JOIN `inventory_medicine_transaction` as `imt`
+                ON `imi`.`imi_id`=`imt`.`imi_id`
+                WHERE imi.imgn_id ".$gn."
+                AND imi.imb_id ".$br."
+                AND `imi_expiration` <= '".date('Y-m-d')."'
+                GROUP BY `imi`.`imi_id`
+                ");
+        }
 
         return view('Admin.Inventory.Medicine.Item')
             ->with([
+                'status' => $request->status,
                 'generic' => $generic,
                 'brand' => $brand,
                 'items' => $items,
@@ -54,8 +98,11 @@ class ItemController extends Controller
                 'dam' => $dam,
                 'day' => $day,
                 'em' => $em,
-                'ey' => $ey
+                'ey' => $ey,
+                'qty' => $qty
             ]);
+
+        // echo json_encode($items);
     }
 
     public function insert(Request $request){
@@ -103,7 +150,7 @@ class ItemController extends Controller
                     'action' => 'Add'
                 ]; 
                 
-                return redirect(route('AdminInventoryMedicineItem'))
+                return redirect()->back()
                     ->with('status', $response);
             }
             catch(Exception $e){
@@ -145,7 +192,8 @@ class ItemController extends Controller
                 'form' => 'Medicine',
                 'imi_id' => $id
             ];    
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->with('status', $response)
                 ->withErrors($validator)
                 ->withInput($request->all());
@@ -172,7 +220,8 @@ class ItemController extends Controller
                     'action' => 'Update'
                 ]; 
                 
-                return redirect(route('AdminInventoryMedicineItem'))
+                return redirect()
+                    ->back()
                     ->with('status', $response);
             }
             catch(Exception $e){
@@ -215,8 +264,7 @@ class ItemController extends Controller
                 'status' => 200,
             ]; 
         }
-        return redirect()->back()
-                ->with('status', $response);
+        return redirect()->back()->with('status', $response);
     }
 
     public function dispose(Request $request, $id){
@@ -271,9 +319,13 @@ class ItemController extends Controller
     }
 
     public function transaction_index($id){
-        $transactions = DB::table('inventory_medicine_transaction')
-            ->where('imi_id', $id)
+        $transactions = DB::table('inventory_medicine_transaction as t')
+            ->select('t.*', 'a.firstname', 'a.middlename', 'a.lastname', 'ttl.ttl_title')
+            ->where('t.imi_id', $id)
+            ->leftjoin('accounts as a', 't.acc_id', 'a.acc_id')
+            ->leftjoin('title as ttl', 'a.title', 'ttl.ttl_id')
             ->get();
+            
         $item_details = DB::table('inventory_medicine_item as imi')
             ->leftjoin('inventory_medicine_generic_name as imgn', 'imi.imgn_id', 'imgn.imgn_id')
             ->leftjoin('inventory_medicine_brand as imb', 'imi.imb_id', 'imb.imb_id')
@@ -310,7 +362,6 @@ class ItemController extends Controller
                 'status' => 200,
             ]; 
         }
-        return redirect()->back()
-                ->with('status', $response);
+        return redirect()->back()->with('status', $response);
     }
 }

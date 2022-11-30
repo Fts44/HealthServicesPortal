@@ -36,7 +36,13 @@
                     <tr>
                         @php $formatted_id = 'MDCN-TRNSC-'.str_pad($t->imt_id, 5, '0', STR_PAD_LEFT) @endphp
                         <td>{{ $formatted_id }}</td>
-                        <td>{{ ($t->acc_id) ? '' : 'N/A' }}</td>
+                        <td>
+                            @if($t->acc_id)
+                               <a href="{{ route('AdminAccountsPatientsView', ['id' => $t->acc_id]) }}">{{ $t->ttl_title.'. '.$t->firstname.' '.(($t->middlename) ? $t->middlename[0].'. ' : ' ').$t->lastname }}</a> 
+                            @else 
+                                N/A
+                            @endif
+                        </td>
                         <td>{{ $t->imt_type }}</td>
                         <td>{{ $t->imt_quantity }}</td>
                         <td>{{ date_format(date_create($t->imt_date),"F d, Y H:i a") }}</td>

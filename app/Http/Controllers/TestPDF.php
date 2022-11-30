@@ -9,6 +9,11 @@ use DB;
 class TestPDF extends Controller
 {
     public function index(){
+
+        $a = DB::table('announcement')
+            ->where('anm_id', 1)
+            ->first();
+
         $data = [
 
             'title' => 'Welcome to ItSolutionStuff.com',
@@ -17,13 +22,13 @@ class TestPDF extends Controller
 
         ];
 
-        $pdf = PDF::loadView('Errors.NoAccess');
+        $pdf = PDF::loadView('Errors.NoAccess', compact('a'));
         $pdf->set_paper(array(0, 0, 595, 841), 'portrait');
         $filename = 'test';
 
         return $pdf->stream($filename);
 
-
+        // return view('Errors.NoAccess', compact('a'));
     }
 
     public function testing(Request $request){

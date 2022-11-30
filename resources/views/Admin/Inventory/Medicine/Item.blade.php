@@ -47,57 +47,71 @@
                     </thead>
                     <tbody>
                     @foreach($items as $i)
-                        @php $formatted_id = 'MDCN-'.str_pad($i->imi_id, 5, '0', STR_PAD_LEFT) @endphp
-                    <tr>
-                        <td>{{ $formatted_id }}</td>
-                        <td>{{ $i->imgn_generic_name }}</td>
-                        <td>{{ $i->imb_brand }}</td>
-                        <td>
-                            @php $quantity_avlbl = $i->imi_quantity-($i->dispose+$i->dispense) @endphp
-                            Dispense: {{ ($i->dispense) ? $i->dispense : '0' }}<br>
-                            Dispose: {{ ($i->dispose) ? $i->dispose : '0' }}<br>
-                            Available: {{ $quantity_avlbl }}<br>
-                            Total: {{ $i->imi_quantity }}
-                        </td>
-                        <td><span class="badge 
-                                @if($i->imi_status=='1')
-                                    bg-success
-                                @else
-                                    bg-danger
-                                @endif
-                                ">{{ ($i->imi_status) ? 'For-dispensing' : 'On-Hold' }}</span></td>
-                        <td>{{ date_format(date_create($i->imi_date_added), 'M d, Y') }}</td>
-                        <td>{{ date_format(date_create($i->imi_expiration), 'M d, Y') }}</td>
-                        <td>
-                            <a class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="View Transaction Records"
-                                href="{{ route('AdminInventoryMedicineItemTransaction', ['id'=>$i->imi_id]) }}">
-                                <i class="bi bi-journal-text"></i>
-                            </a>
-                            <button class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Dispose"
-                                @if($quantity_avlbl!=0)
-                                    onclick="dispose('{{ $formatted_id }}', '{{ $i->imgn_generic_name }}', '{{ $i->imb_brand }}', '{{ $i->imi_expiration }}', '{{ $quantity_avlbl }}', '{{ $i->imi_id }}')"
-                                @else
-                                    disabled
-                                @endif
-                                >
-                                <i class="bi bi-trash"></i>
-                            </button>
-                            <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"
-                                onclick="update('{{ $i->imi_id }}', '{{ $i->imgn_id }}', '{{ $i->imb_id }}', '{{ $i->imi_quantity }}', '{{ $i->imi_status }}', '{{ $i->imi_expiration }}', '{{ $i->imi_date_added }}')">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"
-                                @if($quantity_avlbl == $i->imi_quantity)
-                                    onclick="delete_confirmation('{{ 'MDCN-'.str_pad($i->imi_id, 5, '0', STR_PAD_LEFT) }}', '{{ $i->imi_id }}')"
-                                @else 
-                                    disabled
-                                @endif
-                                >
-                                <i class="bi bi-eraser"></i>
-                            </button>
-                        </td>
-                    </tr>
+                        @php 
+                            $formatted_id = 'MDCN-'.str_pad($i->imi_id, 5, 0, STR_PAD_LEFT);
+                            $quantity_avlbl = $i->imi_quantity-($i->dispose+$i->dispense);
+                            if($qty=='1'){
+                                if($quantity_avlbl==0){
+                                    continue;
+                                }
+                            }
+                            else{
+                                if($quantity_avlbl>0){
+                                    continue;
+                                }
+                            }
+                        @endphp
+                            <tr>
+                                <td>{{ $formatted_id }}</td>
+                                <td>{{ $i->imgn_generic_name }}</td>
+                                <td>{{ $i->imb_brand }}</td>
+                                <td>
+                                
+                                    Dispense: {{ ($i->dispense) ? $i->dispense : '0' }}<br>
+                                    Dispose: {{ ($i->dispose) ? $i->dispose : '0' }}<br>
+                                    Available: {{ $quantity_avlbl }}<br>
+                                    Total: {{ $i->imi_quantity }}
+                                </td>
+                                <td><span class="badge 
+                                        @if($i->imi_status=='1')
+                                            bg-success
+                                        @else
+                                            bg-danger
+                                        @endif
+                                        ">{{ ($i->imi_status) ? 'For-dispensing' : 'On-Hold' }}</span></td>
+                                <td>{{ date_format(date_create($i->imi_date_added), 'M d, Y') }}</td>
+                                <td>{{ date_format(date_create($i->imi_expiration), 'M d, Y') }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="View Transaction Records"
+                                        href="{{ route('AdminInventoryMedicineItemTransaction', ['id'=>$i->imi_id]) }}">
+                                        <i class="bi bi-journal-text"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Dispose"
+                                        @if($quantity_avlbl!=0)
+                                            onclick="dispose('{{ $formatted_id }}', '{{ $i->imgn_generic_name }}', '{{ $i->imb_brand }}', '{{ $i->imi_expiration }}', '{{ $quantity_avlbl }}', '{{ $i->imi_id }}')"
+                                        @else
+                                            disabled
+                                        @endif
+                                        >
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"
+                                        onclick="update('{{ $i->imi_id }}', '{{ $i->imgn_id }}', '{{ $i->imb_id }}', '{{ $i->imi_quantity }}', '{{ $i->imi_status }}', '{{ $i->imi_expiration }}', '{{ $i->imi_date_added }}')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"
+                                        @if($i->dispose || $i->dispense)
+                                            disabled
+                                        @else
+                                            onclick="delete_confirmation('{{ $formatted_id }}', '{{ $i->imi_id }}')"
+                                        @endif
+                                        >
+                                        <i class="bi bi-eraser"></i>
+                                    </button>
+                                </td>
+                            </tr>
                     @endforeach
+
                     </tbody>
                 </table>
 
@@ -266,6 +280,21 @@
                     <div class="modal-body">
                         @csrf
                         <label class="form-control border-0 p-0">
+                            Quantity:
+                            <select name="quantity" id="quantity" class="form-select">
+                                <option value="1" {{ ($qty=='1') ? 'selected' : '' }}>Not Empty</option>
+                                <option value="0" {{ ($qty=='0') ? 'selected' : '' }}>Empty</option>
+                            </select>
+                        </label>
+                        <label class="form-control border-0 p-0 mt-2">
+                            Status:
+                            <select name="status" id="status" class="form-select">
+                                <option value="1" {{ ($status=='1') ? 'selected' : '' }}>Not Expired</option>
+                                <option value="2" {{ ($status=='2') ? 'selected' : '' }}>Expiring</option>
+                                <option value="0" {{ ($status=='0') ? 'selected' : '' }}>Expired</option>
+                            </select>
+                        </label>
+                        <label class="form-control border-0 p-0 mt-2">
                             Generic Name:
                             <select name="gn" id="gn" class="form-select">
                                 <option value="">All</option>
@@ -358,6 +387,7 @@
             $('#form_dispose').attr('action', url);
             $('#modal_dispose').modal('show'); 
         }
+
         function clear(){
             $('#form').attr('action', "{{ route('AdminInventoryMedicineItemInsert') }}");
             $('#expiration, #generic_name, #brand', '#quantity').val('');

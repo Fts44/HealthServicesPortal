@@ -31,7 +31,10 @@ class CreateAccountsTable extends Migration
             $table->string('height')->nullable();
             $table->string('weight')->nullable();
             $table->string('blood_type')->nullable();
+            $table->integer('title')->nullable();
             $table->string('position')->nullable();
+            $table->string('license_no')->nullable();
+            $table->string('signature')->nullable();
             $table->string('profile_pic')->nullable();
             $table->string('password');
             $table->boolean('is_verified')->default(0);

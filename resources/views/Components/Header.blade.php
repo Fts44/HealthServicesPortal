@@ -19,11 +19,12 @@
                     <img src="{{ (Session::get('user_profilepic')) ? asset('storage/profile_picture/'.Session::get('user_profilepic')) : asset('storage/SystemFiles/profile.png') }}" alt="Profile">
                     <span class="d-none d-md-block dropdown-toggle ps-2"> 
                         @if(Session::get('user_firstname')=='')
-                            {{ 'Account' }}
+                            {{ 'Account' }} 
                         @else
                             {{ 'Hi, '.ucwords(Session::get('user_firstname')).'!' }}
                             <!-- {{ ucwords(Session::get('user_firstname'))[0].'. '.ucwords(Session::get('user_lastname')) }} -->
                         @endif
+                        
                     </span>
                 </a>
 

@@ -8,6 +8,10 @@ use DB;
 
 class AttendanceCodeController extends Controller
 {
+    public function __construct(){
+        $this->get_todays_code();
+    }
+
     public function get_todays_code(){
         // change the date in xampp php.ini instead of using this line of code
         // date_default_timezone_set('Asia/Manila');
@@ -16,6 +20,11 @@ class AttendanceCodeController extends Controller
             ->first();
 
         if(!$todays_code){
+            DB::table('attendance_code')
+                ->update([
+                    'ac_status' => 0
+                ]);
+
             $new_ac_code = rand ( 1000 , 9999 );
 
             DB::table('attendance_code')->insert([
@@ -28,7 +37,7 @@ class AttendanceCodeController extends Controller
             ->first();
         }
 
-        return $todays_code->ac_code;
+        return $todays_code;
     }
 
     public function get_new_code($date){
@@ -42,6 +51,25 @@ class AttendanceCodeController extends Controller
     }
 
     public function index(){
-    
+        $codes = DB::table('attendance_code')
+            ->orderBy('ac_date', 'DESC')
+            ->get();
+
+        return view('Admin.Transaction.Code')
+            ->with([
+                'codes' => $codes
+            ]);
+    }
+
+    public function update_status($date){
+        
+        $ac = DB::table('attendance_code')
+            ->where('ac_date', $date)
+            ->first();
+
+        DB::table('attendance_code')->where('ac_date', $date)
+            ->update([
+                'ac_status' => ($ac->ac_status) ? 0 : 1
+            ]);
     }
 }

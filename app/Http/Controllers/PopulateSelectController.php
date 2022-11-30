@@ -87,4 +87,30 @@ class PopulateSelectController extends Controller
         
         return $covid_vaccination_brands;
     }
+
+    public function medicine($imgn_id){
+        $medicine = DB::select("SELECT t.imi_id, ((SUM(t.imi_quantity))-(IF(ISNULL(SUM(i.imt_quantity)),0,(SUM(i.imt_quantity))))) AS 'qty', DATE_FORMAT(t.imi_expiration, '%b %d, %Y') AS 'imi_expiration'
+            FROM `inventory_medicine_item` as t 
+            LEFT JOIN `inventory_medicine_transaction` as i 
+            ON t.imi_id=i.imi_id
+            WHERE t.imgn_id='".$imgn_id."' 
+            AND t.imi_status = 1
+            GROUP BY t.imi_id
+            ORDER BY ABS( DATEDIFF( `t`.`imi_expiration`, NOW() ) )"
+        );
+        
+        return $medicine; 
+    }
+
+    public function medicine_qty($imi_id){
+        $qty = DB::select("SELECT ((i.imi_quantity)-(IF(ISNULL(SUM(t.imt_quantity)),0,(SUM(t.imt_quantity))))) AS 'qty', i.imi_id
+            FROM `inventory_medicine_item` as i 
+            LEFT JOIN `inventory_medicine_transaction` as t 
+            ON i.imi_id = t.imi_id 
+            WHERE i.imi_id='".$imi_id."' 
+            GROUP BY i.imi_id"
+        );
+
+        return $qty;
+    }
 }

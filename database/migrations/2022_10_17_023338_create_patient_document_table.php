@@ -21,6 +21,7 @@ class CreatePatientDocumentTable extends Migration
             $table->boolean('pd_verified_status')->default(0);
             $table->integer('dt_id');
             $table->integer('acc_id');
+            $table->integer('uploaded_by');
         });
     }
 

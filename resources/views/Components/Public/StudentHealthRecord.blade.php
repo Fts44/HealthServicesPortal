@@ -58,7 +58,7 @@
                                 Profile Pictre:
                                 <img id="shr_pic" src="" alt="patient_profile_picture" style="width: 200px; height: 210px;" class="border border-secondary">
 
-                                <div class="input-group mt-1">
+                                <div class="input-group mt-1 d-none">
                                     <input type="file" class="form-control" name="shr_profile_pic" id="shr_profile_pic" disabled>
                                     <button type="button" class="input-group-text" id="shr_reset_profile_pic" style="cursor: pointer;" disabled><i class="bi bi-arrow-clockwise"></i></button>
                                 </div>
@@ -1487,11 +1487,13 @@
     }
 
     function disable(id){
+        // $(id).css("color", "#e9ecef");
         $(id).attr('disabled', true);
     }
 
     function if_true_disable(independent, dependent){
         if($(independent).val()==0){
+            $(dependent).css("color", "#e9ecef");
             disable(dependent);
         }
         else{
@@ -1499,6 +1501,7 @@
         }
     }
 
+    // clear and_disable
     function clear_disable(id){
         $(id).css("color", "#e9ecef");
         disable(id);

@@ -82,6 +82,7 @@ function datatable_no_btn_class(table_class){
         // rowReorder: {
         //     selector: 'td:nth-child(2)'
         // },
+        order: [],
         pageLength: 10,
         // responsive: true,
         scrollX: true,

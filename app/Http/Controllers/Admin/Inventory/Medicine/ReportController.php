@@ -9,81 +9,130 @@ use PDF;
 
 class ReportController extends Controller
 {
+    public function daily($date){
+        $items = DB::select("SELECT v.imgn_generic_name, 
+            (
+                IFNULL((SELECT SUM(imi_quantity) 
+                    FROM `inventory_medicine_item` AS a 
+                    WHERE a.imgn_id=v.imgn_id 
+                    AND a.imi_date_added < '".$date."'),0)
+            -
+                IFNULL((SELECT SUM(imt_quantity) 
+                        FROM `inventory_medicine_transaction` AS a 
+                        LEFT JOIN `inventory_medicine_item` AS b
+                        ON a.imi_id=b.imi_id 
+                        WHERE b.imgn_id=v.imgn_id
+                        AND b.imi_date_added < '".$date."'),0)
+            ) AS 'initial_quantity',
+            
+            IFNULL((SELECT SUM(imi_quantity) 
+                    FROM `inventory_medicine_item` AS a
+                    WHERE a.imgn_id=v.imgn_id 
+                    AND a.imi_date_added='".$date."'),0) AS 'in_quantity',
+                    
+            IFNULL((SELECT SUM(imt_quantity) 
+                    FROM `inventory_medicine_transaction` AS a
+                    LEFT JOIN `inventory_medicine_item` AS b
+                    ON a.imi_id=b.imi_id 
+                    WHERE b.imgn_id=v.imgn_id 
+                    AND a.imt_type='dispose' 
+                    AND DATE_FORMAT(a.imt_date,'%Y-%m-%d')='".$date."'),0) AS 'out_dispose',
+                    
+            IFNULL((SELECT SUM(imt_quantity) 
+                    FROM `inventory_medicine_transaction` AS a
+                    LEFT JOIN `inventory_medicine_item` AS b
+                    ON a.imi_id=b.imi_id 
+                    WHERE b.imgn_id=v.imgn_id 
+                    AND a.imt_type='dispense' 
+                    AND DATE_FORMAT(a.imt_date,'%Y-%m-%d')='".$date."'),0) AS 'out_dispense' 
+                    
+            FROM `inventory_medicine_item` AS t 
+            LEFT JOIN `inventory_medicine_transaction` AS u 
+            ON t.imi_id=u.imi_id
+            LEFT JOIN `inventory_medicine_generic_name` AS v 
+            ON t.imgn_id=v.imgn_id
+            GROUP BY `v`.`imgn_id`
+        ");
+
+        return $items;
+    }
+
     public function monthly($m, $y){
         $my = $m.', '.$y;
 
         $items = DB::select("SELECT `t2`.`imgn_generic_name`, 
-        (IF(ISNULL((SELECT SUM(`imi_quantity`) 
-         FROM `inventory_medicine_item`
-         WHERE `imgn_id`=`t2`.`imgn_id`
-         AND DATE_FORMAT(`imi_date_added`, '%m, %Y') < '".$my."')),0,(SELECT SUM(`imi_quantity`) 
-         FROM `inventory_medicine_item`
-         WHERE `imgn_id`=`t2`.`imgn_id`
-         AND DATE_FORMAT(`imi_date_added`, '%m, %Y') < '".$my."'))
-         -
-         IF(ISNULL((SELECT SUM(`imt_quantity`)
-         FROM `inventory_medicine_transaction` as `a1`
-         LEFT JOIN `inventory_medicine_item` as `a2`
-         ON `a1`.`imi_id`=`a2`.`imi_id`
-         LEFT JOIN `inventory_medicine_generic_name` as `a3`
-         ON `a2`.`imgn_id`=`a3`.`imgn_id`
-         WHERE `a3`.`imgn_id`=`t2`.`imgn_id`
-         AND DATE_FORMAT(`a2`.`imi_date_added`, '%m, %Y') < '".$my."')),0,(SELECT SUM(`imt_quantity`)
-         FROM `inventory_medicine_transaction` as `a1`
-         LEFT JOIN `inventory_medicine_item` as `a2`
-         ON `a1`.`imi_id`=`a2`.`imi_id`
-         LEFT JOIN `inventory_medicine_generic_name` as `a3`
-         ON `a2`.`imgn_id`=`a3`.`imgn_id`
-         WHERE `a3`.`imgn_id`=`t2`.`imgn_id`
-         AND DATE_FORMAT(`a2`.`imi_date_added`, '%m, %Y') < '".$my."'))
-         ) AS 'initial_quantity',
-         
-         IF(ISNULL((SELECT SUM(`imi_quantity`)
-         FROM `inventory_medicine_item`
-         WHERE `imgn_id` = `t2`.`imgn_id`
-         AND DATE_FORMAT(`imi_date_added`, '%m, %Y')='".$my."'
-        )),0,(SELECT SUM(`imi_quantity`)
-         FROM `inventory_medicine_item`
-         WHERE `imgn_id` = `t2`.`imgn_id`
-         AND DATE_FORMAT(`imi_date_added`, '%m, %Y')='".$my."'
-        )) AS 'in_quantity',
-        
-         IF(ISNULL((SELECT SUM(`imt_quantity`)
-         FROM `inventory_medicine_transaction` as `a1`
-         LEFT JOIN `inventory_medicine_item` as `a2`
-         ON `a1`.`imi_id`=`a2`.`imi_id`
-         WHERE `a1`.`imt_type`='dispose'
-         AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
-         AND `a2`.`imgn_id`=`t2`.`imgn_id`)),0,(SELECT SUM(`imt_quantity`)
-         FROM `inventory_medicine_transaction` as `a1`
-         LEFT JOIN `inventory_medicine_item` as `a2`
-         ON `a1`.`imi_id`=`a2`.`imi_id`
-         WHERE `a1`.`imt_type`='dispose'
-         AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
-         AND `a2`.`imgn_id`=`t2`.`imgn_id`))
-         AS 'out_dispose',
-         
-         IF(ISNULL((SELECT SUM(`imt_quantity`)
-         FROM `inventory_medicine_transaction` as `a1`
-         LEFT JOIN `inventory_medicine_item` as `a2`
-         ON `a1`.`imi_id`=`a2`.`imi_id`
-         WHERE `a1`.`imt_type`='dispense'
-         AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
-         AND `a2`.`imgn_id`=`t2`.`imgn_id`)),0,(SELECT SUM(`imt_quantity`)
-         FROM `inventory_medicine_transaction` as `a1`
-         LEFT JOIN `inventory_medicine_item` as `a2`
-         ON `a1`.`imi_id`=`a2`.`imi_id`
-         WHERE `a1`.`imt_type`='dispense'
-         AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
-         AND `a2`.`imgn_id`=`t2`.`imgn_id`))
-         AS 'out_dispense'
-        
-        FROM `inventory_medicine_item` as `t`
-        LEFT JOIN `inventory_medicine_transaction` as `t1`
-        ON `t`.`imi_id`=`t1`.`imi_id`
-        LEFT JOIN `inventory_medicine_generic_name` as `t2`
-        ON `t`.`imgn_id`=`t2`.`imgn_id`
-        GROUP BY `t2`.`imgn_id`");
+            (IF(ISNULL((SELECT SUM(`imi_quantity`) 
+            FROM `inventory_medicine_item`
+            WHERE `imgn_id`=`t2`.`imgn_id`
+            AND DATE_FORMAT(`imi_date_added`, '%m, %Y') < '".$my."')),0,(SELECT SUM(`imi_quantity`) 
+            FROM `inventory_medicine_item`
+            WHERE `imgn_id`=`t2`.`imgn_id`
+            AND DATE_FORMAT(`imi_date_added`, '%m, %Y') < '".$my."'))
+            -
+            IF(ISNULL((SELECT SUM(`imt_quantity`)
+            FROM `inventory_medicine_transaction` as `a1`
+            LEFT JOIN `inventory_medicine_item` as `a2`
+            ON `a1`.`imi_id`=`a2`.`imi_id`
+            LEFT JOIN `inventory_medicine_generic_name` as `a3`
+            ON `a2`.`imgn_id`=`a3`.`imgn_id`
+            WHERE `a3`.`imgn_id`=`t2`.`imgn_id`
+            AND DATE_FORMAT(`a2`.`imi_date_added`, '%m, %Y') < '".$my."')),0,(SELECT SUM(`imt_quantity`)
+            FROM `inventory_medicine_transaction` as `a1`
+            LEFT JOIN `inventory_medicine_item` as `a2`
+            ON `a1`.`imi_id`=`a2`.`imi_id`
+            LEFT JOIN `inventory_medicine_generic_name` as `a3`
+            ON `a2`.`imgn_id`=`a3`.`imgn_id`
+            WHERE `a3`.`imgn_id`=`t2`.`imgn_id`
+            AND DATE_FORMAT(`a2`.`imi_date_added`, '%m, %Y') < '".$my."'))
+            ) AS 'initial_quantity',
+            
+            IF(ISNULL((SELECT SUM(`imi_quantity`)
+            FROM `inventory_medicine_item`
+            WHERE `imgn_id` = `t2`.`imgn_id`
+            AND DATE_FORMAT(`imi_date_added`, '%m, %Y')='".$my."'
+            )),0,(SELECT SUM(`imi_quantity`)
+            FROM `inventory_medicine_item`
+            WHERE `imgn_id` = `t2`.`imgn_id`
+            AND DATE_FORMAT(`imi_date_added`, '%m, %Y')='".$my."'
+            )) AS 'in_quantity',
+            
+            IF(ISNULL((SELECT SUM(`imt_quantity`)
+            FROM `inventory_medicine_transaction` as `a1`
+            LEFT JOIN `inventory_medicine_item` as `a2`
+            ON `a1`.`imi_id`=`a2`.`imi_id`
+            WHERE `a1`.`imt_type`='dispose'
+            AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
+            AND `a2`.`imgn_id`=`t2`.`imgn_id`)),0,(SELECT SUM(`imt_quantity`)
+            FROM `inventory_medicine_transaction` as `a1`
+            LEFT JOIN `inventory_medicine_item` as `a2`
+            ON `a1`.`imi_id`=`a2`.`imi_id`
+            WHERE `a1`.`imt_type`='dispose'
+            AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
+            AND `a2`.`imgn_id`=`t2`.`imgn_id`))
+            AS 'out_dispose',
+            
+            IF(ISNULL((SELECT SUM(`imt_quantity`)
+            FROM `inventory_medicine_transaction` as `a1`
+            LEFT JOIN `inventory_medicine_item` as `a2`
+            ON `a1`.`imi_id`=`a2`.`imi_id`
+            WHERE `a1`.`imt_type`='dispense'
+            AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
+            AND `a2`.`imgn_id`=`t2`.`imgn_id`)),0,(SELECT SUM(`imt_quantity`)
+            FROM `inventory_medicine_transaction` as `a1`
+            LEFT JOIN `inventory_medicine_item` as `a2`
+            ON `a1`.`imi_id`=`a2`.`imi_id`
+            WHERE `a1`.`imt_type`='dispense'
+            AND DATE_FORMAT(`a1`.`imt_date`, '%m, %Y')='".$my."'
+            AND `a2`.`imgn_id`=`t2`.`imgn_id`))
+            AS 'out_dispense'
+            
+            FROM `inventory_medicine_item` as `t`
+            LEFT JOIN `inventory_medicine_transaction` as `t1`
+            ON `t`.`imi_id`=`t1`.`imi_id`
+            LEFT JOIN `inventory_medicine_generic_name` as `t2`
+            ON `t`.`imgn_id`=`t2`.`imgn_id`
+            GROUP BY `t2`.`imgn_id`"
+        );
 
         return $items;
     }
@@ -198,14 +247,15 @@ class ReportController extends Controller
     }
 
     public function index(Request $request){
-        
-        $type = ($request->type) ? $request->type : 'monthly';
-
         $mm = '';
         $my = '';
         $qq = '';
         $qy = '';
         $ay = '';
+        $dd = '';
+
+        $type = ($request->type) ? $request->type : 'daily';
+        $dd = ($request->type) ? $request->dd : date('Y-m-d');
 
         if($type == 'monthly'){
             $mm = ($request->mm) ? $request->mm : date('m');
@@ -224,7 +274,13 @@ class ReportController extends Controller
             $items = $this->annual($ay);
             $title = 'Annual Medicine Inventory Report for: '.$ay;
         }
+        else{
+            $dd = $request->dd;
+            $items = $this->daily($dd);
+            $title = 'Daily Medicine Inventory Report for: '.date_format(date_create($dd), 'F d, Y');
+        } 
 
+        // echo json_encode($items);
         return view('Admin.Inventory.Medicine.Report')
             ->with([
                 'items' => $items,
@@ -234,7 +290,8 @@ class ReportController extends Controller
                 'my' => $my,
                 'qq' => $qq,
                 'qy' => $qy,
-                'ay' => $ay
+                'ay' => $ay,
+                'dd' => $dd
             ]);
     }
 
@@ -246,6 +303,7 @@ class ReportController extends Controller
         $qq = '';
         $qy = '';
         $ay = '';
+        $dd = '';
 
         if($type == 'monthly'){
             $mm = ($request->mm) ? $request->mm : date('m');
@@ -264,7 +322,12 @@ class ReportController extends Controller
             $items = $this->annual($ay);
             $title = 'Annual Medicine Inventory Report for: '.$ay;
         }
-            
+        else{
+            $dd = $request->dd;
+            $items = $this->daily($dd);
+            $title = 'Daily Medicine Inventory Report for: '.date_format(date_create($dd), 'F d, Y');
+        }  
+
         $pdf = PDF::loadView('Reports.Inventory.Medicine', compact('items', 'title'));
         $pdf->setPaper('a4', 'portrait');
         

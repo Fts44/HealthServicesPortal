@@ -287,6 +287,7 @@ class StudentHealthRecordController extends Controller
                     "form_date_updated"	=> NULL,
                     "form_created_by" =>  Session('user_id'),
                     "form_patient_id" =>  $id,
+                    "form_editable" => 1,
                     "form_type" => 'SHR',
                     "form_org_id" => $shr_id
                 ]);
@@ -670,15 +671,18 @@ class StudentHealthRecordController extends Controller
     }
 
     public function print($id){
+        $org_id = DB::table('forms')->where('form_type', 'SHR')
+            ->where('form_id', $id)->first();
+
         $d = DB::table('student_health_record as shr')
             ->leftjoin('program as prog', 'shr.shr_program', 'prog.prog_id')
-            ->where('shr_id', $id)
+            ->where('shr_id', $org_id->form_org_id)
             ->first();
 
         // echo json_encode($d);
 
         $filename = 'Student_Health_Record_'.$id;
-        
+        // echo json_encode($d);
         $pdf = PDF::loadView('Reports.Forms.StudentHealthRecord', compact('d', 'filename'));
         $pdf->setPaper('a4', 'portrait');
         

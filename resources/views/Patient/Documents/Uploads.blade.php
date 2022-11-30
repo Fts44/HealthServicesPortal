@@ -39,7 +39,7 @@
                                 <td>{{ $doc->pd_id }}</td>
                                 <td>{{ $doc->dt_name }}</td>
                                 <td>{{ $doc->pd_filename }}</td>
-                                <td>{{ date_format(date_create($doc->pd_date),'F d, Y h:i a') }}</td>
+                                <td>{{ date_format(date_create($doc->pd_date),'F d, Y') }}</td>
                                 <td>
                                     @if(!$doc->pd_verified_status)
                                         <span class="badge bg-secondary">Not Verified</span>
@@ -48,7 +48,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="" target="_blank" class="btn btn-primary btn-sm">
+                                    <a href="{{ route('ViewDocument', ['pd_id' => $doc->pd_id ]) }}" target="_blank" class="btn btn-primary btn-sm">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                     <button href="" class="btn btn-danger btn-sm"  onclick="delete_uploads('{{ $doc->pd_filename }}', '{{ route('PatientDocumnetsUploadsDelete', ['id' => $doc->pd_id]) }}')" {{ ($doc->pd_verified_status) ? 'disabled' : '' }}>

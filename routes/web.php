@@ -51,6 +51,9 @@ Route::get('/noaccess', function(){
         
         Route::get('religion', [PopulateSelect::class, 'religion'])->name('GetReligion');
         Route::get('covidvaccinationbrand', [PopulateSelect::class, 'covid_vaccination_brand'])->name('GetCovidVaccinationBrand');
+    
+        Route::get('medicine/{imgn_id}', [PopulateSelect::class, 'medicine'])->name('GetMedicine');
+        Route::get('medicine/qty/{imi_id}', [PopulateSelect::class, 'medicine_qty'])->name('GetMedicineQty');
     });
 // ================= End Populate Select =====================
 
@@ -134,6 +137,8 @@ Route::get('/noaccess', function(){
 // ================= End Patient =============================
 
 // ================= Start Admin =============================
+    // dashboard
+    use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
     // announcement
     use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncement;
     
@@ -153,7 +158,8 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Inventory\Medicine\ItemController as AdminInventoryMedicineItem;
     use App\Http\Controllers\Admin\Inventory\Medicine\AllController as AdminInventoryMedicineAll;
     use App\Http\Controllers\Admin\Inventory\Medicine\ReportController as AdminInventoryMedicineReport;
-
+    use App\Http\Controllers\Admin\Inventory\Medicine\DispenseController as AdminInventoryMedicineDispense;
+    
     // configuration
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\ItemController as AdminConfigurationInventoryEquipmentItem;
     use App\Http\Controllers\Admin\Configuration\Inventory\Equipment\NameController as AdminConfigurationInventoryEquipmentName;
@@ -165,10 +171,21 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Admin\Configuration\Inventory\Medicine\BrandController as AdminConfigurationInventoryMedicineBrand;
 
     // forms
+    use App\Http\Controllers\Forms\FormController as AdminForm;
     use App\Http\Controllers\Forms\StudentHealthRecordController as AdminSHRC;
+    use App\Http\Controllers\Forms\PrescriptionController as AdminPrescription;
+    use App\Http\Controllers\Forms\PreEmploymentController as AdminPEOF;
+    use App\Http\Controllers\Forms\ConsultationController as AdminCnslt;
+    // personal details
+    use App\Http\Controllers\Admin\Profile\PersonalDetailsController as AdminProfilePersonalDetails; 
+    use App\Http\Controllers\Admin\Profile\EmergencyContactController as AdminEmergencyContact; 
 
-    Route::group(['prefix' => 'admin', 'middleware' =>[ 'Inactivity', 'IsAdmin']], function(){
-       
+    // patient documents
+    use App\Http\Controllers\Admin\Documents\PatientUploadsController as AdminPDUploads;
+
+    Route::group(['prefix' => 'admin', 'middleware' =>[ 'Inactivity', 'IsAdmin', 'InventoryMedicine']], function(){
+        Route::get('dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
+
         Route::prefix('announcement')->group(function(){
             Route::get('/', [AdminAnnouncement::class, 'index'])->name('AdminAnnouncement');
             Route::post('/insert', [AdminAnnouncement::class, 'insert'])->name('AdminAnnouncementInsert');
@@ -282,6 +299,9 @@ Route::get('/noaccess', function(){
         });
 
         Route::prefix('forms')->group(function(){
+            Route::get('attach/{trans_id}/{form_id}', [AdminForm::class, 'attach'])->name('AdminFormAttach');
+            Route::get('attach/{form_id}', [AdminForm::class, 'remove'])->name('AdminFormRemove');
+
             Route::prefix('studenthealthrecord')->group(function(){
                 Route::post('insert/{id}', [AdminSHRC::class, 'insert'])->name('AdminSHRInsert');
                 Route::delete('delete/{id}', [AdminSHRC::class, 'delete'])->name('AdminSHRDelete');
@@ -289,16 +309,73 @@ Route::get('/noaccess', function(){
                 Route::get('retrieve/{id}', [AdminSHRC::class, 'retrieve'])->name('AdminSHRRetrieve');
                 Route::get('print/SHR/{id}', [AdminSHRC::class, 'print'])->name('AdminSHRPrint');
             });
+
+            Route::prefix('prescription')->group(function(){
+                Route::post('insert/{id}', [AdminPrescription::class, 'insert'])->name('AdminPrescriptionInsert');
+                Route::get('print/prescription/{id}', [AdminPrescription::class, 'print'])->name('AdminPrescriptionPrint');
+                Route::delete('delete/{id}', [AdminPrescription::class, 'delete'])->name('AdminPrescriptionDelete');
+                Route::get('retrieve/{id}', [AdminPrescription::class, 'retrieve'])->name('AdminPrescriptionRetrieve');
+                Route::post('update/{id}', [AdminPrescription::class, 'update'])->name('AdminPrescriptionUpdate');
+            });
+
+            Route::prefix('preemployment')->group(function(){
+                Route::put('insert/{id}', [AdminPEOF::class, 'insert'])->name('AdminPEOFInsert');
+                Route::get('print/{id}', [AdminPEOF::class, 'print'])->name('AdminPEOFPrint');
+                Route::delete('delete/{id}', [AdminPEOF::class, 'delete'])->name('AdminPEOFDelete');
+                Route::put('update/{id}', [AdminPEOF::class, 'update'])->name('AdminPEOFUpdate');
+                Route::get('retrieve/{id}', [AdminPEOF::class, 'retrieve'])->name('AdminPEOFRetrieve');
+            });
+
+            Route::prefix('consultaion')->group(function(){
+                Route::put('insert/{id}', [AdminCnslt::class, 'insert'])->name('AdminCnsltInsert');
+                Route::get('print/{id}', [AdminCnslt::class, 'print'])->name('AdminCnsltPrint');
+                Route::delete('delete/{id}', [AdminCnslt::class, 'delete'])->name('AdminCnsltDelete');
+                Route::put('update/{id}', [AdminCnslt::class, 'update'])->name('AdminCnsltUpdate');
+                Route::get('retrieve/{id}', [AdminCnslt::class, 'retrieve'])->name('AdminCnsltRetrieve');
+            });
+
+            Route::prefix('patientuploads')->group(function(){
+                Route::put('changestatus/{pd_id}', [AdminPDUploads::class, 'update_status'])->name('AdminPDUploadsCS');
+                Route::put('upload/{pd_id}', [AdminPDUploads::class, 'upload'])->name('AdminPDUploads');
+                Route::delete('delete/{pd_id}', [AdminPDUploads::class, 'delete'])->name('AdminPDDelete');
+                Route::delete('delete/uploads/{id}', [AdminPDUploads::class, 'delete_upload'])->name('AdminPDDeletePD');
+            });
+            
         });
 
         Route::prefix('transaction')->group(function(){
-            Route::get('today', [AdminTransaction::class, 'index_today'])->name('AdminTransactionToday');
-
-            Route::get('newcode{date}', [AdminAttendanceCode::class, 'get_new_code'])->name('AdminGetNewAttendanceCode');
+            Route::get('attendance/{date}', [AdminTransaction::class, 'index'])->name('AdminTransaction');
+            Route::get('newcode/{date}', [AdminAttendanceCode::class, 'get_new_code'])->name('AdminGetNewAttendanceCode');
+            
+            Route::get('codes', [AdminAttendanceCode::class, 'index'])->name('AdminAttendanceCode');
+            Route::get('codes/{date}', [AdminAttendanceCode::class, 'update_status'])->name('AdminAttendanceCodeStatusChange');
         });
+
+        Route::prefix('profile')->group(function(){
+
+            Route::prefix('personaldetails')->group(function(){
+                Route::get('/', [AdminProfilePersonalDetails::class, 'index'])->name('AdminProfilePersonalDetails');
+                Route::put('/update', [AdminProfilePersonalDetails::class, 'update'])->name('AdminProfilePersonalDetailsUpdate');
+            });
+            
+            Route::prefix('emergencycontact')->group(function(){
+                Route::get('',[AdminEmergencyContact::class, 'index'])->name('AdminEmergencyContact');
+                Route::put('/update',[AdminEmergencyContact::class, 'update_emergency_contact'])->name('AdminEmergencyContactUpdate');
+            });
+        });
+
+        Route::prefix('medicinetransaction')->group(function(){
+            Route::put('/{acc_id}', [AdminInventoryMedicineDispense::class, 'dispense'])->name('AdminInventoryMedicineDispense');
+            Route::put('/dispense/{imt_id}', [AdminInventoryMedicineDispense::class, 'update_dispense'])->name('AdminInventoryMedicineDispenseUpdate');
+        });
+
     });
 // ================= End Admin ===============================
 
 use App\Http\Controllers\TestPDF;
 Route::get('TestPDF', [TestPDF::class, 'index']);
 Route::post('TestPDF', [TestPDF::class, 'testing'])->name('test');
+
+use App\Http\Controllers\ViewUploadsController as ViewUploads;
+
+Route::get('view/{pd_id}', [ViewUploads::class, 'view'])->name('ViewDocument');

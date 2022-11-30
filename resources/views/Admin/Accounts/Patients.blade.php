@@ -40,7 +40,7 @@
                             <td>{{ ($patient->dept_code) ? $patient->dept_code : '' }}</td>
                             <td>{{ ($patient->prog_code) ? $patient->prog_code : 'N/A' }}</td>
                             <td>
-                                <a href="{{ route('AdminAccountsPatientsView',['id'=>$patient->acc_id]) }}" class="btn btn-sm btn-secondary">
+                                <a href="{{ route('AdminAccountsPatientsView',['id'=>$patient->acc_id]) }}" class="btn btn-sm btn-primary">
                                     <i class="bi bi-eye"></i> View
                                 </a>
                             </td>

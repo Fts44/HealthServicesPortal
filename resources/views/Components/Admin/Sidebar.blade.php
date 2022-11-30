@@ -5,7 +5,7 @@
     <li class="nav-item">
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="" id="sidebar_message">
+            <a class="nav-link collapsed" href="{{ route('AdminDashboard') }}" id="sidebar_message">
                 <i class="bi bi-columns-gap"></i>
                 <span>Dashboard</span>
             </a>
@@ -19,17 +19,12 @@
                 </a>
                 <ul id="transaction-nav" class="nav-content collapse" data-bs-parent="#transaction-nav">
                     <li>
-                        <a href="{{ route('AdminTransactionToday') }}">
-                            <i class="bi bi-circle"></i><span>Today</span>
+                        <a href="{{ route('AdminTransaction', ['date' => date('Y-m-d')] )}}">
+                            <i class="bi bi-circle"></i><span>Attendance</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
-                            <i class="bi bi-circle"></i><span>All</span>
-                        </a>
-                    </li> 
-                    <li>
-                        <a href="">
+                        <a href="{{ route('AdminAttendanceCode') }}">
                             <i class="bi bi-circle"></i><span>Codes</span>
                         </a>
                     </li>      
@@ -53,6 +48,8 @@
                 <li>
                     <form id="inv_med" action="{{ route('AdminInventoryMedicineItem') }}" method="GET">
                         @csrf
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="status" value="1">
                         <input type="hidden" name="day" value="{{ date('Y') }}">
                         <input type="hidden" name="ey" value="{{ date('Y') }}">
                         <a onclick="$('#inv_med').submit();" style="cursor: pointer;">
@@ -61,7 +58,8 @@
                     </form>
                     <form id="inv_med_report" action="{{ route('AdminInventoryMedicineReport') }}" method="GET">
                         @csrf
-                        <input type="hidden" name="type" value="">
+                        <input type="hidden" name="dd" value="{{ date('Y-m-d') }}">
+                        <input type="hidden" name="type" value="daily">
                     </form>
                 </li>
                 <li>
@@ -115,6 +113,28 @@
             <li>
                 <a href="{{ route('AdminConfigurationInventoryEquipmentItem') }}">
                     <i class="bi bi-circle"></i><span>Equipments</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" id="sidebar_profile"  data-bs-target="#profiel-nav" data-bs-toggle="collapse" >
+            <i class="bi bi-person"></i>
+            <span>Profile</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="profiel-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="{{ route('AdminProfilePersonalDetails') }}">
+                    <i class="bi bi-circle"></i>
+                    <span>Personal Details</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('AdminEmergencyContact') }}">
+                    <i class="bi bi-circle"></i>
+                    <span>Emergency Contact</span>
                 </a>
             </li>
         </ul>

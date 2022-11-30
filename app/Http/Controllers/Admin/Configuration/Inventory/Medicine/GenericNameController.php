@@ -13,7 +13,8 @@ class GenericNameController extends Controller
         $generic_names = DB::table('inventory_medicine_generic_name as imgn')
             ->select('imgn.*', 'imi.imi_id')
             ->leftjoin('inventory_medicine_item as imi', 'imgn.imgn_id', 'imi.imgn_id')
-            ->get();
+            ->groupBy('imgn.imgn_id')
+        ->get();
 
         return view('Admin.Configuration.Inventory.Medicine.GenericName')
             ->with([

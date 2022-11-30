@@ -20,6 +20,7 @@ class CreateFormsTable extends Migration
             $table->integer("form_created_by");
             $table->integer("form_patient_id");
             $table->string("form_type");
+            $table->boolean("form_editable")->default(0);
             $table->integer("form_org_id");
         });
     }

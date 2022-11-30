@@ -9,19 +9,24 @@ use DB;
 
 class TransactionController extends Controller
 {
-    public function index_today(){
+    public function index($date){
         $AttendanceCode = new AttendanceCodeController;
         $todays_attendance_code = $AttendanceCode->get_todays_code();
         
-        $todays_trans = DB::table('transaction')
-            ->where('trans_date', date('Y-m-d'))
+        $attendance = DB::table('transaction as t')
+            ->select('t.*', 'ttl.ttl_title')
+            ->where('trans_date', $date)
+            ->leftjoin('accounts as a', 't.acc_id', 'a.acc_id')
+            ->leftjoin('title as ttl', 'a.title', 'ttl.ttl_id')
             ->orderBy('trans_time_in', 'DESC')
             ->get();
 
-        return view('Admin.Transaction.Today')
+        // echo json_encode($attendance);
+        return view('Admin.Transaction.Attendance')
             ->with([
                 'todays_code' => $todays_attendance_code,
-                'today_trans' => $todays_trans
+                'attendance' => $attendance,
+                'date' => $date
             ]);
     }
 }

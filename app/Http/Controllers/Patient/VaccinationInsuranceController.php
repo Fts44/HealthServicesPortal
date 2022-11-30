@@ -38,14 +38,17 @@ class VaccinationInsuranceController extends Controller
     public function index(){
         $user_details = $this->get_user_details();
         $user_dose_details = $this->get_user_dose_details();
+
         $doc_type = DB::table('document_type')
             ->where('dt_id', '<=', '2')
             ->get();
+
         $user_documents = DB::table('patient_document as pd')
             ->select('pd.*', 'dt.*')
             ->leftjoin('document_type as dt', 'pd.dt_id', 'dt.dt_id')
             ->where('pd.acc_id', Session::get('user_id'))
             ->where('pd.dt_id', '<=', '2')
+            ->where('pd.uploaded_by', Session::get('user_id'))
             ->orderBy('pd.pd_date', 'ASC')
             ->get();
 
@@ -394,7 +397,8 @@ class VaccinationInsuranceController extends Controller
                         'dt_id' => $request->document_type,
                         'pd_filename' => $request->file('file')->getClientOriginalName(),
                         'pd_sys_filename' => $file_name,
-                        'acc_id' => $id
+                        'acc_id' => $id,
+                        'uploaded_by' => $id,
                     ]);
                 }
 

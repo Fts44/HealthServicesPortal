@@ -14,15 +14,16 @@ class UploadsController extends Controller
     public function index(){
         $document_type = DB::table('document_type')
             ->where('dt_id', '>', '2')
-            ->get();
+        ->get();
 
         $uploads = DB::table('patient_document as pd')
             ->leftjoin('document_type as dt', 'pd.dt_id', 'dt.dt_id')
             ->where('acc_id', Session::get('user_id'))
             ->where('dt.dt_id', '>', '2')
-            ->get();
+            ->where('uploaded_by', Session::get('user_id'))
+        ->get();
 
-        // echo json_encode($document_type);
+        //echo json_encode($uploads);
         return view('Patient.Documents.Uploads')
             ->with([
                 'document_type' => $document_type,
@@ -66,7 +67,8 @@ class UploadsController extends Controller
                     'dt_id' => $request->document_type,
                     'pd_filename' => $request->file('file')->getClientOriginalName(),
                     'pd_sys_filename' => $file_name,
-                    'acc_id' => $id
+                    'acc_id' => $id,
+                    'uploaded_by' => $id
                 ]);
 
                 $response = [

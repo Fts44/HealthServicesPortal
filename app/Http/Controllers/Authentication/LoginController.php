@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Transaction\AttendanceCodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,11 @@ use Session;
 
 class LoginController extends Controller
 {
+    public function __construct(){
+        $AttendanceCode = new AttendanceCodeController;
+        $todays_attendance_code = $AttendanceCode->get_todays_code();
+    }
+
     public function index(){
         return view('Authentication.Login');
     }
@@ -53,7 +59,7 @@ class LoginController extends Controller
                         Session(['user_lastname' => $user->lastname]);
                         Session(['user_profilepic' => $user->profile_pic]);
                         Session(['last_activity_time' => time()+60*5]);
-    
+
                         $response = [
                             'status' => 200,
                         ];

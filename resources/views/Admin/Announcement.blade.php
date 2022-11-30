@@ -30,7 +30,7 @@
                     <div class="card col-lg-8" style="margin-left: 20px;">
                         <div class="card-body p-4">  
                             <h5><b>{{ $a->anm_title }}</b></h5>
-                            <label>By: {{ $a->position." ".$a->firstname }}</label><br>
+                            <!-- <label>By: {{ $a->position." ".$a->firstname }}</label><br> -->
                             <label>Status: 
                                 @if($a->anm_active_until>=date('Y-m-d'))
                                     <span class="badge bg-success">Active</span>
@@ -128,7 +128,7 @@
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist',
             spellchecker_dialog: true,
             skin: 'jam',
-            icons: 'jam'
+            icons: 'jam',
         });
 
         function post_clear(){

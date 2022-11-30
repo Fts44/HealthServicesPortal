@@ -22,12 +22,15 @@
                     </thead>
                     <tbody>
                     @foreach($all as $a)
-                    <tr>
-                        <td>{{ $a->imgn_generic_name }}</td>
-                        <td>{{ $a->total_quantity-($a->tq_1+$a->tq_0) }}</td>
-                        <td>{{ $a->total_1-$a->tq_1 }}</td>
-                        <td>{{ $a->total_0-$a->tq_0 }}</td>
-                    </tr>     
+                        @php $aq = $a->total_quantity-($a->tq_1+$a->tq_0); @endphp 
+                        @if($aq!=0)
+                            <tr>
+                                <td>{{ $a->imgn_generic_name }}</td>
+                                <td>{{ $aq }}</td>
+                                <td>{{ $a->total_1-$a->tq_1 }}</td>
+                                <td>{{ $a->total_0-$a->tq_0 }}</td>
+                            </tr>     
+                        @endif
                     @endforeach
                     </tbody>
                 </table>

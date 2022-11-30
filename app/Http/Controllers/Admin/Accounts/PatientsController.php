@@ -49,7 +49,7 @@ class PatientsController extends Controller
 
                 'dadd.prov_code as dorm_prov_code', 'dadd.mun_code as dorm_mun', 'dadd.brgy_code as dorm_brgy',
                 'dadd_rp.prov_name as dorm_prov_name', 'dadd_rm.mun_name as dorm_mun_name', 'dadd_rb.brgy_name as dorm_brgy_name',
-                'r.religion_name', 'dis.disability'
+                'r.religion_name', 'dis.disability', 'ttl.ttl_title'
             )
             ->leftjoin('grade_level as gl', 'acc.gl_id', 'gl.gl_id')
             ->leftjoin('department as dept', 'acc.dept_id', 'dept.dept_id')
@@ -88,32 +88,127 @@ class PatientsController extends Controller
             ->leftjoin('assessment_diagnosis as ad', 'acc.ad_id', 'ad.ad_id')
             ->leftjoin('religion as r', 'acc.religion', 'r.religion_id')
             ->leftjoin('disability as dis', 'mhpi.mhpi_disability_specify', 'dis.dis_id')
-
+            ->leftjoin('title as ttl', 'acc.title', 'ttl.ttl_id')
+    
             ->where('acc_id', $id)
-            ->first();
+        ->first();
+
+        $forms = DB::select("SELECT * FROM 
+            ((SELECT f.form_id, f.form_date_created, f.form_date_updated, f.form_patient_id, f.form_editable, f.form_org_id, f.form_trans_id, 
+            d.position as 'creator', t.ttl_title, d.firstname, d.middlename, d.lastname, dt.dt_name as 'form_type' 
+            FROM `forms` as `f` 
+            LEFT JOIN `accounts` as `d` 
+            ON `f`.`form_created_by` = `d`.`acc_id` 
+            LEFT JOIN `title` as `t` 
+            ON `d`.`title` = `t`.`ttl_id` 
+            LEFT JOIN `document_type` as `dt` 
+            ON `f`.`form_type` = `dt`.`dt_id` 
+            WHERE `f`.`form_patient_id` = '".$id."' 
+            AND `f`.`form_editable` = 0) 
+            UNION 
+            (SELECT f.form_id, f.form_date_created, f.form_date_updated, f.form_patient_id, f.form_editable, f.form_org_id, f.form_trans_id, 
+            d.position as 'creator', t.ttl_title, d.firstname, d.middlename, d.lastname, f.form_type 
+            FROM `forms` as `f` 
+            LEFT JOIN `accounts` as `d` 
+            ON `f`.`form_created_by` = `d`.`acc_id` 
+            LEFT JOIN `title` as `t` 
+            ON `d`.`title` = `t`.`ttl_id` 
+            WHERE `f`.`form_patient_id` = '".$id."' 
+            AND `f`.`form_editable` = 1)) t
+            ORDER BY t.form_date_created DESC"
+        );  
         
-            $documents = DB::table('patient_document as pd')
-                ->leftjoin('document_type as dt', 'pd.dt_id', 'dt.dt_id')
-                ->where('acc_id', $id)
-                ->get();
+        $documents = DB::table('patient_document as pd')
+            ->leftjoin('document_type as dt', 'pd.dt_id', 'dt.dt_id')
+            ->where('acc_id', $id)
+            ->where('uploaded_by', $id)
+            ->orderBy('pd.pd_date', 'DESC')
+        ->get();
 
-            $populate = new PopulateSelect;
-            $provinces = $populate->province();
-            $programs = $populate->program("all");
+        $transactions = DB::select("SELECT t.*, GROUP_CONCAT(t1.FTID) AS 'attachments'
+            FROM `transaction` t 
+            LEFT JOIN ((SELECT f.*, CONCAT(f.form_type,'-',f.form_id,'-',f.form_org_id) AS 'FTID' 
+                FROM `forms` f 
+                WHERE f.form_editable=1) 
+                UNION 
+                (SELECT f.*, CONCAT(dt.dt_name,'-',f.form_id,'-',f.form_org_id) AS 'FTID' 
+                FROM `forms` f 
+                LEFT JOIN `document_type` dt 
+                ON f.form_type=dt.dt_id 
+                WHERE f.form_editable=0)) t1 
+            ON t.trans_id=t1.`form_trans_id` 
+            WHERE t.acc_id='".$id."' 
+            GROUP BY t.trans_id 
+            ORDER BY t.trans_date DESC;"
+        );
 
-        $forms = DB::table('forms as f')
-            ->select('f.*', 'd.position as creator')
-            ->leftjoin('accounts as d', 'f.form_created_by', 'd.acc_id')
-            ->where('f.form_patient_id', $id)
-            ->get();
-            
-        // echo json_encode($forms);
+        $dispense = DB::select("SELECT t.*, gn.imgn_generic_name, gn.imgn_id
+            FROM `inventory_medicine_transaction` as t 
+            LEFT JOIN `inventory_medicine_item` as i 
+            ON t.imi_id=i.imi_id 
+            LEFT JOIN `inventory_medicine_generic_name` as gn 
+            ON i.imgn_id=gn.imgn_id
+            WHERE t.acc_id='".$id."' 
+            ORDER BY t.imt_date DESC"
+        );
+
+        $dm = DB::select("SELECT t.imgn_id, gn.imgn_generic_name, (SUM(t.imi_quantity)-IFNULL(SUM(i.imt_quantity),0)) AS 'qty_available'
+            FROM `inventory_medicine_item` as t 
+            LEFT JOIN `inventory_medicine_transaction` as i 
+            ON t.imi_id = i.imt_id 
+            LEFT JOIN `inventory_medicine_generic_name` as gn 
+            ON t.imgn_id = gn.imgn_id
+            WHERE t.imi_status = 1 
+            GROUP BY t.imgn_id 
+            ORDER BY i.imt_date DESC"
+        );
+
+        $vdd = DB::table("vaccination_dose_details as vdd")
+            ->where('acc_id', $id)
+            ->leftjoin('covid_vaccination_brand as vb', 'vdd.vdd_brand_id', 'vb.cvb_id')
+            ->leftjoin('province as p', 'vdd.vdd_prov_code', 'p.prov_code')
+            ->leftjoin('municipality as m', 'vdd.vdd_mun_code', 'm.mun_code')
+            ->orderBy('vdd_dose_number')
+        ->get();
+
+        
+        $vs = DB::table("vaccination_status as vs")
+            ->where('vs_id', $patient_details->vs_id)
+        ->first();
+        
+        $coc = DB::table('chief_complain_category')
+            ->orderBy('ccc_category')
+        ->get();
+
+        $document_type = DB::table('document_type')->get();
+
+        $physician_details = DB::table('accounts as a')
+            ->where('acc_id', Session('user_id'))
+            ->leftjoin('title as ttl', 'a.title', 'ttl.ttl_id')
+            ->first();
+
+
+
+        $populate = new PopulateSelect;
+        $provinces = $populate->province();
+        $programs = $populate->program("all");
 
         return view('Admin.Accounts.PatientDetails')->with([
             'patient_details' => $patient_details,
             'documents' => $documents,
             'programs' => $programs,
-            'forms' => $forms
+            'forms' => $forms,
+            'transactions' => $transactions,
+            'dispense' => $dispense,
+            'dm' => $dm,
+            'document_type' => $document_type,
+            'vdd' => $vdd,
+            'vs' => $vs,
+            'physician_details' => $physician_details,
+            'coc' => $coc
         ]);
+
+        
+        echo json_encode($forms);
     }
 }
