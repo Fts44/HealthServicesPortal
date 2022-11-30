@@ -19,6 +19,13 @@
         </li> -->
 
         <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('PatientAnnouncement') }}" id="side_bar_announcement">
+                <i class="bi bi-megaphone"></i>
+                <span>Announcement</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('PatientAttendance') }}" id="sidebar_dashboard">
                 <i class="bi bi-clock"></i>
                 <span>Attendance</span>

@@ -73,8 +73,10 @@ Route::get('/noaccess', function(){
     
     use App\Http\Controllers\Patient\AttendanceController as PatientAttendance;
 
+    use App\Http\Controllers\Patient\AnnouncementController as PatientAnnouncement;
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'Inactivity', 'IsPatient']],function(){
 
+        Route::get('announcement', [PatientAnnouncement::class, 'index'])->name('PatientAnnouncement');
         Route::prefix('password')->group(function(){
             Route::get('/', [PatientPassword::class, 'index'])->name('PatientPassword');
             Route::put('/', [PatientPassword::class, 'update_password'])->name('PatientPasswordUpdate');
