@@ -212,7 +212,7 @@ class PersonalDetailsController extends Controller
                         ]);
                     }
 
-                    DB::table('accounts')->where('acc_id', 1)->update([
+                    DB::table('accounts')->where('acc_id', Session('user_id'))->update([
                         'profile_pic' => $file_name,
                         'signature' => $signature_name,
                         'license_no' => $request->license_no,
@@ -228,7 +228,8 @@ class PersonalDetailsController extends Controller
                         'home_add_id' => $user_details->home_add_id,
                         'religion' => $request->religion,
                         'birthdate' => $request->birthdate,
-                        'dorm_add_id' => $user_details->dorm_add_id
+                        'dorm_add_id' => $user_details->dorm_add_id,
+                        'title' => $request->title 
                     ]);
 
                     

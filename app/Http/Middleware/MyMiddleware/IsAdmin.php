@@ -17,8 +17,8 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::get('user_type') != 'admin'){
-            return redirect(route(Session::get('user_type')));
+        if(Session::get('user_type') == 'patient'){
+            return redirect(route('patient'));
         }
         return $next($request);
     }

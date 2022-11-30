@@ -19,7 +19,7 @@
         <div class="card">
 
             <div class="card-body pt-3">
-                <form action="{{ route('PatientPasswordUpdate') }}" method="POST">
+                <form action="{{ route('UpdatePatientPassword') }}" method="POST">
                     @csrf
                     @method('PUT')
 

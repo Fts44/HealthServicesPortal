@@ -57,7 +57,7 @@ class VaccinationInsuranceController extends Controller
         $covid_vaccination_brands = $populate->covid_vaccination_brand();
 
         // echo json_encode($user_documents);
-        return view('patient.vaccinationinsurance')
+        return view('Patient.Vaccinationinsurance')
             ->with([
                 'user_details' => $user_details,
                 'user_dose_details' => $user_dose_details,

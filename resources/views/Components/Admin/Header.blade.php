@@ -112,7 +112,7 @@
                     </li>
                     
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ (Session::get('user_type')=='patient') ? route('PatientPassword') : '' }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('AdminPassword') }}">
                             <i class="bi bi-gear"></i>
                             <span>Change Password</span>
                         </a>

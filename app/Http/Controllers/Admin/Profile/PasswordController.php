@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Patient;
+namespace App\Http\Controllers\Admin\Profile;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use App\Rules\PasswordRule;
 class PasswordController extends Controller
 {
     public function index(){
-        return view('Patient.Password');
+        return view('Admin.Profile.Password');
     }
 
     public function update_password(Request $request){

@@ -23,14 +23,26 @@
 
                 <table id="datatable" class="table table-bordered" style="width: 100%;">
                     <thead class="table-light">
-                        <th scope="col">SR-Code</th>
+                        <th scope="col">EmployeeID</th>
                         <th scope="col">Fullname</th>
                         <th scope="col">Contact</th>
-                        <th scope="col">Classification</th>
+                        <th scope="col">Position</th>
                         <th scope="col">Action</th>
                     </thead>
                     <tbody>
-                    
+                    @foreach($employee as $e)
+                    <tr>
+                        <td>{{ $e->sr_code }}</td>
+                        <td>{{ $e->ttl_title.'. '.$e->firstname.' '.(($e->middlename) ? $e->middlename[0].'. ' : '').$e->lastname }}</td>
+                        <td>{{ $e->contact }}</td>
+                        <td>{{ ucwords($e->position) }}</td>
+                        <td>
+                            <a href="{{ route('AdminAccountsEmployeesView', ['id'=>$e->acc_id]) }}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach 
                     </tbody>
                 </table>
 

@@ -5,7 +5,7 @@
     <li class="nav-item">
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('AdminDashboard') }}" id="sidebar_message">
+            <a class="nav-link collapsed" href="{{ route('admin') }}" id="sidebar_message">
                 <i class="bi bi-columns-gap"></i>
                 <span>Dashboard</span>
             </a>
@@ -30,13 +30,14 @@
                     </li>      
                 </ul>
             </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('AdminAnnouncement') }}" id="sidebar_announcement">
-                <i class="bi bi-megaphone"></i>
-                <span>Announcement</span>
-            </a>
-        </li>
+        @if(Session('user_type')=='admin')
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('AdminAnnouncement') }}" id="sidebar_announcement">
+                    <i class="bi bi-megaphone"></i>
+                    <span>Announcement</span>
+                </a>
+            </li>
+        @endif
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" id="sidebar_inventory"  data-bs-target="#inventory-nav" data-bs-toggle="collapse" >
@@ -77,18 +78,20 @@
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="accounts-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            @if(Session('user_type')=='admin')
                 <li>
-                    <a href="">
+                    <a href="{{ route('AdminAccountsEmployees') }}">
                         <i class="bi bi-circle"></i><span>Employees</span>
                     </a>
                 </li>
+            @endif
                 <li>
                     <a href="{{ route('AdminAccountsPatients') }}">
                         <i class="bi bi-circle"></i><span>Patients</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin') }}">
+                    <a href="{{ route('AdminAccountsRequests') }}">
                         <i class="bi bi-circle"></i><span>Requests</span>
                     </a>
                 </li>
@@ -97,6 +100,7 @@
 
     </li>
 
+    @if(Session('user_type')=='admin')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" id="sidebar_configuration"  data-bs-target="#configuration-nav" data-bs-toggle="collapse" >
             <i class="bi bi-gear"></i>
@@ -117,7 +121,8 @@
             </li>
         </ul>
     </li>
-
+    @endif
+    
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" id="sidebar_profile"  data-bs-target="#profiel-nav" data-bs-toggle="collapse" >
             <i class="bi bi-person"></i>

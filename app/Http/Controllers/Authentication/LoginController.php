@@ -64,7 +64,12 @@ class LoginController extends Controller
                             'status' => 200,
                         ];
     
-                        $response['redirect_to'] = route(Session::get('user_type'));
+                        if($user->position != 'patient'){
+                            $response['redirect_to'] = route('admin');
+                        }
+                        else{
+                            $response['redirect_to'] = route('patient');
+                        }
                     }
                     else{
                         $response = [

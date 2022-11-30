@@ -4,19 +4,19 @@
 
     <li class="nav-item">
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="" id="sidebar_message">
                 <i class="bi bi-columns-gap"></i>
                 <span>Dashboard</span>
             </a>
-        </li>
+        </li> -->
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="" id="sidebar_dashboard">
                 <i class="bi bi-calendar4-week"></i>
                 <span>Appointment</span>
             </a>
-        </li>
+        </li> -->
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('PatientAttendance') }}" id="sidebar_dashboard">
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('PatientDocumentPrescription') }}">
                         <i class="bi bi-circle"></i><span>Prescription</span>
                     </a>
                 </li>

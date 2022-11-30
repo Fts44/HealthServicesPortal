@@ -61,12 +61,14 @@ Route::get('/noaccess', function(){
     use App\Http\Controllers\Patient\PasswordController as PatientPassword; 
 
     use App\Http\Controllers\Patient\Documents\UploadsController as PatientDocumnetsUploads;
+    use App\Http\Controllers\Patient\Documents\PrescriptionController as PatitentDocumentsPrescription;
 
     use App\Http\Controllers\Patient\Profile\PersonalDetailsController as PatientProfilePersonalDetails;
     use App\Http\Controllers\Patient\Profile\EmergencyContactController as PatientEmergencyContact;
     use App\Http\Controllers\Patient\Profile\MedicalHistoryController as PatientMedicalHistory;
     use App\Http\Controllers\Patient\Profile\FamilyDetailsController as PatientFamilyDetails;
     use App\Http\Controllers\Patient\Profile\AssessmentDiagnosisController as PatientAssessmentDiagnosis;
+    use App\Http\Controllers\Patient\Profile\PasswordController as PatientPasswordController;
     use App\Http\Controllers\Patient\VaccinationInsuranceController as PatientVaccinationInsurance;
     
     use App\Http\Controllers\Patient\AttendanceController as PatientAttendance;
@@ -83,6 +85,11 @@ Route::get('/noaccess', function(){
                 Route::get('/', [PatientDocumnetsUploads::class, 'index'])->name('PatientDocumentsUploads');
                 Route::put('/', [PatientDocumnetsUploads::class, 'upload'])->name('PatientDocumnetsUploadsInsert');
                 Route::delete('/delete/{id}', [PatientDocumnetsUploads::class, 'delete_upload'])->name('PatientDocumnetsUploadsDelete');
+            });
+
+            Route::prefix('prescription')->group(function(){
+                Route::get('/', [PatitentDocumentsPrescription::class, 'index'])->name('PatientDocumentPrescription');
+                Route::get('/print/{id}', [PatitentDocumentsPrescription::class, 'print'])->name('PatientDocumentPrescriptionPrint');
             });
         });
 
@@ -113,7 +120,11 @@ Route::get('/noaccess', function(){
                 Route::get('/', [PatientAssessmentDiagnosis::class, 'index'])->name('PatientAssessmentDiagnosis');
                 Route::put('/update', [PatientAssessmentDiagnosis::class, 'update_assessment_diagnosis'])->name('PatientAssessmentDiagnosisUpdate');
             });
-    
+
+            Route::prefix('password')->group(function(){
+                Route::get('', [PatientPasswordController::class, 'index'])->name('PatientPassword');
+                Route::put('', [PatientPasswordController::class, 'update_password'])->name('UpdatePatientPassword');
+            });
         }); 
 
         Route::prefix('covidvaccinationinsurance')->group(function(){
@@ -149,7 +160,7 @@ Route::get('/noaccess', function(){
     // accounts
     use App\Http\Controllers\Admin\Accounts\RequestsController as AdminAccountsRequests;
     use App\Http\Controllers\Admin\Accounts\PatientsController as AdminAccountsPatients;
-
+    use App\Http\Controllers\Admin\Accounts\EmployeeController as AdminAccountsEmployee;
     // inventory
     use App\Http\Controllers\Admin\Inventory\Equipment\ItemController as AdminInventoryEquipmentItem;
     use App\Http\Controllers\Admin\Inventory\Equipment\AllController as AdminInventoryEquipmentAll;
@@ -179,12 +190,12 @@ Route::get('/noaccess', function(){
     // personal details
     use App\Http\Controllers\Admin\Profile\PersonalDetailsController as AdminProfilePersonalDetails; 
     use App\Http\Controllers\Admin\Profile\EmergencyContactController as AdminEmergencyContact; 
-
+    use App\Http\Controllers\Admin\Profile\PasswordController as AdminPassword;
     // patient documents
     use App\Http\Controllers\Admin\Documents\PatientUploadsController as AdminPDUploads;
 
     Route::group(['prefix' => 'admin', 'middleware' =>[ 'Inactivity', 'IsAdmin', 'InventoryMedicine']], function(){
-        Route::get('dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
+        Route::get('dashboard', [AdminDashboard::class, 'index'])->name('admin');
 
         Route::prefix('announcement')->group(function(){
             Route::get('/', [AdminAnnouncement::class, 'index'])->name('AdminAnnouncement');
@@ -196,7 +207,7 @@ Route::get('/noaccess', function(){
         Route::prefix('accounts')->group(function(){
            
             Route::prefix('requests')->group(function(){
-                Route::get('/', [AdminAccountsRequests::class, 'index'])->name('admin');
+                Route::get('/', [AdminAccountsRequests::class, 'index'])->name('AdminAccountsRequests');
                 Route::put('/verify/{id}', [AdminAccountsRequests::class, 'verify_acc'])->name('AdminAccountsRequestsVerify');
                 Route::delete('/delete/{id}', [AdminAccountsRequests::class, 'delete_acc'])->name('AdminAccountsRequestsDelete');
             });
@@ -206,6 +217,10 @@ Route::get('/noaccess', function(){
                 Route::get('/view/{id}', [AdminAccountsPatients::class, 'view_patient_details'])->name('AdminAccountsPatientsView');
             });
 
+            Route::prefix('employee')->group(function(){
+                Route::get('/', [AdminAccountsEmployee::class, 'index'])->name('AdminAccountsEmployees');
+                Route::get('/view/{id}', [AdminAccountsEmployee::class, 'view_employee'])->name('AdminAccountsEmployeesView');
+            });
         });
 
         Route::prefix('inventory')->group(function(){
@@ -361,6 +376,11 @@ Route::get('/noaccess', function(){
             Route::prefix('emergencycontact')->group(function(){
                 Route::get('',[AdminEmergencyContact::class, 'index'])->name('AdminEmergencyContact');
                 Route::put('/update',[AdminEmergencyContact::class, 'update_emergency_contact'])->name('AdminEmergencyContactUpdate');
+            });
+
+            Route::prefix('password')->group(function(){
+                Route::get('', [AdminPassword::class, 'index'])->name('AdminPassword');
+                Route::put('', [AdminPassword::class, 'update_password'])->name('UpdateAdminPassword');
             });
         });
 
