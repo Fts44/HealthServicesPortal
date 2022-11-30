@@ -152,15 +152,17 @@ class PatientsController extends Controller
             ORDER BY t.imt_date DESC"
         );
 
-        $dm = DB::select("SELECT t.imgn_id, gn.imgn_generic_name, (SUM(t.imi_quantity)-IFNULL(SUM(i.imt_quantity),0)) AS 'qty_available'
+        $dm = DB::select("SELECT t.imgn_id, gn.imgn_generic_name, 
+            (SUM(t.imi_quantity)-IFNULL((SELECT SUM(imt_quantity) FROM inventory_medicine_transaction WHERE imi_id=t.imi_id),0)) AS 'qty_available' 
             FROM `inventory_medicine_item` as t 
             LEFT JOIN `inventory_medicine_transaction` as i 
             ON t.imi_id = i.imt_id 
             LEFT JOIN `inventory_medicine_generic_name` as gn 
-            ON t.imgn_id = gn.imgn_id
+            ON t.imgn_id = gn.imgn_id 
             WHERE t.imi_status = 1 
             GROUP BY t.imgn_id 
-            ORDER BY i.imt_date DESC"
+            ORDER BY i.imt_date 
+            DESC;"
         );
 
         $vdd = DB::table("vaccination_dose_details as vdd")

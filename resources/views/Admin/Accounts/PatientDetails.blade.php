@@ -315,6 +315,10 @@
                                                                     <a href="{{ route('AdminSHRPrint', ['id'=>$fd[1]]) }}" target="_blank">{{ $fd[0].' #'.$fd[1] }}</a>
                                                                 @elseif($fd[0]=='Prescription')
                                                                     <a href="{{ route('AdminPrescriptionPrint', ['id'=>$fd[1]]) }}" target="_blank">{{ $fd[0].' #'.$fd[1] }}</a>
+                                                                @elseif($fd[0]=='PEOF')
+                                                                     <a href="{{ route('AdminPEOFPrint', ['id'=>$fd[1]]) }}" target="_blank">{{ $fd[0].' #'.$fd[1] }}</a>
+                                                                @elseif($fd[0]=='CNSLT')
+                                                                    <a href="{{ route('AdminCnsltPrint', ['id'=>$fd[1]]) }}" target="_blank">{{ $fd[0].' #'.$fd[1] }}</a>
                                                                 @else
                                                                     <a href="{{ route('ViewDocument', ['pd_id' => $fd[2] ]) }}" target="_blank">{{ $fd[0].' #'.$fd[1] }}</a>
                                                                 @endif
@@ -424,6 +428,10 @@
                                         <a class="btn btn-sm btn-secondary" href="{{ route('AdminSHRPrint', ['id'=>$f->form_id]) }}" target="_blank"><i class="bi bi-eye"></i></a>
                                     @elseif($f->form_type=='Prescription')
                                         <a class="btn btn-sm btn-secondary" href="{{ route('AdminPrescriptionPrint', ['id'=>$f->form_id]) }}" target="_blank"><i class="bi bi-eye"></i></a>
+                                    @elseif($f->form_type=='PEOF')
+                                        <a class="btn btn-sm btn-secondary" href="{{ route('AdminPEOFPrint', ['id'=>$f->form_id]) }}" target="_blank"><i class="bi bi-eye"></i></a>
+                                    @elseif($f->form_type=='CNSLT')
+                                        <a class="btn btn-sm btn-secondary" href="{{ route('AdminCnsltPrint', ['id'=>$f->form_id]) }}" target="_blank"><i class="bi bi-eye"></i></a>
                                     @else 
                                         <a class="btn btn-sm btn-secondary" href="{{ route('ViewDocument', ['pd_id' => $f->form_org_id ]) }}" target="_blank"><i class="bi bi-eye"></i></a>
                                     @endif

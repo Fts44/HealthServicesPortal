@@ -94,9 +94,10 @@ class PopulateSelectController extends Controller
             LEFT JOIN `inventory_medicine_transaction` as i 
             ON t.imi_id=i.imi_id
             WHERE t.imgn_id='".$imgn_id."' 
-            AND t.imi_status = 1
-            GROUP BY t.imi_id
-            ORDER BY ABS( DATEDIFF( `t`.`imi_expiration`, NOW() ) )"
+            AND t.imi_status = 1 
+            GROUP BY t.imi_id 
+            HAVING ((SUM(t.imi_quantity))-(IF(ISNULL(SUM(i.imt_quantity)),0,(SUM(i.imt_quantity)))))  > 0
+            ORDER BY ABS( DATEDIFF( `t`.`imi_expiration`, NOW() ) ) "
         );
         
         return $medicine; 
