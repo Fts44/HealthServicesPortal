@@ -546,7 +546,7 @@
         // chief complain
         bar_chart(
             [20, 50, 15, 30, 20], 
-            ['1', '2', '3', '4', '5'],
+            ['Headache', 'Hypersensitivity', 'Muscleache', 'Chestpain', 'Palpitation'],
             '#chief-complain-chart',
             true
         );

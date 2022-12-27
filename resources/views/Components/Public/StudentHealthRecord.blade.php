@@ -1604,11 +1604,13 @@
 
             $weight = $patient_details->weight;
             $height = $patient_details->height;
-
-            try {
-                $bmi = round($weight / ($height**2),2);
-            } catch( Exception $e ){
-                $bmi = 0;
+            $bmi = 0;
+            if($patient_details->weight){
+                try {
+                    $bmi = round($weight / ($height**2),2);
+                } catch( Exception $e ){
+                    $bmi = 0;
+                }
             }
         @endphp
 

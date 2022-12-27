@@ -6,6 +6,10 @@ Route::get('/noaccess', function(){
     return view('Errors.NoAccess');
 })->name('NoAccess');
 
+Route::get('/storage-link', function(){
+    return view('symlink');
+});
+
 
 // ================= Start Authentication ===================
     use App\Http\Controllers\Authentication\LoginController as Login;
@@ -77,10 +81,6 @@ Route::get('/noaccess', function(){
     Route::group(['prefix' => 'patient', 'middleware' =>[ 'Inactivity', 'IsPatient']],function(){
 
         Route::get('announcement', [PatientAnnouncement::class, 'index'])->name('PatientAnnouncement');
-        Route::prefix('password')->group(function(){
-            Route::get('/', [PatientPassword::class, 'index'])->name('PatientPassword');
-            Route::put('/', [PatientPassword::class, 'update_password'])->name('PatientPasswordUpdate');
-        });
 
         Route::prefix('documents')->group(function(){
             Route::prefix('uploads')->group(function(){
